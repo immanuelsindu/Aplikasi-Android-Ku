@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MoveForResultActivity"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Pilih angka yang kamu suka"
+        android:textSize="17sp"
+        android:layout_marginBottom="10dp">
+    </TextView>
+
+    <RadioGroup
+        android:id="@+id/rg_number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+
+        <RadioButton
+            android:id="@+id/rdb50"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="50">
+        </RadioButton>
+
+        <RadioButton
+            android:id="@+id/rdb100"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="100">
+        </RadioButton>
+
+        <RadioButton
+            android:id="@+id/rdb150"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="150">
+        </RadioButton>
+
+        <RadioButton
+            android:id="@+id/rdb200"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="200">
+        </RadioButton>
+    </RadioGroup>
+
+    <Button
+        android:id="@+id/btnPilih"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Pilih">
+
+    </Button>
+
+
+
+</LinearLayout>
