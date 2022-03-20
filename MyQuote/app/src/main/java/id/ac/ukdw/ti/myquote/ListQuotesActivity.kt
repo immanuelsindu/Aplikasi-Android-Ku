@@ -27,7 +27,7 @@ class ListQuotesActivity : AppCompatActivity() {
 
         supportActionBar?.title = "List of Quotes"
         val layoutManager = LinearLayoutManager(this)
-        binding.listQuotes.setLayoutManager(layoutManager)
+        binding.listQuotes.layoutManager = layoutManager
         val itemDecoration = DividerItemDecoration(this, layoutManager.orientation)
         binding.listQuotes.addItemDecoration(itemDecoration)
         getListQuotes()

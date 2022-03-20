@@ -8,9 +8,12 @@ import android.util.Log
 
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import androidx.activity.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
+import com.google.android.material.snackbar.Snackbar
 import id.ac.ukdw.ti.restaurantreview.databinding.ActivityMainBinding
 import retrofit2.Callback
 import retrofit2.Response
@@ -19,6 +22,8 @@ import retrofit2.Response
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+    private val mainViewModel by viewModels<MainViewModel>()
+
     companion object {
         private const val TAG = "MainActivity"
         private const val RESTAURANT_ID = "uewq1zg2zlskfw1e867"
@@ -28,16 +33,37 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         supportActionBar?.hide()
+
+        //val mainViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get(MainViewModel::class.java)
+        mainViewModel.restaurant.observe(this) { restaurant ->
+            setRestaurantData(restaurant)
+        }
         val layoutManager = LinearLayoutManager(this)
         binding.rvReview.layoutManager = layoutManager
         val itemDecoration = DividerItemDecoration(this, layoutManager.orientation)
         binding.rvReview.addItemDecoration(itemDecoration)
-        findRestaurant()
+//        findRestaurant()
+
+        mainViewModel.listReview.observe(this) { consumerReviews ->
+            setReviewData(consumerReviews)
+        }
+        mainViewModel.isLoading.observe(this) {
+            showLoading(it)
+        }
+        mainViewModel.snackbarText.observe(this) {
+            it.getContentIfNotHandled()?.let { snackBarText ->
+                Snackbar.make(
+                    window.decorView.rootView,
+                    snackBarText,
+                    Snackbar.LENGTH_SHORT
+                ).show()
+            }
+        }
 
         binding.btnSend.setOnClickListener { view ->
-            postReview(binding.edReview.text.toString())
+            mainViewModel.postReview(binding.edReview.text.toString())
+//            postReview(binding.edReview.text.toString())
             val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             imm.hideSoftInputFromWindow(view.windowToken, 0)
         }
@@ -67,27 +93,27 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    private fun findRestaurant() {
-        showLoading(true)
-        val client = ApiConfig.getApiService().getRestaurant(RESTAURANT_ID)
-        client.enqueue(object : Callback<RestaurantResponse> {
-            override fun onResponse(call: retrofit2.Call<RestaurantResponse>,response: Response<RestaurantResponse>) {
-                showLoading(false)
-                if (response.isSuccessful) {
-                    val responseBody = response.body()
-                    if (responseBody != null) {
-                        setRestaurantData(responseBody.restaurant)
-                        setReviewData(responseBody.restaurant.customerReviews)
-                    }
-                }
-            }
-
-            override fun onFailure(call: retrofit2.Call<RestaurantResponse>, t: Throwable) {
-                showLoading(false)
-                Log.e(TAG, "onFailure: ${t.message}")
-            }
-        })
-    }
+//    private fun findRestaurant() {
+//        showLoading(true)
+//        val client = ApiConfig.getApiService().getRestaurant(RESTAURANT_ID)
+//        client.enqueue(object : Callback<RestaurantResponse> {
+//            override fun onResponse(call: retrofit2.Call<RestaurantResponse>,response: Response<RestaurantResponse>) {
+//                showLoading(false)
+//                if (response.isSuccessful) {
+//                    val responseBody = response.body()
+//                    if (responseBody != null) {
+//                        setRestaurantData(responseBody.restaurant)
+//                        setReviewData(responseBody.restaurant.customerReviews)
+//                    }
+//                }
+//            }
+//
+//            override fun onFailure(call: retrofit2.Call<RestaurantResponse>, t: Throwable) {
+//                showLoading(false)
+//                Log.e(TAG, "onFailure: ${t.message}")
+//            }
+//        })
+//    }
 
     private fun setRestaurantData(restaurant: Restaurant) {
         binding.tvTitle.text = restaurant.name
