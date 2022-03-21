@@ -5,7 +5,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class ApiConfig2 {
+class ApiConfigFollower{
     companion object{
         fun getApiService(): ApiService {
             val loggingInterceptor = if(BuildConfig.DEBUG) {

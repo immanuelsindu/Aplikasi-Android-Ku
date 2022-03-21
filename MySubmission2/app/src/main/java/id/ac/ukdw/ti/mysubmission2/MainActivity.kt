@@ -45,33 +45,11 @@ class MainActivity : AppCompatActivity() {
         findUser()
     }
     private fun showRecyclerList(arraylist: ArrayList<ItemsItem>) {
-//        if (applicationContext.resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-//            rvUsers.layoutManager = GridLayoutManager(this, 2)
-//        } else {
-//            rvUsers.layoutManager = LinearLayoutManager(this)
-//        }
         rvUsers.layoutManager = LinearLayoutManager(this)
         val listUserAdapter = ListUserAdapter(arraylist)
         rvUsers.adapter = listUserAdapter
-
-//        listUserAdapter.setOnItemClickCallback(object : ListUserAdapter.OnItemClickCallback{
-//            override fun onItemClicked(data: ItemsItem) {
-//                val sendData = Intent(this@MainActivity, DetailActivity::class.java)
-//                sendData.putExtra("login",data.login)
-//                startActivity(sendData)
-//            }
-//        })
     }
-        private fun showSelectedUser(login: ItemsItem) {
-//            Toast.makeText(this, "Kamu memilih "+ login.login, Toast.LENGTH_SHORT).show()
-            val sendData = Intent(this@MainActivity, DetailActivity::class.java)
-            sendData.putExtra("login",login.login)
-            startActivity(sendData)
-        }
 
-//    private fun showSelectedUser(login: String) {
-//        Toast.makeText(this, "Kamu memilih $login", Toast.LENGTH_SHORT).show()
-//    }
 
     private fun findUser() {
         showLoading(true)
@@ -83,7 +61,6 @@ class MainActivity : AppCompatActivity() {
                     val responseBody = response.body()
                     if (responseBody != null) {
                         showRecyclerList(responseBody.items)
-                        Toast.makeText(this@MainActivity, "Jumlah list = " + responseBody.items.size, Toast.LENGTH_SHORT).show()
                     }
                 } else {
                     Log.e(TAG, "onFailure: ${response.message()}")

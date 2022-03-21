@@ -2,4 +2,8 @@
     <string name="app_name">MySubmission2</string>
     <string name="search">Search</string>
     <string name="search_hint">Masukkan kata</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="tab_text_1">Follower</string>
+    <string name="tab_text_2">Following</string>
 </resources>
