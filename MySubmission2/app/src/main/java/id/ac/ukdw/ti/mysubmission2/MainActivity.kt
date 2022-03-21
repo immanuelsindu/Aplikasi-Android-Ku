@@ -2,13 +2,14 @@ package id.ac.ukdw.ti.mysubmission2
 
 import android.app.SearchManager
 import android.content.Context
+import android.content.Intent
 import android.content.res.Configuration
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -18,13 +19,14 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
+
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var rvUsers: RecyclerView
     private  var keywordUser = ""
-    private val list = ArrayList<User>()
-    var insideList : ArrayList<User> = ArrayList<User>()
+//    private var list = ArrayList<ItemsItem>()
+//    var insideList : ArrayList<User> = ArrayList<User>()
 
     companion object {
         private const val TAG = "MainActivity"
@@ -36,33 +38,40 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
-
         rvUsers = findViewById(R.id.rvUsers)
         rvUsers.setHasFixedSize(true)
         showLoading(false)
-        val addAll = list.addAll(insideList)
-        showRecyclerList()
+//        val addAll = list.addAll(insideList)
+        findUser()
     }
-    private fun showRecyclerList() {
+    private fun showRecyclerList(arraylist: ArrayList<ItemsItem>) {
 //        if (applicationContext.resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
 //            rvUsers.layoutManager = GridLayoutManager(this, 2)
 //        } else {
 //            rvUsers.layoutManager = LinearLayoutManager(this)
 //        }
-
-        val listUserAdapter = ListUserAdapter(list)
+        rvUsers.layoutManager = LinearLayoutManager(this)
+        val listUserAdapter = ListUserAdapter(arraylist)
         rvUsers.adapter = listUserAdapter
 
-
-
-//        listHeroAdapter.setOnItemClickCallback(object : ListUserAdapter.OnItemClickCallback {
-//            override fun onItemClicked(data: Hero) {
-//                showSelectedHero(data)
+//        listUserAdapter.setOnItemClickCallback(object : ListUserAdapter.OnItemClickCallback{
+//            override fun onItemClicked(data: ItemsItem) {
+//                val sendData = Intent(this@MainActivity, DetailActivity::class.java)
+//                sendData.putExtra("login",data.login)
+//                startActivity(sendData)
 //            }
 //        })
-
     }
+        private fun showSelectedUser(login: ItemsItem) {
+//            Toast.makeText(this, "Kamu memilih "+ login.login, Toast.LENGTH_SHORT).show()
+            val sendData = Intent(this@MainActivity, DetailActivity::class.java)
+            sendData.putExtra("login",login.login)
+            startActivity(sendData)
+        }
+
+//    private fun showSelectedUser(login: String) {
+//        Toast.makeText(this, "Kamu memilih $login", Toast.LENGTH_SHORT).show()
+//    }
 
     private fun findUser() {
         showLoading(true)
@@ -70,17 +79,11 @@ class MainActivity : AppCompatActivity() {
         client.enqueue(object : Callback<UserResponse> {
             override fun onResponse(call: Call<UserResponse>,response: Response<UserResponse>) {
                 showLoading(false)
-                val listUser = ArrayList<User>()
                 if (response.isSuccessful) {
                     val responseBody = response.body()
                     if (responseBody != null) {
-                        Toast.makeText(this@MainActivity, "Response berhasil", Toast.LENGTH_SHORT).show()
-                        for(i in responseBody.items){
-                            var newUser = User(i.avatarUrl,i.login)
-                            listUser.add(newUser)
-                        }
-                    insideList = listUser
-                        Toast.makeText(this@MainActivity, "Jumlah list = " +insideList.size, Toast.LENGTH_SHORT).show()
+                        showRecyclerList(responseBody.items)
+                        Toast.makeText(this@MainActivity, "Jumlah list = " + responseBody.items.size, Toast.LENGTH_SHORT).show()
                     }
                 } else {
                     Log.e(TAG, "onFailure: ${response.message()}")

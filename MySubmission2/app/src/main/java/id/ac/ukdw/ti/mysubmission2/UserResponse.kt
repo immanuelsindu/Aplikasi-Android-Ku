@@ -11,7 +11,7 @@ data class UserResponse(
 	val incompleteResults: Boolean,
 
 	@field:SerializedName("items")
-	val items: List<ItemsItem>
+	val items: ArrayList<ItemsItem>
 )
 
 data class ItemsItem(
