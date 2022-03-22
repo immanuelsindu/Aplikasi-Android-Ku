@@ -2,8 +2,6 @@ package id.ac.ukdw.ti.mysubmission2
 
 import android.app.SearchManager
 import android.content.Context
-import android.content.Intent
-import android.content.res.Configuration
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
@@ -11,7 +9,6 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import id.ac.ukdw.ti.mysubmission2.databinding.ActivityMainBinding
@@ -24,9 +21,6 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var rvUsers: RecyclerView
-    private  var keywordUser = ""
-//    private var list = ArrayList<ItemsItem>()
-//    var insideList : ArrayList<User> = ArrayList<User>()
 
     companion object {
         private const val TAG = "MainActivity"
@@ -34,15 +28,11 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         rvUsers = findViewById(R.id.rvUsers)
         rvUsers.setHasFixedSize(true)
         showLoading(false)
-//        val addAll = list.addAll(insideList)
-        findUser()
     }
     private fun showRecyclerList(arraylist: ArrayList<ItemsItem>) {
         rvUsers.layoutManager = LinearLayoutManager(this)
@@ -50,8 +40,7 @@ class MainActivity : AppCompatActivity() {
         rvUsers.adapter = listUserAdapter
     }
 
-
-    private fun findUser() {
+    private fun findUser(keywordUser: String) {
         showLoading(true)
         val client = ApiConfig.getApiService().getUsers(keywordUser)
         client.enqueue(object : Callback<UserResponse> {
@@ -61,16 +50,18 @@ class MainActivity : AppCompatActivity() {
                     val responseBody = response.body()
                     if (responseBody != null) {
                         showRecyclerList(responseBody.items)
+                    }else{
+                        Toast.makeText(this@MainActivity, resources.getString(R.string.userNotFound), Toast.LENGTH_SHORT).show()
                     }
                 } else {
                     Log.e(TAG, "onFailure: ${response.message()}")
-                    Toast.makeText(this@MainActivity, "Response Tidak berhasil", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@MainActivity, resources.getString(R.string.errorResponse), Toast.LENGTH_SHORT).show()
                 }
             }
             override fun onFailure(call: Call<UserResponse>, t: Throwable) {
                 showLoading(false)
                 Log.e(TAG, "onFailure: ${t.message}")
-                Toast.makeText(this@MainActivity, "Response Tidak Failure", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@MainActivity, resources.getString(R.string.errorResponse), Toast.LENGTH_SHORT).show()
             }
         })
     }
@@ -86,9 +77,7 @@ class MainActivity : AppCompatActivity() {
         searchView.queryHint = resources.getString(R.string.search_hint)
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
-//                Toast.makeText(this@MainActivity, query, Toast.LENGTH_SHORT).show()
-                keywordUser = query
-                findUser()
+                findUser(query)
                 searchView.clearFocus()
                 return true
             }

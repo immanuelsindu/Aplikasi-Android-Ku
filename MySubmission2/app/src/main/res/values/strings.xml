@@ -6,4 +6,15 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="tab_text_1">Follower</string>
     <string name="tab_text_2">Following</string>
+
+    <string name="userNotFound">User tidak ditemukan</string>
+    <string name="errorResponse">Terjadi kesalahan silakan coba lagi nanti</string>
+    <string name="this_is_user">This is User</string>
+    <string name="name">Name</string>
+    <string name="loginname">loginName</string>
+    <string name="follower">Follower :</string>
+    <string name="following">Following :</string>
+    <string name="repository">Repository :</string>
+    <string name="company">Company</string>
+    <string name="location">Location</string>
 </resources>

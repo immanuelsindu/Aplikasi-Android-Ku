@@ -31,7 +31,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="Name"
+            android:text="@string/name"
             android:textSize="22sp"
             app:layout_constraintEnd_toEndOf="@+id/circleImageView"
             app:layout_constraintStart_toStartOf="@+id/circleImageView"
@@ -41,7 +41,7 @@
             android:id="@+id/tvLoginName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="loginName"
+            android:text="@string/loginname"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="@+id/tvName"
             app:layout_constraintStart_toStartOf="@+id/tvName"
@@ -60,7 +60,7 @@
                 android:id="@+id/tcFollower"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Follower : 10"></TextView>
+                android:text="@string/follower"></TextView>
 
             <TextView
                 android:id="@+id/tvFollowing"
@@ -68,7 +68,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
 
-                android:text="Following : 20"></TextView>
+                android:text="@string/following"></TextView>
 
         </LinearLayout>
 
@@ -76,7 +76,7 @@
             android:id="@+id/tvRepo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Repository : 100"
+            android:text="@string/repository"
             app:layout_constraintEnd_toEndOf="@+id/linearLayout"
             app:layout_constraintStart_toStartOf="@+id/linearLayout"
             app:layout_constraintTop_toBottomOf="@+id/linearLayout"></TextView>
@@ -85,7 +85,7 @@
             android:id="@+id/tvCompany"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Company"
+            android:text="@string/company"
             app:layout_constraintEnd_toEndOf="@+id/tvRepo"
             app:layout_constraintStart_toStartOf="@+id/tvRepo"
             app:layout_constraintTop_toBottomOf="@+id/tvRepo"></TextView>
@@ -94,7 +94,7 @@
             android:id="@+id/tvLocation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Location"
+            android:text="@string/location"
             app:layout_constraintEnd_toEndOf="@+id/tvCompany"
             app:layout_constraintStart_toStartOf="@+id/tvCompany"
             app:layout_constraintTop_toBottomOf="@+id/tvCompany">
@@ -120,13 +120,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-<!--        <TextView-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:text="Test">-->
-
-<!--        </TextView>-->
-
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabs"
             android:layout_width="match_parent"
@@ -137,7 +130,6 @@
             android:id="@+id/view_pager"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
-
     </LinearLayout>
 
 

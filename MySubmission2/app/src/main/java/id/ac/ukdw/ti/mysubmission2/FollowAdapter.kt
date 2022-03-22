@@ -9,8 +9,6 @@ import id.ac.ukdw.ti.mysubmission2.databinding.ActivityMainBinding
 import id.ac.ukdw.ti.mysubmission2.databinding.ItemUserBinding
 
 class FollowAdapter(private val listFollower: ArrayList<FollowerResponseItem>) : RecyclerView.Adapter<FollowAdapter.ListViewHolder>() {
-    private lateinit var binding : ActivityMainBinding
-
     class ListViewHolder(var binding: ItemUserBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListViewHolder {
@@ -22,9 +20,9 @@ class FollowAdapter(private val listFollower: ArrayList<FollowerResponseItem>) :
         val photo = listFollower[position].avatarUrl
         val username = listFollower[position].login
         Glide.with(holder.itemView.context)
-            .load(photo) // URL Gambar
-            .circleCrop() // Mengubah image menjadi lingkaran
-            .into(holder.binding.imgItemPhoto) // imageView mana yang akan diterapkan
+            .load(photo)
+            .circleCrop()
+            .into(holder.binding.imgItemPhoto)
         holder.binding.tvUsername.text = username
 
         holder.itemView.setOnClickListener{

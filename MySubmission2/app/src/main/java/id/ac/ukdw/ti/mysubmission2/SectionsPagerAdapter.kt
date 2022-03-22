@@ -4,7 +4,6 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import okhttp3.internal.userAgent
 
 class SectionsPagerAdapter(activity: AppCompatActivity, val userLogin: String) : FragmentStateAdapter(activity) {
 
@@ -28,7 +27,6 @@ class SectionsPagerAdapter(activity: AppCompatActivity, val userLogin: String) :
             }
         }
         return fragment as Fragment
-
     }
 
     override fun getItemCount(): Int {

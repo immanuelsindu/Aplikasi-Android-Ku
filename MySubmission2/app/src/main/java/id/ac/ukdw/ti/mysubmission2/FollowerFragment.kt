@@ -1,10 +1,11 @@
 package id.ac.ukdw.ti.mysubmission2
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import id.ac.ukdw.ti.mysubmission2.databinding.FragmentFollowerBinding
 import retrofit2.Call
@@ -14,6 +15,9 @@ import retrofit2.Response
 class FollowerFragment : Fragment() {
 
     private lateinit var binding :FragmentFollowerBinding
+    companion object{
+        private const val TAG = "FollowerFragment"
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -27,7 +31,7 @@ class FollowerFragment : Fragment() {
 
     private fun showFollower(username : String){
         showLoading(true)
-        val client2 = ApiConfigFollower.getApiService().getFollower(username)
+        val client2 = ApiConfig.getApiService().getFollower(username)
         client2.enqueue(object : Callback<ArrayList<FollowerResponseItem>> {
             override fun onResponse(call: Call<ArrayList<FollowerResponseItem>>, response: Response<ArrayList<FollowerResponseItem>>) {
                 if (response.isSuccessful){
@@ -40,6 +44,7 @@ class FollowerFragment : Fragment() {
             }
             override fun onFailure(call: Call<ArrayList<FollowerResponseItem>>, t: Throwable) {
                 showLoading(false)
+                Log.e(TAG, "onFailure: ${t.message}")
             }
         })
     }

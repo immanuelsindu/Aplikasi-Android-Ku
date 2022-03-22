@@ -1,12 +1,12 @@
 package id.ac.ukdw.ti.mysubmission2
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import id.ac.ukdw.ti.mysubmission2.databinding.FragmentFollowerBinding
 import id.ac.ukdw.ti.mysubmission2.databinding.FragmentFollowingBinding
 import retrofit2.Call
 import retrofit2.Callback
@@ -15,6 +15,9 @@ import retrofit2.Response
 class FollowingFragment : Fragment() {
 
     private lateinit var binding :FragmentFollowingBinding
+    companion object{
+        private const val TAG = "FollowingFragment"
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -27,9 +30,11 @@ class FollowingFragment : Fragment() {
     }
 
     private fun showFollower(username : String){
-        val client2 = ApiConfigFollower.getApiService().getFollowing(username)
+        showLoading(true)
+        val client2 = ApiConfig.getApiService().getFollowing(username)
         client2.enqueue(object : Callback<ArrayList<FollowerResponseItem>> {
             override fun onResponse(call: Call<ArrayList<FollowerResponseItem>>, response: Response<ArrayList<FollowerResponseItem>>) {
+                showLoading(false)
                 if (response.isSuccessful){
                     val responseBody = response.body()
                     if (responseBody != null) {
@@ -38,7 +43,8 @@ class FollowingFragment : Fragment() {
                 }
             }
             override fun onFailure(call: Call<ArrayList<FollowerResponseItem>>, t: Throwable) {
-                TODO("Not yet implemented")
+                showLoading(false)
+                Log.e(TAG, "onFailure: ${t.message}")
             }
         })
     }
@@ -47,5 +53,13 @@ class FollowingFragment : Fragment() {
         binding.rcyFollowing.layoutManager = LinearLayoutManager(requireActivity())
         val FollowerAdapter = FollowAdapter(arraylist)
         binding.rcyFollowing.adapter = FollowerAdapter
+    }
+
+    private fun showLoading(isLoading: Boolean) {
+        if (isLoading) {
+            binding.progressbar.visibility = View.VISIBLE
+        } else {
+            binding.progressbar.visibility = View.GONE
+        }
     }
 }
