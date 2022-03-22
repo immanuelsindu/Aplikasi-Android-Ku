@@ -20,6 +20,7 @@
         </activity>
         <activity
             android:name=".SplashScreen"
+            android:theme="@style/Theme.MySubmission2.2"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

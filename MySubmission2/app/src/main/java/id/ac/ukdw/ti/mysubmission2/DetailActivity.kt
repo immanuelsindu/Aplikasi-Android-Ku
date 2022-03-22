@@ -28,6 +28,7 @@ class DetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        supportActionBar?.title = resources.getString(R.string.detail_name)
         var login = intent.getStringExtra("userLogin")
         binding.tvName.text = login
         val sectionsPagerAdapter = SectionsPagerAdapter(this, login.toString())
