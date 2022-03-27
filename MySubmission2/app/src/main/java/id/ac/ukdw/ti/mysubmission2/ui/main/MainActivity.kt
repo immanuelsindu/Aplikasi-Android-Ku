@@ -64,11 +64,6 @@ class MainActivity : AppCompatActivity() {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
             }
         }
-
-//        val factoryView: UsersViewModelFactory = UsersViewModelFactory.getInstance(this@MainActivity)
-//        val viewModel: FavoViewModel by viewModels {
-//            factoryView
-//        }
     }
     private fun showRecyclerList(arraylist: ArrayList<ItemsItem>) {
         rvUsers.layoutManager = LinearLayoutManager(this)

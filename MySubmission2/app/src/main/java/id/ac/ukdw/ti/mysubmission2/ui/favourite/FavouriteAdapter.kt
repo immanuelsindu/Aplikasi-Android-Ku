@@ -14,7 +14,7 @@ import id.ac.ukdw.ti.mysubmission2.databinding.ItemUserBinding
 import id.ac.ukdw.ti.mysubmission2.databinding.ItemUserFavBinding
 import id.ac.ukdw.ti.mysubmission2.ui.detail.DetailActivity
 
-class FavoriteGithubUserAdapter : RecyclerView.Adapter<FavoriteGithubUserAdapter.FavoriteGithubUserHolder>() {
+class FavouriteAdapter : RecyclerView.Adapter<FavouriteAdapter.FavoriteGithubUserHolder>() {
     private val listFavGithubUser = ArrayList<UsersEntity>()
 
     fun setListFavGithubUser(listFavGithubUser: List<UsersEntity>) {
