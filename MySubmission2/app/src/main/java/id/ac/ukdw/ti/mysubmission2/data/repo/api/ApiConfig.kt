@@ -1,5 +1,6 @@
-package id.ac.ukdw.ti.mysubmission2
+package id.ac.ukdw.ti.mysubmission2.data.repo.api
 
+import id.ac.ukdw.ti.mysubmission2.BuildConfig
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit

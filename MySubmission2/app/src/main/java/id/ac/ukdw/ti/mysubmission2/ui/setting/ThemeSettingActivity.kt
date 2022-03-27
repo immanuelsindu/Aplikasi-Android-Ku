@@ -1,4 +1,4 @@
-package id.ac.ukdw.ti.mysubmission2
+package id.ac.ukdw.ti.mysubmission2.ui.setting
 
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
@@ -10,8 +10,10 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.switchmaterial.SwitchMaterial
-import id.ac.ukdw.ti.mysubmission2.databinding.ActivityMainBinding
-import id.ac.ukdw.ti.mysubmission2.databinding.ActivityThemeSettingBinding
+import id.ac.ukdw.ti.mysubmission2.R
+import id.ac.ukdw.ti.mysubmission2.ViewModelFactory
+import id.ac.ukdw.ti.mysubmission2.ui.main.MainActivity
+import id.ac.ukdw.ti.mysubmission2.ui.main.MainViewModel
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 class ThemeSettingActivity : AppCompatActivity() {

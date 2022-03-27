@@ -1,4 +1,4 @@
-package id.ac.ukdw.ti.mysubmission2
+package id.ac.ukdw.ti.mysubmission2.ui.detail
 
 import android.os.Bundle
 import android.util.Log
@@ -6,16 +6,23 @@ import android.view.View
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
-import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import id.ac.ukdw.ti.mysubmission2.Injection
+import id.ac.ukdw.ti.mysubmission2.R
+import id.ac.ukdw.ti.mysubmission2.adapter.SectionsPagerAdapter
+import id.ac.ukdw.ti.mysubmission2.data.local.entity.UsersEntity
+import id.ac.ukdw.ti.mysubmission2.data.repo.api.ApiConfig
 import id.ac.ukdw.ti.mysubmission2.databinding.ActivityDetailBinding
+import id.ac.ukdw.ti.mysubmission2.data.repo.response.DetailResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class DetailActivity : AppCompatActivity() {
+class DetailActivity : AppCompatActivity(){
 
     private lateinit var binding: ActivityDetailBinding
+    private lateinit var userRes: DetailResponse
+
     companion object {
         private const val TAG = "DetailActivity"
         @StringRes
@@ -40,13 +47,22 @@ class DetailActivity : AppCompatActivity() {
         if (login != null) {
             findUser(login)
         }
+
+        val repo = Injection.provideRepository(this)
+
+        binding.fabFav.setOnClickListener{
+        val usersEntity = UsersEntity(userRes.login, userRes.avatarUrl)
+            repo.insertUsers(usersEntity)
+
+        }
+
     }
 
     private fun findUser(login : String) {
         showLoading(true)
         val client = ApiConfig.getApiService().getUser2(login)
         client.enqueue(object : Callback<DetailResponse> {
-            override fun onResponse(call: Call<DetailResponse>,response: Response<DetailResponse>) {
+            override fun onResponse(call: Call<DetailResponse>, response: Response<DetailResponse>) {
                 showLoading(false)
                 if (response.isSuccessful) {
                     val responseBody = response.body()
@@ -62,6 +78,8 @@ class DetailActivity : AppCompatActivity() {
                             .load(responseBody.avatarUrl)
                             .circleCrop()
                             .into(binding.circleImageView)
+
+                        userRes = responseBody
                     }
                 } else {
                     Log.e(TAG, "onFailure: ${response.message()}")
@@ -81,8 +99,6 @@ class DetailActivity : AppCompatActivity() {
             binding.progressbar.visibility = View.GONE
         }
     }
+
+
 }
-
-
-
-

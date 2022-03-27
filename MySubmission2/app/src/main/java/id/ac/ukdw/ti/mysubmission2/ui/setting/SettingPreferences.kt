@@ -1,4 +1,4 @@
-package id.ac.ukdw.ti.mysubmission2
+package id.ac.ukdw.ti.mysubmission2.ui.setting
 
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences

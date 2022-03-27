@@ -1,14 +1,15 @@
-package id.ac.ukdw.ti.mysubmission2
+package id.ac.ukdw.ti.mysubmission2.adapter
 
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import id.ac.ukdw.ti.mysubmission2.databinding.ActivityMainBinding
+import id.ac.ukdw.ti.mysubmission2.ui.detail.DetailActivity
+import id.ac.ukdw.ti.mysubmission2.data.repo.response.ItemsItem
 import id.ac.ukdw.ti.mysubmission2.databinding.ItemUserBinding
 
-class FollowAdapter(private val listFollower: ArrayList<FollowerResponseItem>) : RecyclerView.Adapter<FollowAdapter.ListViewHolder>() {
+class ListUserAdapter(private val listUser: ArrayList<ItemsItem>) : RecyclerView.Adapter<ListUserAdapter.ListViewHolder>() {
     class ListViewHolder(var binding: ItemUserBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListViewHolder {
@@ -17,8 +18,8 @@ class FollowAdapter(private val listFollower: ArrayList<FollowerResponseItem>) :
     }
 
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
-        val photo = listFollower[position].avatarUrl
-        val username = listFollower[position].login
+        val photo = listUser[position].avatarUrl
+        val username = listUser[position].login
         Glide.with(holder.itemView.context)
             .load(photo)
             .circleCrop()
@@ -31,5 +32,5 @@ class FollowAdapter(private val listFollower: ArrayList<FollowerResponseItem>) :
             holder.itemView.context.startActivity(sendData)
         }
     }
-    override fun getItemCount(): Int = listFollower.size
+    override fun getItemCount(): Int = listUser.size
 }

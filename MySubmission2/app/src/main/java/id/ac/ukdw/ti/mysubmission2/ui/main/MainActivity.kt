@@ -1,4 +1,4 @@
-package id.ac.ukdw.ti.mysubmission2
+package id.ac.ukdw.ti.mysubmission2.ui.main
 
 import android.app.SearchManager
 import android.content.Context
@@ -18,7 +18,15 @@ import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import id.ac.ukdw.ti.mysubmission2.*
+import id.ac.ukdw.ti.mysubmission2.adapter.ListUserAdapter
+import id.ac.ukdw.ti.mysubmission2.data.repo.api.ApiConfig
+import id.ac.ukdw.ti.mysubmission2.data.repo.response.ItemsItem
+import id.ac.ukdw.ti.mysubmission2.data.repo.response.UserResponse
 import id.ac.ukdw.ti.mysubmission2.databinding.ActivityMainBinding
+import id.ac.ukdw.ti.mysubmission2.ui.favourite.FavouriteActivity
+import id.ac.ukdw.ti.mysubmission2.ui.setting.SettingPreferences
+import id.ac.ukdw.ti.mysubmission2.ui.setting.ThemeSettingActivity
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -57,6 +65,10 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+//        val factoryView: UsersViewModelFactory = UsersViewModelFactory.getInstance(this@MainActivity)
+//        val viewModel: FavoViewModel by viewModels {
+//            factoryView
+//        }
     }
     private fun showRecyclerList(arraylist: ArrayList<ItemsItem>) {
         rvUsers.layoutManager = LinearLayoutManager(this)
@@ -68,7 +80,7 @@ class MainActivity : AppCompatActivity() {
         showLoading(true)
         val client = ApiConfig.getApiService().getUsers(keywordUser)
         client.enqueue(object : Callback<UserResponse> {
-            override fun onResponse(call: Call<UserResponse>,response: Response<UserResponse>) {
+            override fun onResponse(call: Call<UserResponse>, response: Response<UserResponse>) {
                 showLoading(false)
                 if (response.isSuccessful) {
                     val responseBody = response.body()

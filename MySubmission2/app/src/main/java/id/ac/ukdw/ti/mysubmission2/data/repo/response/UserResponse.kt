@@ -1,4 +1,4 @@
-package id.ac.ukdw.ti.mysubmission2
+package id.ac.ukdw.ti.mysubmission2.data.repo.response
 
 import com.google.gson.annotations.SerializedName
 

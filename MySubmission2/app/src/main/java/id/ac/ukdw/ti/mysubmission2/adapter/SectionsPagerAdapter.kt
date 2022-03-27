@@ -1,9 +1,11 @@
-package id.ac.ukdw.ti.mysubmission2
+package id.ac.ukdw.ti.mysubmission2.adapter
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import id.ac.ukdw.ti.mysubmission2.ui.detail.fragment.FollowerFragment
+import id.ac.ukdw.ti.mysubmission2.ui.detail.fragment.FollowingFragment
 
 class SectionsPagerAdapter(activity: AppCompatActivity, val userLogin: String) : FragmentStateAdapter(activity) {
 

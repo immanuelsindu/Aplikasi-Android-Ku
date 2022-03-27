@@ -12,20 +12,20 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MySubmission2">
         <activity
-            android:name=".ThemeSettingActivity"
+            android:name="id.ac.ukdw.ti.mysubmission2.ui.setting.ThemeSettingActivity"
             android:exported="false" />
         <activity
-            android:name=".FavouriteActivity"
+            android:name="id.ac.ukdw.ti.mysubmission2.ui.favourite.FavouriteActivity"
             android:exported="false" />
         <activity
-            android:name=".DetailActivity"
+            android:name="id.ac.ukdw.ti.mysubmission2.ui.detail.DetailActivity"
             android:exported="false" />
         <activity
             android:launchMode = "singleTop"
-            android:name=".MainActivity"
+            android:name=".ui.main.MainActivity"
             android:exported="false" />
         <activity
-            android:name=".SplashScreen"
+            android:name=".ui.splashcreen.SplashScreen"
             android:exported="true"
             android:theme="@style/Theme.MySubmission2.2">
             <intent-filter>

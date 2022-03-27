@@ -1,13 +1,15 @@
 package id.ac.ukdw.ti.mysubmission2
 
 import android.content.Context
+import id.ac.ukdw.ti.mysubmission2.data.repo.api.ApiConfig
+import id.ac.ukdw.ti.mysubmission2.data.local.room.UsersDatabase
 
 object Injection {
-    fun provideRepository(context: Context): NewsRepository {
+    fun provideRepository(context: Context): UsersRepository {
         val apiService = ApiConfig.getApiService()
-        val database = NewsDatabase.getInstance(context)
+        val database = UsersDatabase.getInstance(context)
         val dao = database.newsDao()
         val appExecutors = AppExecutors()
-        return NewsRepository.getInstance(apiService, dao, appExecutors)
+        return UsersRepository.getInstance(apiService, dao, appExecutors)
     }
 }
