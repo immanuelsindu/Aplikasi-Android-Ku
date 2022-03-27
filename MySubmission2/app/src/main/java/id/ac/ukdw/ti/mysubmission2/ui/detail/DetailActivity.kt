@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.View
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.google.android.material.tabs.TabLayoutMediator
 import id.ac.ukdw.ti.mysubmission2.Injection
@@ -19,7 +20,7 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class DetailActivity : AppCompatActivity(){
-
+    private var isFav: Boolean? = null
     private lateinit var binding: ActivityDetailBinding
     private lateinit var userRes: DetailResponse
 
@@ -44,17 +45,39 @@ class DetailActivity : AppCompatActivity(){
             tab.text = resources.getString(TAB_TITLES[position])
         }.attach()
 
-        if (login != null) {
-            findUser(login)
-        }
 
         val repo = Injection.provideRepository(this)
+        if (login != null) {
+            findUser(login)
+            repo.isFavorite(login).observe(this){
+                isFav = it
+                if(it){
+                    binding.fabFav.setImageDrawable(
+                        ContextCompat.getDrawable(this,
+                        R.drawable.ic_baseline_favorite_24
+                    ))
+                }else{
+                    binding.fabFav.setImageDrawable(
+                        ContextCompat.getDrawable(this,
+                            R.drawable.ic_baseline_favorite_border_24
+                        )
+                    )
+                }
+            }
+        }
 
         binding.fabFav.setOnClickListener{
-        val usersEntity = UsersEntity(userRes.login, userRes.avatarUrl)
-            repo.insertUsers(usersEntity)
+            val usersEntity = UsersEntity(userRes.login, userRes.avatarUrl)
+            if(isFav == true){
+                repo.deleteUsers(usersEntity)
+            }else{
+                repo.insertUsers(usersEntity)
+            }
+
+
 
         }
+
 
     }
 
