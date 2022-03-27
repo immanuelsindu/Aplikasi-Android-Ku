@@ -18,7 +18,8 @@ import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import id.ac.ukdw.ti.mysubmission2.*
+import id.ac.ukdw.ti.mysubmission2.R
+import id.ac.ukdw.ti.mysubmission2.ViewModelFactory
 import id.ac.ukdw.ti.mysubmission2.adapter.ListUserAdapter
 import id.ac.ukdw.ti.mysubmission2.data.repo.api.ApiConfig
 import id.ac.ukdw.ti.mysubmission2.data.repo.response.ItemsItem

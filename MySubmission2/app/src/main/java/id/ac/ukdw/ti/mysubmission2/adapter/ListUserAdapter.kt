@@ -5,9 +5,9 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import id.ac.ukdw.ti.mysubmission2.ui.detail.DetailActivity
 import id.ac.ukdw.ti.mysubmission2.data.repo.response.ItemsItem
 import id.ac.ukdw.ti.mysubmission2.databinding.ItemUserBinding
+import id.ac.ukdw.ti.mysubmission2.ui.detail.DetailActivity
 
 class ListUserAdapter(private val listUser: ArrayList<ItemsItem>) : RecyclerView.Adapter<ListUserAdapter.ListViewHolder>() {
     class ListViewHolder(var binding: ItemUserBinding) : RecyclerView.ViewHolder(binding.root)

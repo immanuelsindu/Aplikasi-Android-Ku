@@ -13,8 +13,8 @@ import id.ac.ukdw.ti.mysubmission2.R
 import id.ac.ukdw.ti.mysubmission2.adapter.SectionsPagerAdapter
 import id.ac.ukdw.ti.mysubmission2.data.local.entity.UsersEntity
 import id.ac.ukdw.ti.mysubmission2.data.repo.api.ApiConfig
-import id.ac.ukdw.ti.mysubmission2.databinding.ActivityDetailBinding
 import id.ac.ukdw.ti.mysubmission2.data.repo.response.DetailResponse
+import id.ac.ukdw.ti.mysubmission2.databinding.ActivityDetailBinding
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -73,12 +73,7 @@ class DetailActivity : AppCompatActivity(){
             }else{
                 repo.insertUsers(usersEntity)
             }
-
-
-
         }
-
-
     }
 
     private fun findUser(login : String) {
@@ -92,11 +87,11 @@ class DetailActivity : AppCompatActivity(){
                     if (responseBody != null) {
                         binding.tvName.text = responseBody.name
                         binding.tvLoginName.text = responseBody.login
-                        binding.tcFollower.text = "Follower : "+ responseBody.followers
-                        binding.tvFollowing.text = "Following : "+ responseBody.following
+                        binding.tcFollower.text =  getString(R.string.follower) + responseBody.followers
+                        binding.tvFollowing.text = getString(R.string.following) +  responseBody.following
                         binding.tvCompany.text = responseBody.company
                         binding.tvLocation.text = responseBody.location
-                        binding.tvRepo.text = "Public Repo : "+ responseBody.publicRepos.toString()
+                        binding.tvRepo.text = getString(R.string.publicRepo) + responseBody.publicRepos.toString()
                         Glide.with(this@DetailActivity)
                             .load(responseBody.avatarUrl)
                             .circleCrop()

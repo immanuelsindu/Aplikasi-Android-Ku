@@ -1,21 +1,14 @@
 package id.ac.ukdw.ti.mysubmission2
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MediatorLiveData
 import id.ac.ukdw.ti.mysubmission2.data.local.entity.UsersEntity
 import id.ac.ukdw.ti.mysubmission2.data.local.room.UsersDao
 import id.ac.ukdw.ti.mysubmission2.data.repo.api.ApiService
-import id.ac.ukdw.ti.mysubmission2.data.repo.response.UserResponse
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class UsersRepository private constructor(
     private val apiService: ApiService,
     private val UserDao: UsersDao,
     private val appExecutors: AppExecutors){
-
-//    private val result = MediatorLiveData<Result<List<UsersEntity>>>()
 
     fun getFavUser(): LiveData<List<UsersEntity>> = UserDao.getUsers()
 
@@ -32,8 +25,6 @@ class UsersRepository private constructor(
     }
 
     fun isFavorite(login: String) : LiveData<Boolean> = UserDao.isFavourite(login)
-
-
 
     companion object {
         @Volatile

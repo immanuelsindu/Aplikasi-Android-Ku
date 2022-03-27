@@ -13,14 +13,16 @@
     <string name="this_is_user">This is User</string>
     <string name="name">Name</string>
     <string name="loginname">loginName</string>
-    <string name="follower">Follower :</string>
+    <string name="follower">Follower : </string>
     <string name="following">Following :</string>
     <string name="repository">Repository :</string>
+    <string name="publicRepo">Public Repo : </string>
     <string name="company">Company</string>
     <string name="location">Location</string>
     <string name="favourite">Favourite</string>
     <string name="themeSetting">Theme Setting</string>
     <string name="dark_mode">Dark Mode</string>
     <string name="save_bookmark">Bookmark</string>
+
 
 </resources>

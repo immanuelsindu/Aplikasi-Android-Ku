@@ -16,9 +16,4 @@ class UsersEntity(
     @field:ColumnInfo(name = "avatar_url")
     var avatarUrl: String,
 
-//    @field:ColumnInfo(name = "login")
-//    val login: String,
-
-//    @field:ColumnInfo(name = "bookmarked")
-//    var isBookmarked: Boolean
 ): Parcelable

@@ -1,8 +1,8 @@
 package id.ac.ukdw.ti.mysubmission2.data.repo.api
 
+import id.ac.ukdw.ti.mysubmission2.data.repo.response.DetailResponse
 import id.ac.ukdw.ti.mysubmission2.data.repo.response.FollowerResponseItem
 import id.ac.ukdw.ti.mysubmission2.data.repo.response.UserResponse
-import id.ac.ukdw.ti.mysubmission2.data.repo.response.DetailResponse
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Path

@@ -1,10 +1,7 @@
 package id.ac.ukdw.ti.mysubmission2
 
-import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import id.ac.ukdw.ti.mysubmission2.ui.main.MainActivity.Companion.pref
-
 import id.ac.ukdw.ti.mysubmission2.ui.main.MainViewModel
 import id.ac.ukdw.ti.mysubmission2.ui.setting.SettingPreferences
 

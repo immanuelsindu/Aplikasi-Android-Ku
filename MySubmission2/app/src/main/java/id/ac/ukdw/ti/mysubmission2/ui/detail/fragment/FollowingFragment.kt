@@ -8,9 +8,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import id.ac.ukdw.ti.mysubmission2.adapter.FollowAdapter
-import id.ac.ukdw.ti.mysubmission2.data.repo.response.FollowerResponseItem
 import id.ac.ukdw.ti.mysubmission2.adapter.SectionsPagerAdapter
 import id.ac.ukdw.ti.mysubmission2.data.repo.api.ApiConfig
+import id.ac.ukdw.ti.mysubmission2.data.repo.response.FollowerResponseItem
 import id.ac.ukdw.ti.mysubmission2.databinding.FragmentFollowingBinding
 import retrofit2.Call
 import retrofit2.Callback

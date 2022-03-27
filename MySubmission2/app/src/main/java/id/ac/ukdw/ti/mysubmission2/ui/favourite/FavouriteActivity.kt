@@ -6,8 +6,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import id.ac.ukdw.ti.mysubmission2.Injection
 import id.ac.ukdw.ti.mysubmission2.R
-import id.ac.ukdw.ti.mysubmission2.adapter.ListUserAdapter
-import id.ac.ukdw.ti.mysubmission2.data.local.entity.UsersEntity
 import id.ac.ukdw.ti.mysubmission2.databinding.ActivityFavouriteBinding
 
 class FavouriteActivity : AppCompatActivity() {

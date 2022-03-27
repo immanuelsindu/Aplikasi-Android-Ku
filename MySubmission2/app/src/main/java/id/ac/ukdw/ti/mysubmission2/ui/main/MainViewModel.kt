@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import id.ac.ukdw.ti.mysubmission2.UsersRepository
 import id.ac.ukdw.ti.mysubmission2.ui.setting.SettingPreferences
 import kotlinx.coroutines.launch
 
