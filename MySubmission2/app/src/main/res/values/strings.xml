@@ -18,4 +18,9 @@
     <string name="repository">Repository :</string>
     <string name="company">Company</string>
     <string name="location">Location</string>
+    <string name="favourite">Favourite</string>
+    <string name="themeSetting">Theme Setting</string>
+    <string name="dark_mode">Dark Mode</string>
+    <string name="save_bookmark">Bookmark</string>
+
 </resources>

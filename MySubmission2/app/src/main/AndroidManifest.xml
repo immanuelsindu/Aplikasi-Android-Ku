@@ -12,23 +12,28 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MySubmission2">
         <activity
+            android:name=".ThemeSettingActivity"
+            android:exported="false" />
+        <activity
+            android:name=".FavouriteActivity"
+            android:exported="false" />
+        <activity
             android:name=".DetailActivity"
-            android:exported="false">
-        </activity>
-        <activity android:name=".MainActivity"
-            android:exported="false">
-        </activity>
+            android:exported="false" />
+        <activity
+            android:launchMode = "singleTop"
+            android:name=".MainActivity"
+            android:exported="false" />
         <activity
             android:name=".SplashScreen"
-            android:theme="@style/Theme.MySubmission2.2"
-            android:exported="true">
+            android:exported="true"
+            android:theme="@style/Theme.MySubmission2.2">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
     </application>
 
 </manifest>

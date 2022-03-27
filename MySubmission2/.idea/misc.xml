@@ -5,11 +5,12 @@
       <map>
         <entry key="app/src/main/res/layout/activity_detail.xml" value="0.33" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.21" />
+        <entry key="app/src/main/res/layout/activity_theme_setting.xml" value="0.16614583333333333" />
         <entry key="app/src/main/res/layout/fragment_follower.xml" value="0.18070652173913043" />
         <entry key="app/src/main/res/layout/fragment_following.xml" value="0.18070652173913043" />
-        <entry key="app/src/main/res/layout/item_user.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/item_user.xml" value="0.25" />
         <entry key="app/src/main/res/layout/splashscreen.xml" value="0.17708333333333334" />
-        <entry key="app/src/main/res/menu/option_menu.xml" value="0.18125" />
+        <entry key="app/src/main/res/menu/option_menu.xml" value="0.25" />
       </map>
     </option>
   </component>

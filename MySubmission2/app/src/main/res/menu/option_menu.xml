@@ -7,4 +7,20 @@
         android:title="@string/search"
         app:actionViewClass="androidx.appcompat.widget.SearchView"
         app:showAsAction="collapseActionView|always" />
+
+
+    <item
+        android:id="@+id/favourite"
+        android:icon="@drawable/ic_baseline_favorite_24"
+        android:title="@string/favourite"
+        app:showAsAction="collapseActionView|always" />
+
+    <item
+        android:id="@+id/themeSetting"
+        android:icon="@drawable/ic_baseline_settings_24"
+        android:title="@string/themeSetting"
+        app:showAsAction="collapseActionView|always" />
+
+
+
 </menu>
