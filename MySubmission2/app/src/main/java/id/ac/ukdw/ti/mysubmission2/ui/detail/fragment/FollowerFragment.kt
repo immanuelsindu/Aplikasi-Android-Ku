@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import id.ac.ukdw.ti.mysubmission2.adapter.FollowingAdapter
+import id.ac.ukdw.ti.mysubmission2.adapter.FollowAdapter
 import id.ac.ukdw.ti.mysubmission2.adapter.SectionsPagerAdapter
 import id.ac.ukdw.ti.mysubmission2.data.repo.api.ApiConfig
 import id.ac.ukdw.ti.mysubmission2.data.repo.response.FollowerResponseItem
@@ -55,7 +55,7 @@ class FollowerFragment : Fragment() {
 
     private fun showRecyclerList(arraylist: ArrayList<FollowerResponseItem>) {
         binding.rvFollower.layoutManager = LinearLayoutManager(requireContext())
-        val FollowerAdapter = FollowingAdapter(arraylist)
+        val FollowerAdapter = FollowAdapter(arraylist)
         binding.rvFollower.adapter = FollowerAdapter
     }
 
