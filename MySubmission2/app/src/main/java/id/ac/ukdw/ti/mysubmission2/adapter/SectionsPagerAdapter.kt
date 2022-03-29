@@ -7,7 +7,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import id.ac.ukdw.ti.mysubmission2.ui.detail.fragment.FollowerFragment
 import id.ac.ukdw.ti.mysubmission2.ui.detail.fragment.FollowingFragment
 
-class SectionsPagerAdapter(activity: AppCompatActivity, val userLogin: String) : FragmentStateAdapter(activity) {
+class SectionsPagerAdapter(activity: AppCompatActivity, private val userLogin: String) : FragmentStateAdapter(activity) {
 
     companion object {
         const val USER = "userLogin"
@@ -15,7 +15,7 @@ class SectionsPagerAdapter(activity: AppCompatActivity, val userLogin: String) :
 
     override fun createFragment(position: Int): Fragment {
         var fragment: Fragment? = null
-        var bundle = Bundle()
+        val bundle = Bundle()
         bundle.putString(USER, userLogin)
 
         when (position) {
@@ -24,7 +24,7 @@ class SectionsPagerAdapter(activity: AppCompatActivity, val userLogin: String) :
                 fragment.arguments = bundle
             }
             1 ->{
-                fragment = FollowingFragment()
+                fragment =  FollowingFragment()
                 fragment.arguments = bundle
             }
         }

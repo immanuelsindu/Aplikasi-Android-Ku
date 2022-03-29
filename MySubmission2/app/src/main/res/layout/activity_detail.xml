@@ -8,6 +8,7 @@
     android:orientation="vertical">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clTop"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
@@ -21,7 +22,8 @@
             android:layout_marginBottom="16dp"
             android:src="@drawable/ic_baseline_favorite_border_24"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"></com.google.android.material.floatingactionbutton.FloatingActionButton>
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:ignore="SpeakableTextPresentCheck" />
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/circleImageView"
@@ -45,7 +47,7 @@
             android:textSize="22sp"
             app:layout_constraintEnd_toEndOf="@+id/circleImageView"
             app:layout_constraintStart_toStartOf="@+id/circleImageView"
-            app:layout_constraintTop_toBottomOf="@+id/circleImageView"></TextView>
+            app:layout_constraintTop_toBottomOf="@+id/circleImageView" />
 
         <TextView
             android:id="@+id/tvLoginName"
@@ -55,7 +57,7 @@
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="@+id/tvName"
             app:layout_constraintStart_toStartOf="@+id/tvName"
-            app:layout_constraintTop_toBottomOf="@+id/tvName"></TextView>
+            app:layout_constraintTop_toBottomOf="@+id/tvName" />
 
         <LinearLayout
             android:id="@+id/linearLayout"
@@ -70,7 +72,7 @@
                 android:id="@+id/tcFollower"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/follower"></TextView>
+                android:text="@string/follower"/>
 
             <TextView
                 android:id="@+id/tvFollowing"
@@ -78,7 +80,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
 
-                android:text="@string/following"></TextView>
+                android:text="@string/following"/>
 
         </LinearLayout>
 
@@ -89,7 +91,7 @@
             android:text="@string/repository"
             app:layout_constraintEnd_toEndOf="@+id/linearLayout"
             app:layout_constraintStart_toStartOf="@+id/linearLayout"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout"></TextView>
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout"/>
 
         <TextView
             android:id="@+id/tvCompany"
@@ -98,7 +100,7 @@
             android:text="@string/company"
             app:layout_constraintEnd_toEndOf="@+id/tvRepo"
             app:layout_constraintStart_toStartOf="@+id/tvRepo"
-            app:layout_constraintTop_toBottomOf="@+id/tvRepo"></TextView>
+            app:layout_constraintTop_toBottomOf="@+id/tvRepo"/>
 
         <TextView
             android:id="@+id/tvLocation"
@@ -125,11 +127,11 @@
         </ProgressBar>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabs"
             android:layout_width="match_parent"
@@ -144,10 +146,10 @@
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/view_pager"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tabs">
+            android:layout_height="match_parent"
+            >
         </androidx.viewpager2.widget.ViewPager2>
+
     </LinearLayout>
+
 </LinearLayout>

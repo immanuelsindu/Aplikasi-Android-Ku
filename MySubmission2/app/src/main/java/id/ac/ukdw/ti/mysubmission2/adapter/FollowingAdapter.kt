@@ -9,7 +9,7 @@ import id.ac.ukdw.ti.mysubmission2.data.repo.response.FollowerResponseItem
 import id.ac.ukdw.ti.mysubmission2.databinding.ItemUserBinding
 import id.ac.ukdw.ti.mysubmission2.ui.detail.DetailActivity
 
-class FollowAdapter(private val listFollower: ArrayList<FollowerResponseItem>) : RecyclerView.Adapter<FollowAdapter.ListViewHolder>() {
+class FollowingAdapter(private val listFollower: ArrayList<FollowerResponseItem>) : RecyclerView.Adapter<FollowingAdapter.ListViewHolder>() {
     class ListViewHolder(var binding: ItemUserBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListViewHolder {

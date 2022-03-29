@@ -44,6 +44,8 @@ class DetailActivity : AppCompatActivity(){
         TabLayoutMediator(binding.tabs, binding.viewPager) { tab, position ->
             tab.text = resources.getString(TAB_TITLES[position])
         }.attach()
+        supportActionBar?.elevation = 0f
+
 
 
         val repo = Injection.provideRepository(this)
