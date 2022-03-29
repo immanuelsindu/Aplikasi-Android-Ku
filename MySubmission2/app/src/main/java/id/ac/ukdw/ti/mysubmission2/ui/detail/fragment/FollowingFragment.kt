@@ -26,14 +26,14 @@ class FollowingFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val userLogin = arguments?.getString(SectionsPagerAdapter.USER).toString()
-        showFollower(userLogin)
+        showFollowing(userLogin)
     }
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentFollowingBinding.inflate(inflater, container, false)
         return binding.root
     }
 
-    private fun showFollower(username : String){
+    private fun showFollowing(username : String){
         showLoading(true)
         val client2 = ApiConfig.getApiService().getFollowing(username)
         client2.enqueue(object : Callback<ArrayList<FollowerResponseItem>> {
