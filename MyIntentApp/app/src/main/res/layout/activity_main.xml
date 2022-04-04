@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    android:padding="16dp"
+    android:orientation="vertical"
+    >
+
+    <Button
+        android:layout_marginBottom="10dp"
+        android:id="@+id/btnPindahActivity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Pindah Activity">
+    </Button>
+
+    <Button
+        android:layout_marginBottom="10dp"
+        android:id="@+id/btnPindahActivityDenganData"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Pindah Activity Dengan Data">
+    </Button>
+
+    <Button
+        android:layout_marginBottom="10dp"
+        android:id="@+id/btnPindahActivityDenganObject"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Pindah Activity Dengan Object">
+    </Button>
+
+    <Button
+        android:layout_marginBottom="10dp"
+        android:id="@+id/btnDialANumber"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Dial A Number">
+    </Button>
+
+    <Button
+        android:layout_marginBottom="10dp"
+        android:id="@+id/btnPindahActivityDenganResult"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Pindah Activity Dengan Data">
+    </Button>
+
+    <TextView
+        android:id="@+id/txtHasil"
+        android:layout_marginBottom="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Hasil Dari Activity"
+        android:textSize="25sp"
+        android:textAlignment="center">
+
+    </TextView>
+
+</LinearLayout>

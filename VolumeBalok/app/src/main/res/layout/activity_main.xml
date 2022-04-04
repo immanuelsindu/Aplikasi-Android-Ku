@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/txtPanjang"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/panjang" />
+
+    <EditText
+        android:id="@+id/edtPanjang"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="numberDecimal">
+    </EditText>
+
+    <TextView
+        android:id="@+id/txtLebar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/lebar" />
+
+    <EditText
+        android:id="@+id/edtLebar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="numberDecimal">
+    </EditText>
+
+
+    <TextView
+        android:id="@+id/txtTinggi"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/tinggi" />
+
+    <EditText
+        android:id="@+id/edtTinggi"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="numberDecimal">
+    </EditText>
+
+    <Button
+        android:id="@+id/btnHitung"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/hitung">
+    </Button>
+
+    <TextView
+        android:id="@+id/txtHasil"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="10dp"
+        android:textAlignment="center">
+
+    </TextView>
+
+</LinearLayout>

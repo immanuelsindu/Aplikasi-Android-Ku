@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.detail.DetailActivity"
+    android:orientation="vertical">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clTop"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        >
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fabFav"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:src="@drawable/ic_baseline_favorite_border_24"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:ignore="SpeakableTextPresentCheck" />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/circleImageView"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_marginTop="32dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@tools:sample/avatars">
+
+        </de.hdodenhof.circleimageview.CircleImageView>
+
+        <TextView
+            android:id="@+id/tvName"
+            style="@style/TextAppearance.Material3.BodyLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/name"
+            android:textSize="22sp"
+            app:layout_constraintEnd_toEndOf="@+id/circleImageView"
+            app:layout_constraintStart_toStartOf="@+id/circleImageView"
+            app:layout_constraintTop_toBottomOf="@+id/circleImageView" />
+
+        <TextView
+            android:id="@+id/tvLoginName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/loginname"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="@+id/tvName"
+            app:layout_constraintStart_toStartOf="@+id/tvName"
+            app:layout_constraintTop_toBottomOf="@+id/tvName" />
+
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toEndOf="@+id/tvLoginName"
+            app:layout_constraintStart_toStartOf="@+id/tvLoginName"
+            app:layout_constraintTop_toBottomOf="@+id/tvLoginName">
+
+            <TextView
+                android:id="@+id/tcFollower"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/follower"/>
+
+            <TextView
+                android:id="@+id/tvFollowing"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+
+                android:text="@string/following"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tvRepo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/repository"
+            app:layout_constraintEnd_toEndOf="@+id/linearLayout"
+            app:layout_constraintStart_toStartOf="@+id/linearLayout"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout"/>
+
+        <TextView
+            android:id="@+id/tvCompany"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/company"
+            app:layout_constraintEnd_toEndOf="@+id/tvRepo"
+            app:layout_constraintStart_toStartOf="@+id/tvRepo"
+            app:layout_constraintTop_toBottomOf="@+id/tvRepo"/>
+
+        <TextView
+            android:id="@+id/tvLocation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/location"
+            app:layout_constraintEnd_toEndOf="@+id/tvCompany"
+            app:layout_constraintStart_toStartOf="@+id/tvCompany"
+            app:layout_constraintTop_toBottomOf="@+id/tvCompany">
+
+        </TextView>
+
+        <ProgressBar
+            android:id="@+id/progressbar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.509"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0">
+
+        </ProgressBar>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/colorPrimary"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tabTextColor="@android:color/white"
+            tools:ignore="SpeakableTextPresentCheck" />
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/view_pager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+        </androidx.viewpager2.widget.ViewPager2>
+
+    </LinearLayout>
+
+</LinearLayout>
