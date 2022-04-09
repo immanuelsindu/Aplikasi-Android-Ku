@@ -29,11 +29,15 @@ class UsersRepository private constructor(
     companion object {
         @Volatile
         private var instance: UsersRepository? = null
+<<<<<<< HEAD
         fun getInstance(
             apiService: ApiService,
             newsDao: UsersDao,
             appExecutors: AppExecutors
         ): UsersRepository =
+=======
+        fun getInstance(apiService: ApiService,newsDao: UsersDao,appExecutors: AppExecutors): UsersRepository =
+>>>>>>> master
             instance ?: synchronized(this) {
                 instance ?: UsersRepository(apiService, newsDao, appExecutors)
             }.also { instance = it }
