@@ -10,17 +10,27 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Sub1_Intermediate">
         <activity
+            android:name=".NewStoryActivity"
+            android:exported="false" />
+        <activity
+            android:name=".HomeStoryActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
-            android:exported="true">
+            android:exported="true"
+            android:theme="@style/Theme.Sub1_Intermediate.2">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name=".RegisterActivity" />
-        <activity android:name=".LoginActivity" />
+        <activity
+            android:name=".RegisterActivity"
+            android:theme="@style/Theme.Sub1_Intermediate.2" />
+        <activity
+            android:name=".LoginActivity"
+            android:theme="@style/Theme.Sub1_Intermediate.2" />
     </application>
 
 </manifest>

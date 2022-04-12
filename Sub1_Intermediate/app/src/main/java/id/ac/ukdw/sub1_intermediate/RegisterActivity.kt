@@ -2,9 +2,12 @@ package id.ac.ukdw.sub1_intermediate
 
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityOptionsCompat
 import id.ac.ukdw.sub1_intermediate.databinding.ActivityRegisterBinding
 
 
@@ -14,10 +17,21 @@ class RegisterActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityRegisterBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         supportActionBar?.hide()
-
         playAnimation()
+
+        val astronotImage = findViewById<ImageView>(R.id.imageView)
+        binding.btnRegister.setOnClickListener {
+            val intent = Intent(this, LoginActivity::class.java)
+            intent.putExtra("loginCommand", "Please login first with the account you created earlier")
+            intent.flags =  Intent.FLAG_ACTIVITY_CLEAR_TASK
+            val optionsCompat: ActivityOptionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                this, astronotImage, "astronotImage")
+            startActivity(intent, optionsCompat.toBundle())
+        }
+
+
+
 
     }
 

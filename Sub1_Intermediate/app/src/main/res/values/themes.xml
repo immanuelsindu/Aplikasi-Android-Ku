@@ -2,8 +2,8 @@
     <!-- Base application theme. -->
     <style name="Theme.Sub1_Intermediate" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/purple_500</item>
-        <item name="colorPrimaryVariant">@color/buttonColor</item>
+        <item name="colorPrimary">@color/buttonColor</item>
+        <item name="colorPrimaryVariant">#200F29</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/teal_200</item>
@@ -16,5 +16,10 @@
         <item name="android:windowActivityTransitions">true</item>
 <!--        <item name="android:windowEnterTransition">@android:transition/explode</item>-->
 <!--        <item name="android:windowExitTransition">@android:transition/explode</item>-->
+        <item name="android:windowBackground">@color/baseColor</item>
+    </style>
+
+    <style name="Theme.Sub1_Intermediate.2" >
+        <item name="colorPrimaryVariant">@color/baseColor</item>
     </style>
 </resources>

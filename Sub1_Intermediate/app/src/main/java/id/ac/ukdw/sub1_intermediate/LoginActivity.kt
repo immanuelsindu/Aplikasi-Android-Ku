@@ -2,6 +2,7 @@ package id.ac.ukdw.sub1_intermediate
 
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -14,8 +15,18 @@ class LoginActivity:  AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
         supportActionBar?.hide()
-
         playAnimation()
+
+        binding.btnLogin.setOnClickListener {
+            val intent = Intent(this, HomeStoryActivity::class.java)
+            startActivity(intent)
+        }
+
+        val userCommand = intent.getStringExtra("loginCommand")
+        if(userCommand != ""){
+            binding.tvUserCommand.text = userCommand
+        }
+
     }
 
     private fun playAnimation(){

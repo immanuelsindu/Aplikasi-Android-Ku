@@ -121,7 +121,7 @@
         android:alpha="0"
         android:layout_width="260dp"
         android:layout_height="wrap_content"
-        android:hint="Write your Password"
+        android:hint="Write your password"
         android:textSize="17sp"
         android:inputType="textPassword"
         android:textColorHint="@color/buttonColor"
