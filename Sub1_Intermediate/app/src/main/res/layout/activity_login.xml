@@ -7,6 +7,7 @@
 
     <ImageView
         android:id="@+id/imageView"
+
         android:transitionName="astronotImage"
         android:layout_width="200dp"
         android:layout_height="200dp"
@@ -18,14 +19,14 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/tvRegister"
+        android:id="@+id/tvLogin"
+        android:alpha="0"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="35dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="37dp"
-        android:alpha="0"
-        android:text="Register"
+        android:text="Login"
         android:textColor="@color/white"
         android:textSize="35sp"
         android:textStyle="bold|italic"
@@ -34,42 +35,13 @@
         app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
     <TextView
-        android:id="@+id/tvName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="76dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginEnd="278dp"
-        android:alpha="0"
-        android:text="Name"
-        android:textColor="@color/white"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvRegister" />
-
-    <EditText
-        android:id="@+id/edtName"
-        android:alpha="0"
-        android:layout_width="260dp"
-        android:layout_height="wrap_content"
-        android:hint="Write your name"
-        android:textSize="17sp"
-        android:textColorHint="@color/buttonColor"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.503"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvName" />
-
-    <TextView
         android:id="@+id/tvEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="76dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginStart="74dp"
+        android:layout_marginTop="24dp"
         android:layout_marginEnd="281dp"
+
         android:alpha="0"
         android:text="Email"
         android:textColor="@color/white"
@@ -78,13 +50,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edtName">
+        app:layout_constraintTop_toBottomOf="@+id/tvLogin">
 
     </TextView>
 
     <EditText
         android:id="@+id/edtEmail"
         android:alpha="0"
+
         android:layout_width="260dp"
         android:layout_height="wrap_content"
         android:hint="Write your email"
@@ -98,12 +71,12 @@
 
     <TextView
         android:id="@+id/tvPassword"
-        android:alpha="0"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="80dp"
+        android:layout_marginStart="76dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="281dp"
+        android:alpha="0"
         android:text="Password"
         android:textColor="@color/white"
         android:textSize="20sp"
@@ -117,7 +90,6 @@
 
     <EditText
         android:id="@+id/edtPassword"
-
         android:alpha="0"
         android:layout_width="260dp"
         android:layout_height="wrap_content"
@@ -132,13 +104,13 @@
     </EditText>
 
     <Button
-        android:id="@+id/btnRegister"
+        android:id="@+id/btnLogin"
         android:alpha="0"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:backgroundTint="@color/buttonColor"
-        android:text="Register"
+        android:text="Login"
         android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
