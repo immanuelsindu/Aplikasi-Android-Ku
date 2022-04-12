@@ -11,10 +11,12 @@
         android:theme="@style/Theme.Sub1_Intermediate">
         <activity
             android:name=".NewStoryActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/Theme.Sub1_Intermediate.4"/>
         <activity
             android:name=".HomeStoryActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/Theme.Sub1_Intermediate.3"/>
         <activity
             android:name=".MainActivity"
             android:exported="true"

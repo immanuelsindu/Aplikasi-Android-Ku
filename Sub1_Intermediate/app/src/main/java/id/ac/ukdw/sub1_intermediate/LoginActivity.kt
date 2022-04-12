@@ -2,6 +2,7 @@ package id.ac.ukdw.sub1_intermediate
 
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
+import android.app.ActivityOptions
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -19,7 +20,7 @@ class LoginActivity:  AppCompatActivity() {
 
         binding.btnLogin.setOnClickListener {
             val intent = Intent(this, HomeStoryActivity::class.java)
-            startActivity(intent)
+            startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle())
         }
 
         val userCommand = intent.getStringExtra("loginCommand")
