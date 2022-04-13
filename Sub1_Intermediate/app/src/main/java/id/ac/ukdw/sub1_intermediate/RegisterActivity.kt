@@ -19,6 +19,9 @@ import retrofit2.Response
 
 
 class RegisterActivity : AppCompatActivity() {
+    companion object{
+        const val TAG = "RegisterActivity"
+    }
     private lateinit var binding : ActivityRegisterBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,9 +29,7 @@ class RegisterActivity : AppCompatActivity() {
         setContentView(binding.root)
         supportActionBar?.hide()
         playAnimation()
-
-        val astronotImage = findViewById<ImageView>(R.id.imageView)
-
+        showLoading(false)
         binding.btnRegister.setOnClickListener {
             when {
                 binding.edtName.text.toString() == "" -> {
@@ -44,82 +45,66 @@ class RegisterActivity : AppCompatActivity() {
                     binding.edtPassword.error = "Password consists of at least 6 characters"
                 }
                 else -> {
-                    val intent = Intent(this, LoginActivity::class.java)
-                    intent.putExtra(
-                        "loginCommand",
-                        "Please login first with the account you created earlier"
-                    )
-                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK
-                    val optionsCompat: ActivityOptionsCompat =
-                        ActivityOptionsCompat.makeSceneTransitionAnimation(
-                            this, astronotImage, "astronotImage"
-                        )
-                    startActivity(intent, optionsCompat.toBundle())
+                    postUser(binding.edtName.text.toString(),binding.edtEmail.text.toString(),binding.edtPassword.text.toString())
                 }
             }
         }
     }
 
-//            if(!TextUtils.isEmpty(edtName)){
-//                if(edtEmail.trim().length >= 0){
-//                    if(edtPassword.trim().length >= 0){
-//                        if(edtPassword.trim().length >= 6){
-//                            val intent = Intent(this, LoginActivity::class.java)
-//                            intent.putExtra(
-//                                "loginCommand",
-//                                "Please login first with the account you created earlier"
-//                            )
-//                            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK
-//                            val optionsCompat: ActivityOptionsCompat =
-//                                ActivityOptionsCompat.makeSceneTransitionAnimation(
-//                                    this, astronotImage, "astronotImage"
-//                                )
-//                            startActivity(intent, optionsCompat.toBundle())
-//                        }else{
-//                            binding.edtPassword.error = "Password consists of at least 6 characters"
-//                        }
-//                    }else{
-//                        binding.edtPassword.error = "Password cannot be empty"
-//                    }
-//                }else{
-//                    binding.edtEmail.error = "Email cannot be empty"
-//                }
-//            }else{
-//                binding.edtName.error = "Names cannot be empty"
-//            }
-//        }
+    private fun intentToLogin(){
+        val astronotImage = findViewById<ImageView>(R.id.imageView)
+        val intent = Intent(this, LoginActivity::class.java)
+        intent.putExtra(
+            "loginCommand",
+            "Please login first with the account you created earlier"
+        )
+        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK
+        val optionsCompat: ActivityOptionsCompat =
+            ActivityOptionsCompat.makeSceneTransitionAnimation(
+                this, astronotImage, "astronotImage"
+            )
+        startActivity(intent, optionsCompat.toBundle())
+    }
 
+    private fun showLoading(isLoading: Boolean) {
+        if (isLoading) {
+            binding.progresBar.visibility = View.VISIBLE
+        } else {
+            binding.progresBar.visibility = View.GONE
+        }
+    }
 
-
-
-
-//    private fun postUser() {
-//
-//        if()
-////        showLoading(true)
-//        val client = ApiConfig.getApiService().getUsers(keywordUser)
-//        client.enqueue(object : Callback<UserResponse> {
-//            override fun onResponse(call: Call<UserResponse>, response: Response<UserResponse>) {
-//                showLoading(false)
-//                if (response.isSuccessful) {
-//                    val responseBody = response.body()
-//                    if (responseBody != null) {
-//                        showRecyclerList(responseBody.items)
-//                    }else{
-//                        Toast.makeText(this@MainActivity, resources.getString(R.string.userNotFound), Toast.LENGTH_SHORT).show()
-//                    }
-//                } else {
-//                    Log.e(TAG, "onFailure: ${response.message()}")
-//                    Toast.makeText(this@MainActivity, resources.getString(R.string.errorResponse), Toast.LENGTH_SHORT).show()
-//                }
-//            }
-//            override fun onFailure(call: Call<UserResponse>, t: Throwable) {
-//                showLoading(false)
-//                Log.e(TAG, "onFailure: ${t.message}")
-//                Toast.makeText(this@MainActivity, resources.getString(R.string.errorResponse), Toast.LENGTH_SHORT).show()
-//            }
-//        })
-//    }
+    private fun postUser(name : String, email: String, password: String) {
+        showLoading(true)
+        val client = ApiConfig.getApiService().registerUser(name,email,password)
+        client.enqueue(object : Callback<RegisterResponse> {
+            override fun onResponse(call: Call<RegisterResponse>, response: Response<RegisterResponse>) {
+                //eror dari sini
+                if (response.isSuccessful) {
+                    val responseBody = response.body()
+                    if (responseBody != null) {
+                        when(responseBody.error){
+                            true ->{
+                                showLoading(false)
+                                Toast.makeText(this@RegisterActivity, responseBody.message, Toast.LENGTH_SHORT).show()
+                            }
+                            false->{
+                                showLoading(false)
+                                //jangan lupa hapus toast
+                                Toast.makeText(this@RegisterActivity, responseBody.message, Toast.LENGTH_SHORT).show()
+                                intentToLogin()
+                            }
+                        }
+                    }
+                } else {
+                    Log.e(TAG, "onFailure dalam: " + response.message() + name+ email + password)
+                }
+            }
+            override fun onFailure(call: Call<RegisterResponse>, t: Throwable) {
+                Log.e(TAG, "onFailure: ${t.message}")
+            }
+        })
+    }
 
 
     private fun playAnimation(){

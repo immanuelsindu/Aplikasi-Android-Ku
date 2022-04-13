@@ -9,6 +9,7 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import id.ac.ukdw.sub1_intermediate.databinding.ActivityLoginBinding
 
+
 class LoginActivity:  AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -18,15 +19,22 @@ class LoginActivity:  AppCompatActivity() {
         supportActionBar?.hide()
         playAnimation()
 
-        binding.btnLogin.setOnClickListener {
-            val intent = Intent(this, HomeStoryActivity::class.java)
-            startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle())
-        }
-
         val userCommand = intent.getStringExtra("loginCommand")
         if(userCommand != ""){
             binding.tvUserCommand.text = userCommand
         }
+
+        binding.btnLogin.setOnClickListener {
+           when{
+               binding.edtEmail.text.toString() == "" ->{
+                    binding.edtEmail.error = "Email cannot be empty"
+               }
+               binding.edtPassword.text.toString() == "" ->{
+                   binding.edtPassword.error = "Password cannot be empty"
+               }
+           }
+        }
+
 
     }
 
@@ -46,7 +54,14 @@ class LoginActivity:  AppCompatActivity() {
             playSequentially(tvLogin, textbox, btnLogin)
             start()
         }
+    }
 
+    private fun showLoading(isLoading: Boolean) {
+        if (isLoading) {
+            binding.progresBar.visibility = View.VISIBLE
+        } else {
+            binding.progresBar.visibility = View.GONE
+        }
     }
 
 }
