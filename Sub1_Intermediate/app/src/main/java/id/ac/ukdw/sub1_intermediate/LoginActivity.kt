@@ -2,14 +2,10 @@ package id.ac.ukdw.sub1_intermediate
 
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
-import android.app.ActivityOptions
 import android.content.Intent
 import android.os.Bundle
-import android.util.JsonToken
 import android.util.Log
 import android.view.View
-import android.widget.ImageView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityOptionsCompat
 import id.ac.ukdw.sub1_intermediate.databinding.ActivityLoginBinding
@@ -19,6 +15,10 @@ import retrofit2.Response
 
 
 class LoginActivity:  AppCompatActivity() {
+    companion object{
+        var myToken = ""
+    }
+
     private lateinit var binding: ActivityLoginBinding
     private lateinit var userModel: UserModel
 
@@ -71,6 +71,7 @@ class LoginActivity:  AppCompatActivity() {
                             false->{
                                 showLoading(false)
                                 saveUserSession(responseBody.loginResult.name, responseBody.loginResult.userId, responseBody.loginResult.token)
+                                myToken = responseBody.loginResult.token
                                 intentToHomeStory(responseBody.loginResult.name)
                             }
                         }
