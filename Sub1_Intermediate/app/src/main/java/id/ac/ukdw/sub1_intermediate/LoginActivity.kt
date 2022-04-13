@@ -64,12 +64,9 @@ class LoginActivity:  AppCompatActivity() {
                         when(responseBody.error){
                             true ->{
                                 showLoading(false)
-                                Toast.makeText(this@LoginActivity, responseBody.message, Toast.LENGTH_SHORT).show()
                             }
                             false->{
                                 showLoading(false)
-
-                                Toast.makeText(this@LoginActivity, responseBody.message, Toast.LENGTH_SHORT).show()
                                 intentToHomeStory(responseBody.loginResult.name)
                             }
                         }
