@@ -5,6 +5,7 @@ import android.animation.ObjectAnimator
 import android.app.ActivityOptions
 import android.content.Intent
 import android.os.Bundle
+import android.util.JsonToken
 import android.util.Log
 import android.view.View
 import android.widget.ImageView
@@ -19,6 +20,8 @@ import retrofit2.Response
 
 class LoginActivity:  AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
+    private lateinit var userModel: UserModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
@@ -67,6 +70,7 @@ class LoginActivity:  AppCompatActivity() {
                             }
                             false->{
                                 showLoading(false)
+                                saveUserSession(responseBody.loginResult.name, responseBody.loginResult.userId, responseBody.loginResult.token)
                                 intentToHomeStory(responseBody.loginResult.name)
                             }
                         }
@@ -79,6 +83,15 @@ class LoginActivity:  AppCompatActivity() {
                 Log.e(RegisterActivity.TAG, "onFailure: ${t.message}")
             }
         })
+    }
+
+    private fun saveUserSession(name: String, id: String, token: String){
+        val userPreference= UserPreference(this)
+        var userModel = UserModel()
+        userModel.name = name
+        userModel.id = id
+        userModel.token = token
+        userPreference.setUser(userModel)
     }
 
 

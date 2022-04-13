@@ -13,14 +13,28 @@ import id.ac.ukdw.sub1_intermediate.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
+    private lateinit var mUserPreference: UserPreference
+    private lateinit var userModel: UserModel
+    private lateinit var astronotImage: ImageView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         supportActionBar?.hide()
+        mUserPreference = UserPreference(this)
 
-        val astronotImage = findViewById<ImageView>(R.id.imageView)
+        userModel = mUserPreference.getUser()
+        when{
+            userModel.name.toString() != "" ->{
+                val intent = Intent(this, HomeStoryActivity::class.java)
+                intent.putExtra("name", userModel.name.toString())
+                startActivity(intent)
+            }
+        }
+
+        astronotImage = findViewById<ImageView>(R.id.imageView)
         binding.buttonRegister.setOnClickListener {
             val intent = Intent(this, RegisterActivity::class.java)
             val optionsCompat: ActivityOptionsCompat =
@@ -38,8 +52,19 @@ class MainActivity : AppCompatActivity() {
         }
 
         playAnimation()
-
     }
+
+//    private fun populateView(userModel: UserModel) {
+//        binding.tvName.text =
+//            if (userModel.name.toString().isEmpty()) "Tidak Ada" else userModel.name
+//        binding.tvAge.text =
+//            if (userModel.age.toString().isEmpty()) "Tidak Ada" else userModel.age.toString()
+//        binding.tvIsLoveMu.text = if (userModel.isLove) "Ya" else "Tidak"
+//        binding.tvEmail.text =
+//            if (userModel.email.toString().isEmpty()) "Tidak Ada" else userModel.email
+//        binding.tvPhone.text =
+//            if (userModel.phoneNumber.toString().isEmpty()) "Tidak Ada" else userModel.phoneNumber
+//    }
 
     @SuppressLint("RestrictedApi")
     private fun playAnimation() {

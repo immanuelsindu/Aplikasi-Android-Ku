@@ -13,6 +13,8 @@ import id.ac.ukdw.sub1_intermediate.databinding.ActivityHomeStoryBinding
 
 class HomeStoryActivity : AppCompatActivity() {
     private lateinit var binding : ActivityHomeStoryBinding
+    private lateinit var mUserPreference: UserPreference
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityHomeStoryBinding.inflate(layoutInflater)
@@ -20,8 +22,10 @@ class HomeStoryActivity : AppCompatActivity() {
         supportActionBar?.title = "Story"
         playAnimation()
 
+        mUserPreference = UserPreference(this)
         val name = intent.getStringExtra("name")
         binding.tvWelcomeHome.text = "Welcome Home, $name"
+
         binding.fabAddStory .setOnClickListener {
             val intent = Intent(this, NewStoryActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -30,6 +34,7 @@ class HomeStoryActivity : AppCompatActivity() {
 
         binding.imgLogout.setOnClickListener{
             val intent = Intent(this, MainActivity::class.java)
+            mUserPreference.clearUserSession()
             startActivity(intent)
         }
     }
