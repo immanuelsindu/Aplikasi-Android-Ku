@@ -55,7 +55,7 @@
         android:alpha="0"
         android:layout_width="260dp"
         android:layout_height="wrap_content"
-        android:hint="Write your name"
+
         android:textSize="17sp"
         android:textColorHint="@color/buttonColor"
         app:layout_constraintEnd_toEndOf="parent"
@@ -87,7 +87,7 @@
         android:alpha="0"
         android:layout_width="260dp"
         android:layout_height="wrap_content"
-        android:hint="Write your email"
+        android:inputType="textEmailAddress"
         android:textSize="17sp"
         android:textColorHint="@color/buttonColor"
         app:layout_constraintEnd_toEndOf="parent"
@@ -121,7 +121,7 @@
         android:alpha="0"
         android:layout_width="260dp"
         android:layout_height="wrap_content"
-        android:hint="Write your password"
+
         android:textSize="17sp"
         android:inputType="textPassword"
         android:textColorHint="@color/buttonColor"

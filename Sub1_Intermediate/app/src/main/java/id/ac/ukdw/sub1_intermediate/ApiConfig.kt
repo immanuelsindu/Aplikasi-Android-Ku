@@ -1,4 +1,4 @@
-package id.ac.ukdw.ti.mysubmission2.data.repo.api
+package id.ac.ukdw.sub1_intermediate
 
 import androidx.viewbinding.BuildConfig
 import okhttp3.OkHttpClient
@@ -18,7 +18,7 @@ class ApiConfig  {
                 .addInterceptor(loggingInterceptor)
                 .build()
             val retrofit = Retrofit.Builder()
-                .baseUrl("https://api.github.com/")
+                .baseUrl("https://story-api.dicoding.dev/v1")
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
                 .build()
