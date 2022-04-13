@@ -4,10 +4,8 @@ import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.content.Intent
 import android.os.Bundle
-import android.text.TextUtils
 import android.util.Log
 import android.view.View
-import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -45,7 +43,7 @@ class RegisterActivity : AppCompatActivity() {
                     binding.edtPassword.error = "Password consists of at least 6 characters"
                 }
                 else -> {
-                    postUser(binding.edtName.text.toString(),binding.edtEmail.text.toString(),binding.edtPassword.text.toString())
+                    postRegister(binding.edtName.text.toString(),binding.edtEmail.text.toString(),binding.edtPassword.text.toString())
                 }
             }
         }
@@ -74,12 +72,11 @@ class RegisterActivity : AppCompatActivity() {
         }
     }
 
-    private fun postUser(name : String, email: String, password: String) {
+    private fun postRegister(name : String, email: String, password: String) {
         showLoading(true)
         val client = ApiConfig.getApiService().registerUser(name,email,password)
         client.enqueue(object : Callback<RegisterResponse> {
             override fun onResponse(call: Call<RegisterResponse>, response: Response<RegisterResponse>) {
-                //eror dari sini
                 if (response.isSuccessful) {
                     val responseBody = response.body()
                     if (responseBody != null) {
@@ -90,14 +87,13 @@ class RegisterActivity : AppCompatActivity() {
                             }
                             false->{
                                 showLoading(false)
-                                //jangan lupa hapus toast
                                 Toast.makeText(this@RegisterActivity, responseBody.message, Toast.LENGTH_SHORT).show()
                                 intentToLogin()
                             }
                         }
                     }
                 } else {
-                    Log.e(TAG, "onFailure dalam: " + response.message() + name+ email + password)
+                    Log.e(TAG, "onFailure : " + response.message())
                 }
             }
             override fun onFailure(call: Call<RegisterResponse>, t: Throwable) {
