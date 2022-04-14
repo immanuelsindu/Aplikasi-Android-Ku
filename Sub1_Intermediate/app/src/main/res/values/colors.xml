@@ -10,4 +10,5 @@
     <color name="baseColor">#80B0FF</color>
     <color name="buttonColor">#371A46</color>
     <color name="btnLogout">#9E1717</color>
+    <color name="blue_image">#A2B9DD</color>
 </resources>

@@ -1,5 +1,6 @@
 package id.ac.ukdw.sub1_intermediate
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,7 +14,6 @@ class StoryAdapter(private val listStory: ArrayList<ListStoryItem>) : RecyclerVi
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListViewHolder {
         val binding = ItemStoryBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-//        binding.progresBar.visibility = View.VISIBLE
         return ListViewHolder(binding)
     }
 
@@ -38,12 +38,16 @@ class StoryAdapter(private val listStory: ArrayList<ListStoryItem>) : RecyclerVi
             tvDesc.text = desc
         }
 
-        //ini masih error
         if(holder.binding.imgStory.drawable != null){
             holder.binding.progresBar.visibility = View.GONE
         }
 
         holder.itemView.setOnClickListener {
+            val intent = Intent(holder.itemView.context, DetailActivity::class.java)
+            val detailModel = DetailStoryModel(username,desc, image)
+            intent.putExtra("userModel", detailModel)
+            holder.itemView.context.startActivity(intent)
+
         }
     }
     override fun getItemCount(): Int = listStory.size

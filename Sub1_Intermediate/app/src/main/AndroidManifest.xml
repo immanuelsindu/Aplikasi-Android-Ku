@@ -3,7 +3,9 @@
     package="id.ac.ukdw.sub1_intermediate">
 
     <uses-permission android:name="android.permission.INTERNET" />
+
     <uses-feature android:name="android.hardware.camera" />
+
     <uses-permission android:name="android.permission.CAMERA" />
 
     <application
@@ -13,7 +15,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Sub1_Intermediate">
-
+        <activity
+            android:name=".DetailActivity"
+            android:exported="false" />
         <activity
             android:name=".NewStoryActivity"
             android:exported="false"
@@ -38,9 +42,7 @@
         <activity
             android:name=".LoginActivity"
             android:theme="@style/Theme.Sub1_Intermediate.2" />
-        <activity android:name=".CameraActivity"
-
-            />
+        <activity android:name=".CameraActivity" />
     </application>
 
 </manifest>
