@@ -6,11 +6,12 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.BitmapFactory
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import id.ac.ukdw.sub1_intermediate.databinding.ActivityNewStoryBinding
@@ -27,10 +28,13 @@ import java.io.File
 class NewStoryActivity : AppCompatActivity() {
     private lateinit var binding : ActivityNewStoryBinding
     private var getFile: File? = null
+
     companion object {
         const val CAMERA_X_RESULT = 200
         private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.CAMERA)
         private const val REQUEST_CODE_PERMISSIONS = 10
+        private const val TAG = "NewStoryActivity"
+
     }
 
     override fun onRequestPermissionsResult(
@@ -59,6 +63,7 @@ class NewStoryActivity : AppCompatActivity() {
         binding = ActivityNewStoryBinding.inflate(layoutInflater)
         setContentView(binding.root)
         supportActionBar?.title = "New Story"
+
         showLoading(false)
         if (!allPermissionsGranted()) {
             ActivityCompat.requestPermissions(
@@ -137,7 +142,12 @@ class NewStoryActivity : AppCompatActivity() {
                 requestImageFile
             )
             showLoading(true)
-            val service = ApiConfig.getApiService().uploadImage(imageMultipart,description)
+
+            val userPreference_2 = UserPreference(this)
+            val myToken2 = "Bearer "+ userPreference_2.getToken()
+            Log.d("NewStoryActivity", "Isi Token $myToken2")
+
+            val service = ApiConfig.getApiService().uploadImage(myToken2, imageMultipart,description)
             service.enqueue(object : Callback<UploadStoryResponse> {
                 override fun onResponse(
                     call: Call<UploadStoryResponse>,
@@ -152,7 +162,7 @@ class NewStoryActivity : AppCompatActivity() {
                         }
                     } else {
                         showLoading(false)
-                        Toast.makeText(this@NewStoryActivity, response.message(), Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this@NewStoryActivity, "Error pesan " + response.message(), Toast.LENGTH_SHORT).show()
                     }
                 }
                 override fun onFailure(call: Call<UploadStoryResponse>, t: Throwable) {

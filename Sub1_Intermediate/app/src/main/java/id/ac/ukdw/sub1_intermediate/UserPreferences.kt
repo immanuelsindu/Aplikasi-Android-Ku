@@ -27,4 +27,21 @@ internal class UserPreference(context: Context) {
     fun clearUserSession(){
         preferences.edit().clear().commit()
     }
+    fun getUserName(): String{
+        return if(NAME != ""){
+            preferences.getString(NAME,"").toString()
+        }else{
+            ""
+        }
+    }
+
+    fun getToken() : String {
+        return if(TOKEN != ""){
+            preferences.getString(TOKEN,"").toString()
+        }else{
+            ""
+        }
+
+    }
+
 }

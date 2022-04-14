@@ -1,14 +1,14 @@
+
 package id.ac.ukdw.sub1_intermediate
 
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.app.ActivityOptions
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import id.ac.ukdw.sub1_intermediate.databinding.ActivityHomeStoryBinding
-
 
 
 class HomeStoryActivity : AppCompatActivity() {
@@ -23,7 +23,8 @@ class HomeStoryActivity : AppCompatActivity() {
         playAnimation()
 
         mUserPreference = UserPreference(this)
-        val name = intent.getStringExtra("name")
+//        val name = intent.getStringExtra("name")
+        val name = mUserPreference.getUserName().toString()
         binding.tvWelcomeHome.text = "Welcome Home, $name"
 
         binding.fabAddStory .setOnClickListener {

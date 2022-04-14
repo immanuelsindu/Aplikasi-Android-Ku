@@ -16,7 +16,7 @@ import retrofit2.Response
 
 class LoginActivity:  AppCompatActivity() {
     companion object{
-        var myToken = ""
+        internal lateinit var userPreference: UserPreference
     }
 
     private lateinit var binding: ActivityLoginBinding
@@ -71,7 +71,7 @@ class LoginActivity:  AppCompatActivity() {
                             false->{
                                 showLoading(false)
                                 saveUserSession(responseBody.loginResult.name, responseBody.loginResult.userId, responseBody.loginResult.token)
-                                myToken = responseBody.loginResult.token
+//                                myToken = responseBody.loginResult.token
                                 intentToHomeStory(responseBody.loginResult.name)
                             }
                         }
@@ -87,7 +87,7 @@ class LoginActivity:  AppCompatActivity() {
     }
 
     private fun saveUserSession(name: String, id: String, token: String){
-        val userPreference= UserPreference(this)
+        userPreference= UserPreference(this)
         var userModel = UserModel()
         userModel.name = name
         userModel.id = id
