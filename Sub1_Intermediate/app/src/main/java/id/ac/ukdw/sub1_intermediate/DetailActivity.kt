@@ -13,14 +13,11 @@ class DetailActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val detailModel = intent.getParcelableExtra<DetailStoryModel>("userModel") as DetailStoryModel
-
+        supportActionBar?.title = "Detail Story"
         binding.tvUserNameDetail.text = detailModel.name
         binding.tvDescDetail.text= detailModel.desc
         Glide.with(this)
             .load(detailModel.photo)
             .into(binding.imgDetail)
-
-
-
     }
 }

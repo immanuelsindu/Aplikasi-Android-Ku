@@ -9,6 +9,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.WindowManager
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -66,6 +67,7 @@ class NewStoryActivity : AppCompatActivity() {
         setContentView(binding.root)
         supportActionBar?.title = "New Story"
         mUserPreference = UserPreference(this)
+        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
 
         showLoading(false)
         if (!allPermissionsGranted()) {

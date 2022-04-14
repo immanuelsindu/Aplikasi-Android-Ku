@@ -4,8 +4,11 @@ import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.View
+import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityOptionsCompat
 import id.ac.ukdw.sub1_intermediate.databinding.ActivityLoginBinding
@@ -33,6 +36,19 @@ class LoginActivity:  AppCompatActivity() {
         if(userCommand != ""){
             binding.tvUserCommand.text = userCommand
         }
+        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
+
+        binding.edtPassword.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
+                //do nothing
+            }
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                //doing something in MyEditText
+            }
+            override fun afterTextChanged(s: Editable) {
+                //do nothing
+            }
+        })
 
         binding.btnLogin.setOnClickListener {
            when{
@@ -47,6 +63,8 @@ class LoginActivity:  AppCompatActivity() {
                }
            }
         }
+
+
     }
 
     private fun intentToHomeStory(name: String){
@@ -104,11 +122,11 @@ class LoginActivity:  AppCompatActivity() {
         val edtPassword= ObjectAnimator.ofFloat(binding.edtPassword, View.ALPHA, 1F).setDuration(450)
         val btnLogin= ObjectAnimator.ofFloat(binding.btnLogin, View.ALPHA, 1F).setDuration(450)
 
-        val textbox = AnimatorSet().apply(){
+        val textbox = AnimatorSet().apply {
             playTogether(tvEmail, edtEmail, tvPassword, edtEmail, edtPassword)
         }
 
-        AnimatorSet().apply(){
+        AnimatorSet().apply {
             playSequentially(tvLogin, textbox, btnLogin)
             start()
         }

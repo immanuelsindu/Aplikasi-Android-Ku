@@ -4,8 +4,11 @@ import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.View
+import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -28,6 +31,20 @@ class RegisterActivity : AppCompatActivity() {
         supportActionBar?.hide()
         playAnimation()
         showLoading(false)
+        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
+
+        binding.edtPassword.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
+                //do nothing
+            }
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                //doing something in MyEditText
+            }
+            override fun afterTextChanged(s: Editable) {
+                //do nothing
+            }
+        })
+
         binding.btnRegister.setOnClickListener {
             when {
                 binding.edtName.text.toString() == "" -> {
@@ -38,9 +55,6 @@ class RegisterActivity : AppCompatActivity() {
                 }
                 binding.edtPassword.text.toString() == "" -> {
                     binding.edtPassword.error = "Password cannot be empty"
-                }
-                binding.edtPassword.text.toString().length < 6  -> {
-                    binding.edtPassword.error = "Password consists of at least 6 characters"
                 }
                 else -> {
                     postRegister(binding.edtName.text.toString(),binding.edtEmail.text.toString(),binding.edtPassword.text.toString())

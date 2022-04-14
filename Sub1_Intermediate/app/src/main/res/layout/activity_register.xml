@@ -118,7 +118,7 @@
 
     </TextView>
 
-    <EditText
+    <id.ac.ukdw.sub1_intermediate.MyEditText
         android:id="@+id/edtPassword"
         android:hint="Write your password here"
         android:alpha="0"
@@ -132,7 +132,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvPassword">
 
-    </EditText>
+    </id.ac.ukdw.sub1_intermediate.MyEditText>
 
     <Button
         android:id="@+id/btnRegister"
