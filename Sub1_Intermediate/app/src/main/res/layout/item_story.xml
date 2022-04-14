@@ -6,6 +6,7 @@
    >
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/contraintLayout"
         android:layout_marginLeft="12dp"
         android:layout_width="370dp"
         android:layout_height="250dp"

@@ -23,7 +23,7 @@
 
     <style name="Theme.Sub1_Intermediate.3" >
         <item name="android:windowEnterTransition">@android:transition/slide_bottom</item>
-        <item name="android:windowExitTransition">@android:transition/slide_bottom</item>
+        <item name="android:windowExitTransition">@android:transition/fade</item>
     </style>
 
     <style name="Theme.Sub1_Intermediate.4" >

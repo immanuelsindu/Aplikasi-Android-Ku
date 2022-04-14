@@ -1,9 +1,12 @@
 package id.ac.ukdw.sub1_intermediate
 
+import android.app.Activity
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.app.ActivityOptionsCompat
+import androidx.core.util.Pair
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import id.ac.ukdw.sub1_intermediate.databinding.ItemStoryBinding
@@ -42,11 +45,21 @@ class StoryAdapter(private val listStory: ArrayList<ListStoryItem>) : RecyclerVi
             holder.binding.progresBar.visibility = View.GONE
         }
 
+
         holder.itemView.setOnClickListener {
             val intent = Intent(holder.itemView.context, DetailActivity::class.java)
             val detailModel = DetailStoryModel(username,desc, image)
             intent.putExtra("userModel", detailModel)
-            holder.itemView.context.startActivity(intent)
+            val optionsCompat: ActivityOptionsCompat =
+                ActivityOptionsCompat.makeSceneTransitionAnimation(
+                    holder.itemView.context as Activity,
+                    Pair(holder.binding.tvUserName, "username"),
+                    Pair(holder.binding.tvDesc, "description"),
+                    Pair(holder.binding.imgStory, "imgDetail"),
+                    Pair(holder.binding.contraintLayout, "constraintLayout"),
+
+                )
+            holder.itemView.context.startActivity(intent, optionsCompat.toBundle())
 
         }
     }
