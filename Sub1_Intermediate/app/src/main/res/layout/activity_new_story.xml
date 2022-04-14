@@ -22,6 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="58dp"
         android:text="Camera"
+
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.03"
         app:layout_constraintStart_toStartOf="parent"
@@ -48,11 +49,11 @@
         android:layout_marginTop="60dp"
         android:layout_marginEnd="1dp"
         android:background="#EFE6E6"
-        android:gravity="center"
+        android:gravity="top"
         android:hint="Write your image description here"
         android:inputType="textMultiLine|textNoSuggestions"
         app:layout_constraintEnd_toEndOf="@+id/imgStory"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.997"
         app:layout_constraintStart_toEndOf="@+id/imgStory"
         app:layout_constraintStart_toStartOf="@+id/imgStory"
         app:layout_constraintTop_toBottomOf="@+id/imgStory" />

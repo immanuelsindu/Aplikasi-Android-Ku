@@ -13,12 +13,12 @@ class StoryAdapter(private val listStory: ArrayList<ListStoryItem>) : RecyclerVi
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListViewHolder {
         val binding = ItemStoryBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-
+//        binding.progresBar.visibility = View.VISIBLE
         return ListViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
-        holder.binding.progresBar.visibility = View.VISIBLE
+
         val username = listStory[position].name
         var desc = listStory[position].description
         when{
@@ -32,14 +32,19 @@ class StoryAdapter(private val listStory: ArrayList<ListStoryItem>) : RecyclerVi
             .load(image)
             .into(holder.binding.imgStory)
 
+
         holder.binding.apply {
             tvUserName.text = username
             tvDesc.text = desc
         }
-        holder.itemView.setOnClickListener {
+
+        //ini masih error
+        if(holder.binding.imgStory.drawable != null){
+            holder.binding.progresBar.visibility = View.GONE
         }
 
-        holder.binding.progresBar.visibility = View.GONE
+        holder.itemView.setOnClickListener {
+        }
     }
     override fun getItemCount(): Int = listStory.size
 }

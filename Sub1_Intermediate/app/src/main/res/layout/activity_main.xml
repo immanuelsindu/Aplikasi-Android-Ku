@@ -34,10 +34,10 @@
 
     <TextView
         android:id="@+id/textViewWelcome"
-        android:alpha="0"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:alpha="0"
         android:text="Sign in to start using the app"
         android:textColor="@color/white"
         android:textSize="25sp"
@@ -56,6 +56,21 @@
         android:backgroundTint="@color/buttonColor"
         android:text="Login"
         app:layout_constraintStart_toStartOf="@+id/textViewWelcome"
+        app:layout_constraintTop_toBottomOf="@+id/textViewWelcome" />
+
+    <TextView
+      android:id="@+id/tvLoginAsGuest"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="88dp"
+        android:text="Click here to login as Guest"
+        android:textColor="@color/buttonColor"
+        android:textSize="15dp"
+        android:alpha="0"
+        android:textStyle="bold|italic"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewWelcome" />
 
 

@@ -11,6 +11,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityOptionsCompat
 import id.ac.ukdw.sub1_intermediate.databinding.ActivityMainBinding
 
+
+
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var mUserPreference: UserPreference
@@ -29,12 +31,13 @@ class MainActivity : AppCompatActivity() {
         when{
             userModel.name.toString() != "" ->{
                 val intent = Intent(this, HomeStoryActivity::class.java)
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 intent.putExtra("name", userModel.name.toString())
                 startActivity(intent)
             }
         }
 
-        astronotImage = findViewById<ImageView>(R.id.imageView)
+        astronotImage = findViewById(R.id.imageView)
         binding.buttonRegister.setOnClickListener {
             val intent = Intent(this, RegisterActivity::class.java)
             val optionsCompat: ActivityOptionsCompat =
@@ -51,6 +54,11 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent, optionsCompat.toBundle())
         }
 
+        binding.tvLoginAsGuest.setOnClickListener{
+            val intent = Intent(this, HomeStoryActivity::class.java)
+            startActivity(intent, ActivityOptionsCompat.makeSceneTransitionAnimation(this).toBundle())
+        }
+
         playAnimation()
     }
 
@@ -63,15 +71,22 @@ class MainActivity : AppCompatActivity() {
         val buttonLogin = ObjectAnimator.ofFloat(binding.buttonRegister, View.ALPHA, 1F).setDuration(450)
         val buttonRegister = ObjectAnimator.ofFloat(binding.buttonLogin, View.ALPHA, 1F).setDuration(450)
         val textWelcome = ObjectAnimator.ofFloat(binding.textViewWelcome, View.ALPHA, 1F).setDuration(450)
+        val txtLoginGuest = ObjectAnimator.ofFloat(binding.tvLoginAsGuest, View.ALPHA, 1F).setDuration(450)
 
         val together = AnimatorSet().apply {
             playTogether(buttonLogin, buttonRegister)
         }
 
         AnimatorSet().apply{
-            playSequentially(logo, textWelcome, together)
+            playSequentially(logo, textWelcome, together, txtLoginGuest)
             start()
         }
 
+    }
+
+    private fun intentToHomeStory(name: String){
+        val intent = Intent(this, HomeStoryActivity::class.java)
+        intent.putExtra("name",name)
+        startActivity(intent, ActivityOptionsCompat.makeSceneTransitionAnimation(this).toBundle())
     }
 }

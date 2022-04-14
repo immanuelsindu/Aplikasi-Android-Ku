@@ -28,14 +28,20 @@ class HomeStoryActivity : AppCompatActivity() {
         setContentView(binding.root)
         supportActionBar?.title = "Story"
         playAnimation()
+        showLoading(false)
 
         mUserPreference = UserPreference(this)
         val name = mUserPreference.getUserName()
-        showLoading(false)
-        getAllStory()
+        if(name != ""){
+            binding.tvWelcomeHome.text = "Welcome Home, $name"
+            val token = "Bearer "+mUserPreference.getToken()
+            getAllStory(token)
+        }else{
+            binding.tvWelcomeHome.text = "Welcome Home, Guest"
+        }
 
-        rcyStory = findViewById<RecyclerView>(R.id.rcyStory)
-        binding.tvWelcomeHome.text = "Welcome Home, $name"
+        rcyStory = findViewById(R.id.rcyStory)
+
         binding.fabAddStory .setOnClickListener {
             val intent = Intent(this, NewStoryActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -65,10 +71,9 @@ class HomeStoryActivity : AppCompatActivity() {
         rcyStory.adapter = listUserAdapter
     }
 
-    private fun getAllStory(){
+    private fun getAllStory(token: String){
         showLoading(true)
-        mUserPreference = UserPreference(this)
-        val token = "Bearer "+mUserPreference.getToken()
+
         val client = ApiConfig.getApiService().getAllStory(token)
         client.enqueue(object : Callback<GetAllStoryResponse> {
             override fun onResponse(call: Call<GetAllStoryResponse>, response: Response<GetAllStoryResponse>) {
@@ -82,9 +87,6 @@ class HomeStoryActivity : AppCompatActivity() {
                             false->{
                                 showLoading(false)
                                 showRecyclerList(responseBody.listStory)
-//                                saveUserSession(responseBody.loginResult.name, responseBody.loginResult.userId, responseBody.loginResult.token)
-////                                myToken = responseBody.loginResult.token
-//                                intentToHomeStory(responseBody.loginResult.name)
                             }
                         }
                     }

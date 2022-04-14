@@ -30,9 +30,16 @@ interface ApiService {
         @Part("description") description: RequestBody
     ): Call<UploadStoryResponse>
 
-
     @GET("stories")
     fun getAllStory(@Header("Authorization") token: String): Call<GetAllStoryResponse>
+
+    @Multipart
+    @POST("stories/guest")
+    fun uploadImageGuest(
+        @Part file: MultipartBody.Part,
+        @Part("description") description: RequestBody
+    ): Call<GuestUploadResponse>
+
 
 
 }

@@ -27,6 +27,8 @@ import java.io.File
 
 class NewStoryActivity : AppCompatActivity() {
     private lateinit var binding : ActivityNewStoryBinding
+    private lateinit var mUserPreference: UserPreference
+    private lateinit var userModel: UserModel
     private var getFile: File? = null
 
     companion object {
@@ -63,6 +65,7 @@ class NewStoryActivity : AppCompatActivity() {
         binding = ActivityNewStoryBinding.inflate(layoutInflater)
         setContentView(binding.root)
         supportActionBar?.title = "New Story"
+        mUserPreference = UserPreference(this)
 
         showLoading(false)
         if (!allPermissionsGranted()) {
@@ -74,7 +77,13 @@ class NewStoryActivity : AppCompatActivity() {
         }
 
         binding.btnUpload.setOnClickListener {
-            uploadImage()
+            userModel = mUserPreference.getUser()
+            if(userModel.name.toString() != ""){
+                uploadImage()
+            }else{
+                uploadImagGuest()
+            }
+
         }
 
         binding.btnCamera.setOnClickListener {
@@ -166,6 +175,47 @@ class NewStoryActivity : AppCompatActivity() {
                     }
                 }
                 override fun onFailure(call: Call<UploadStoryResponse>, t: Throwable) {
+                    showLoading(false)
+                    Toast.makeText(this@NewStoryActivity, "Failed to instace retrofit", Toast.LENGTH_SHORT).show()
+                }
+            })
+        } else {
+            showLoading(false)
+            Toast.makeText(this@NewStoryActivity, "Please enter the image file first.", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun uploadImagGuest() {
+        if (getFile != null) {
+            val file = reduceFileImage(getFile as File)
+
+            val description = binding.editText.text.toString().toRequestBody("text/plain".toMediaType())
+            val requestImageFile = file.asRequestBody("image/jpeg".toMediaTypeOrNull())
+            val imageMultipart: MultipartBody.Part = MultipartBody.Part.createFormData(
+                "photo",
+                file.name,
+                requestImageFile
+            )
+            showLoading(true)
+            val service = ApiConfig.getApiService().uploadImageGuest(imageMultipart,description)
+            service.enqueue(object : Callback<GuestUploadResponse> {
+                override fun onResponse(
+                    call: Call<GuestUploadResponse>,
+                    response: Response<GuestUploadResponse>
+                ) {
+                    if (response.isSuccessful) {
+                        val responseBody = response.body()
+                        if (responseBody != null && !responseBody.error) {
+                            showLoading(false)
+                            Toast.makeText(this@NewStoryActivity, responseBody.message, Toast.LENGTH_SHORT).show()
+                            intentToHomeStory()
+                        }
+                    } else {
+                        showLoading(false)
+                        Toast.makeText(this@NewStoryActivity, "Error pesan " + response.message(), Toast.LENGTH_SHORT).show()
+                    }
+                }
+                override fun onFailure(call: Call<GuestUploadResponse>, t: Throwable) {
                     showLoading(false)
                     Toast.makeText(this@NewStoryActivity, "Failed to instace retrofit", Toast.LENGTH_SHORT).show()
                 }
