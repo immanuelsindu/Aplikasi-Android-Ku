@@ -54,17 +54,7 @@ class MainActivity : AppCompatActivity() {
         playAnimation()
     }
 
-//    private fun populateView(userModel: UserModel) {
-//        binding.tvName.text =
-//            if (userModel.name.toString().isEmpty()) "Tidak Ada" else userModel.name
-//        binding.tvAge.text =
-//            if (userModel.age.toString().isEmpty()) "Tidak Ada" else userModel.age.toString()
-//        binding.tvIsLoveMu.text = if (userModel.isLove) "Ya" else "Tidak"
-//        binding.tvEmail.text =
-//            if (userModel.email.toString().isEmpty()) "Tidak Ada" else userModel.email
-//        binding.tvPhone.text =
-//            if (userModel.phoneNumber.toString().isEmpty()) "Tidak Ada" else userModel.phoneNumber
-//    }
+
 
     @SuppressLint("RestrictedApi")
     private fun playAnimation() {

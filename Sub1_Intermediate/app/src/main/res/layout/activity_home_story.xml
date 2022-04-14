@@ -8,10 +8,10 @@
 
     <TextView
         android:id="@+id/tvWelcomeHome"
-        android:alpha="0"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:alpha="0"
         android:text="@string/welcome_home"
         android:textColor="@color/buttonColor"
         android:textSize="18sp"
@@ -23,11 +23,12 @@
 
     <ImageView
         android:id="@+id/imgLogout"
-        android:alpha="0"
+        android:clickable="true"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
+        android:alpha="0"
         android:src="@drawable/logout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -38,9 +39,43 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="28dp"
         android:layout_marginBottom="30dp"
+        android:backgroundTint="@color/buttonColor"
+        android:src="@drawable/add_picture"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rcyStory"
+        android:layout_width="match_parent"
+        android:layout_height="600dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:backgroundTint="@color/buttonColor"
-        android:src="@drawable/add_picture"/>
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline3"
+        app:layout_constraintVertical_bias="0.448" />
+
+    <ProgressBar
+        android:id="@+id/progresBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="611dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="62dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
