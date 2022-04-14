@@ -1,8 +1,7 @@
-package id.ac.ukdw.sub1_intermediate
+package id.ac.ukdw.sub1_intermediate.detail
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
-import java.io.File
 
 @Parcelize
 data class DetailStoryModel (

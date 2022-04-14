@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".HomeStoryActivity">
+    tools:context=".homeStory.HomeStoryActivity">
 
     <TextView
         android:id="@+id/tvWelcomeHome"
@@ -30,6 +30,18 @@
         android:layout_marginEnd="16dp"
         android:alpha="0"
         android:src="@drawable/logout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imgSetting"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="60dp"
+        android:alpha="0"
+        android:clickable="true"
+        android:src="@drawable/ic_baseline_settings_24"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

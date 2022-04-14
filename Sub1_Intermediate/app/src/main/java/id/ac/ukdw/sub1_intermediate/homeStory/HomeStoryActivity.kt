@@ -1,23 +1,37 @@
 
-package id.ac.ukdw.sub1_intermediate
+package id.ac.ukdw.sub1_intermediate.homeStory
 
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.app.ActivityOptions
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
+import android.provider.Settings
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import id.ac.ukdw.sub1_intermediate.R
+import id.ac.ukdw.sub1_intermediate.UserPreference
+import id.ac.ukdw.sub1_intermediate.api.ApiConfig
 import id.ac.ukdw.sub1_intermediate.databinding.ActivityHomeStoryBinding
+import id.ac.ukdw.sub1_intermediate.main.MainActivity
+import id.ac.ukdw.sub1_intermediate.newStory.NewStoryActivity
+import id.ac.ukdw.sub1_intermediate.register.RegisterActivity
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 
 class HomeStoryActivity : AppCompatActivity() {
+    companion object{
+        private const val BEARER = "Bearer "
+        private const val DURATION = 450.toLong()
+        private const val DURATION2 = 1250.toLong()
+    }
     private lateinit var binding : ActivityHomeStoryBinding
     private lateinit var mUserPreference: UserPreference
     private lateinit var rcyStory: RecyclerView
@@ -26,21 +40,23 @@ class HomeStoryActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityHomeStoryBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        supportActionBar?.title = "Story"
+        supportActionBar?.title = resources.getString(R.string.titleStoryActivity)
         playAnimation()
         showLoading(false)
 
         mUserPreference = UserPreference(this)
+        rcyStory = findViewById(R.id.rcyStory)
+
+
+
         val name = mUserPreference.getUserName()
         if(name != ""){
-            binding.tvWelcomeHome.text = "Welcome Home, $name"
-            val token = "Bearer "+mUserPreference.getToken()
+            binding.tvWelcomeHome.text = resources.getString(R.string.welcome_home,name)
+            val token = BEARER +mUserPreference.getToken()
             getAllStory(token)
         }else{
-            binding.tvWelcomeHome.text = "Welcome Home, Guest"
+            binding.tvWelcomeHome.text = resources.getString(R.string.welcomeGuest)
         }
-
-        rcyStory = findViewById(R.id.rcyStory)
 
         binding.fabAddStory .setOnClickListener {
             val intent = Intent(this, NewStoryActivity::class.java)
@@ -49,18 +65,35 @@ class HomeStoryActivity : AppCompatActivity() {
         }
 
         binding.imgLogout.setOnClickListener{
-            val intent = Intent(this, MainActivity::class.java)
-            mUserPreference.clearUserSession()
-            startActivity(intent)
+            val exitDialog = AlertDialog.Builder(this)
+            exitDialog.setTitle(resources.getString(R.string.exit))
+            exitDialog.setMessage(resources.getString(R.string.isExit))
+            exitDialog.setPositiveButton(android.R.string.yes) { _, _ ->
+                val intent = Intent(this, MainActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+                mUserPreference.clearUserSession()
+                startActivity(intent)
+            }
+
+            exitDialog.setNegativeButton(android.R.string.no) { _, _ ->
+                Toast.makeText(applicationContext,
+                    android.R.string.no, Toast.LENGTH_SHORT).show()
+            }
+            exitDialog.show()
+
+        }
+        binding.imgSetting.setOnClickListener{
+            startActivity(Intent(Settings.ACTION_LOCALE_SETTINGS))
         }
     }
 
     private fun playAnimation(){
-        val tvWelcome = ObjectAnimator.ofFloat(binding.tvWelcomeHome, View.ALPHA, 1F).setDuration(1250)
-        val imgLogout = ObjectAnimator.ofFloat(binding.imgLogout,View.ALPHA,1F).setDuration(450)
+        val tvWelcome = ObjectAnimator.ofFloat(binding.tvWelcomeHome, View.ALPHA, 1F).setDuration(DURATION2)
+        val imgLogout = ObjectAnimator.ofFloat(binding.imgLogout,View.ALPHA,1F).setDuration(DURATION)
+        val imgSetting = ObjectAnimator.ofFloat(binding.imgSetting, View.ALPHA, 1F).setDuration(DURATION)
 
         AnimatorSet().apply{
-            playSequentially(tvWelcome, imgLogout)
+            playSequentially(tvWelcome, imgLogout, imgSetting)
             start()
         }
     }
@@ -107,6 +140,4 @@ class HomeStoryActivity : AppCompatActivity() {
             binding.progresBar.visibility = View.GONE
         }
     }
-
-
 }

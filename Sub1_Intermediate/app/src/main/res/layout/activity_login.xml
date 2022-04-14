@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/baseColor">
@@ -100,7 +99,7 @@
 
     </TextView>
 
-    <id.ac.ukdw.sub1_intermediate.MyEditText
+    <id.ac.ukdw.sub1_intermediate.customView.MyEditText
         android:id="@+id/edtPassword"
         android:alpha="0"
         android:layout_width="260dp"
@@ -113,7 +112,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvPassword">
 
-    </id.ac.ukdw.sub1_intermediate.MyEditText>
+    </id.ac.ukdw.sub1_intermediate.customView.MyEditText>
 
 
 

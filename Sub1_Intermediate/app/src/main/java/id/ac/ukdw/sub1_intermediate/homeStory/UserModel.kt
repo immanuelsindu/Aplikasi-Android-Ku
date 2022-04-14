@@ -1,4 +1,4 @@
-package id.ac.ukdw.sub1_intermediate
+package id.ac.ukdw.sub1_intermediate.homeStory
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize

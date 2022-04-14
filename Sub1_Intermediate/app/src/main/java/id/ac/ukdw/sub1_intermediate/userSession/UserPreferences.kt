@@ -1,6 +1,7 @@
 package id.ac.ukdw.sub1_intermediate
 
 import android.content.Context
+import id.ac.ukdw.sub1_intermediate.homeStory.UserModel
 
 internal class UserPreference(context: Context) {
     companion object {

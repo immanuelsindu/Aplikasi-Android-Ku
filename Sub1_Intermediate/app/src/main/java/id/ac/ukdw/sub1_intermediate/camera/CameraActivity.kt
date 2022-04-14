@@ -1,4 +1,4 @@
-package id.ac.ukdw.sub1_intermediate
+package id.ac.ukdw.sub1_intermediate.camera
 
 import android.content.Intent
 import android.os.Build
@@ -13,25 +13,28 @@ import androidx.camera.core.ImageCaptureException
 import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
+import id.ac.ukdw.sub1_intermediate.R
 import id.ac.ukdw.sub1_intermediate.databinding.ActivityCameraBinding
+import id.ac.ukdw.sub1_intermediate.newStory.NewStoryActivity
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
 class CameraActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCameraBinding
     private lateinit var cameraExecutor: ExecutorService
-
     private var cameraSelector: CameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
     private var imageCapture: ImageCapture? = null
 
+    companion object{
+        private const val PICTURE = "picture"
+        private const val ISBACKCAMERA = "isBackCamera"
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         binding = ActivityCameraBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         cameraExecutor = Executors.newSingleThreadExecutor()
-
         binding.captureImage.setOnClickListener { takePhoto() }
         binding.switchCamera.setOnClickListener {
             cameraSelector = if (cameraSelector == CameraSelector.DEFAULT_BACK_CAMERA) CameraSelector.DEFAULT_FRONT_CAMERA
@@ -53,9 +56,7 @@ class CameraActivity : AppCompatActivity() {
 
     private fun takePhoto() {
         val imageCapture = imageCapture ?: return
-
         val photoFile = createFile(application)
-
         val outputOptions = ImageCapture.OutputFileOptions.Builder(photoFile).build()
         imageCapture.takePicture(
             outputOptions,
@@ -64,16 +65,16 @@ class CameraActivity : AppCompatActivity() {
                 override fun onError(exc: ImageCaptureException) {
                     Toast.makeText(
                         this@CameraActivity,
-                        "Gagal mengambil gambar.",
+                        resources.getString(R.string.failToLoad),
                         Toast.LENGTH_SHORT
                     ).show()
                 }
 
                 override fun onImageSaved(output: ImageCapture.OutputFileResults) {
                     val intent = Intent()
-                    intent.putExtra("picture", photoFile)
+                    intent.putExtra(PICTURE, photoFile)
                     intent.putExtra(
-                        "isBackCamera",
+                        ISBACKCAMERA,
                         cameraSelector == CameraSelector.DEFAULT_BACK_CAMERA
                     )
                     setResult(NewStoryActivity.CAMERA_X_RESULT, intent)
@@ -84,9 +85,7 @@ class CameraActivity : AppCompatActivity() {
     }
 
     private fun startCamera() {
-
         val cameraProviderFuture = ProcessCameraProvider.getInstance(this)
-
         cameraProviderFuture.addListener({
             val cameraProvider: ProcessCameraProvider = cameraProviderFuture.get()
             val preview = Preview.Builder()
@@ -94,7 +93,6 @@ class CameraActivity : AppCompatActivity() {
                 .also {
                     it.setSurfaceProvider(binding.viewFinder.surfaceProvider)
                 }
-
             imageCapture = ImageCapture.Builder().build()
 
             try {
@@ -105,11 +103,10 @@ class CameraActivity : AppCompatActivity() {
                     preview,
                     imageCapture
                 )
-
             } catch (exc: Exception) {
                 Toast.makeText(
                     this@CameraActivity,
-                    "Gagal memunculkan kamera.",
+                    resources.getString(R.string.failToLoad),
                     Toast.LENGTH_SHORT
                 ).show()
             }
@@ -128,5 +125,4 @@ class CameraActivity : AppCompatActivity() {
         }
         supportActionBar?.hide()
     }
-
 }

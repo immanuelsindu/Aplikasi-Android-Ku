@@ -1,5 +1,6 @@
-package id.ac.ukdw.sub1_intermediate
+package id.ac.ukdw.sub1_intermediate.api
 
+import id.ac.ukdw.sub1_intermediate.BuildConfig
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit

@@ -1,4 +1,4 @@
-package id.ac.ukdw.sub1_intermediate
+package id.ac.ukdw.sub1_intermediate.register
 
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
@@ -13,7 +13,10 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityOptionsCompat
+import id.ac.ukdw.sub1_intermediate.R
+import id.ac.ukdw.sub1_intermediate.api.ApiConfig
 import id.ac.ukdw.sub1_intermediate.databinding.ActivityRegisterBinding
+import id.ac.ukdw.sub1_intermediate.login.LoginActivity
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -22,6 +25,8 @@ import retrofit2.Response
 class RegisterActivity : AppCompatActivity() {
     companion object{
         const val TAG = "RegisterActivity"
+        private const val LOGINCOMMAND = "loginCommand"
+        private const val ASTRONOT = "astronotImage"
     }
     private lateinit var binding : ActivityRegisterBinding
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,13 +53,13 @@ class RegisterActivity : AppCompatActivity() {
         binding.btnRegister.setOnClickListener {
             when {
                 binding.edtName.text.toString() == "" -> {
-                    binding.edtName.error = "Names cannot be empty"
+                    binding.edtName.error = resources.getString(R.string.nameCannotEmpty)
                 }
                 binding.edtEmail.text.toString() == "" -> {
-                    binding.edtEmail.error = "Email cannot be empty"
+                    binding.edtEmail.error = resources.getString(R.string.emailCannotEmpty)
                 }
                 binding.edtPassword.text.toString() == "" -> {
-                    binding.edtPassword.error = "Password cannot be empty"
+                    binding.edtPassword.error = resources.getString(R.string.passwordCannotEmpty)
                 }
                 else -> {
                     postRegister(binding.edtName.text.toString(),binding.edtEmail.text.toString(),binding.edtPassword.text.toString())
@@ -67,13 +72,13 @@ class RegisterActivity : AppCompatActivity() {
         val astronotImage = findViewById<ImageView>(R.id.imageView)
         val intent = Intent(this, LoginActivity::class.java)
         intent.putExtra(
-            "loginCommand",
-            "Please login first with the account you created earlier"
+            LOGINCOMMAND,
+            resources.getString(R.string.loginCommand)
         )
         intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK
         val optionsCompat: ActivityOptionsCompat =
             ActivityOptionsCompat.makeSceneTransitionAnimation(
-                this, astronotImage, "astronotImage"
+                this, astronotImage, ASTRONOT
             )
         startActivity(intent, optionsCompat.toBundle())
     }

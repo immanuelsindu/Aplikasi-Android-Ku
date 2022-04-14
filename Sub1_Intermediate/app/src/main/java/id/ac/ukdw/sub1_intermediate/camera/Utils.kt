@@ -1,4 +1,4 @@
-package id.ac.ukdw.sub1_intermediate
+package id.ac.ukdw.sub1_intermediate.camera
 
 import android.app.Application
 import android.content.ContentResolver
@@ -8,6 +8,7 @@ import android.graphics.BitmapFactory
 import android.graphics.Matrix
 import android.net.Uri
 import android.os.Environment
+import id.ac.ukdw.sub1_intermediate.R
 import java.io.*
 import java.text.SimpleDateFormat
 import java.util.*

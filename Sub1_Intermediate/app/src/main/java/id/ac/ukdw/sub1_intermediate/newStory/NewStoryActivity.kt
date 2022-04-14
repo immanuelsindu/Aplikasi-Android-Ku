@@ -1,4 +1,4 @@
-package id.ac.ukdw.sub1_intermediate
+package id.ac.ukdw.sub1_intermediate.newStory
 
 import android.Manifest
 import android.app.ActivityOptions
@@ -15,7 +15,16 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import id.ac.ukdw.sub1_intermediate.R
+import id.ac.ukdw.sub1_intermediate.UserPreference
+import id.ac.ukdw.sub1_intermediate.api.ApiConfig
+import id.ac.ukdw.sub1_intermediate.camera.CameraActivity
+import id.ac.ukdw.sub1_intermediate.camera.reduceFileImage
+import id.ac.ukdw.sub1_intermediate.camera.rotateBitmap
+import id.ac.ukdw.sub1_intermediate.camera.uriToFile
 import id.ac.ukdw.sub1_intermediate.databinding.ActivityNewStoryBinding
+import id.ac.ukdw.sub1_intermediate.homeStory.HomeStoryActivity
+import id.ac.ukdw.sub1_intermediate.homeStory.UserModel
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -37,6 +46,12 @@ class NewStoryActivity : AppCompatActivity() {
         private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.CAMERA)
         private const val REQUEST_CODE_PERMISSIONS = 10
         private const val TAG = "NewStoryActivity"
+        private const val PICTURE = "picture"
+        private const val ISBACKCAMERA= "isBackCamera"
+        private const val TYPE = "image/*"
+        private const val PHOTO = "photo"
+        private const val BEARER = "Bearer "
+
 
     }
 
@@ -50,7 +65,7 @@ class NewStoryActivity : AppCompatActivity() {
             if (!allPermissionsGranted()) {
                 Toast.makeText(
                     this,
-                    "Tidak mendapatkan permission.",
+                    resources.getString(R.string.failedGetPermission),
                     Toast.LENGTH_SHORT
                 ).show()
                 finish()
@@ -65,7 +80,7 @@ class NewStoryActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityNewStoryBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        supportActionBar?.title = "New Story"
+        supportActionBar?.title = resources.getString(R.string.titleNewStory)
         mUserPreference = UserPreference(this)
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
 
@@ -99,6 +114,7 @@ class NewStoryActivity : AppCompatActivity() {
 
     private fun intentToHomeStory(){
         val intent = Intent(this, HomeStoryActivity::class.java)
+        intent.flags =  Intent.FLAG_ACTIVITY_CLEAR_TOP
         startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle())
     }
 
@@ -106,8 +122,8 @@ class NewStoryActivity : AppCompatActivity() {
         ActivityResultContracts.StartActivityForResult()
     ) {
         if (it.resultCode == CAMERA_X_RESULT) {
-            val myFile = it.data?.getSerializableExtra("picture") as File
-            val isBackCamera = it.data?.getBooleanExtra("isBackCamera", true) as Boolean
+            val myFile = it.data?.getSerializableExtra(PICTURE) as File
+            val isBackCamera = it.data?.getBooleanExtra(ISBACKCAMERA, true) as Boolean
             getFile = myFile
             val result = rotateBitmap(
                 BitmapFactory.decodeFile(myFile.path),
@@ -125,8 +141,8 @@ class NewStoryActivity : AppCompatActivity() {
     private fun startGallery() {
         val intent = Intent()
         intent.action = Intent.ACTION_GET_CONTENT
-        intent.type = "image/*"
-        val chooser = Intent.createChooser(intent, "Choose a Picture")
+        intent.type = TYPE
+        val chooser = Intent.createChooser(intent, resources.getString(R.string.choosePicture))
         launcherIntentGallery.launch(chooser)
     }
 
@@ -148,15 +164,14 @@ class NewStoryActivity : AppCompatActivity() {
             val description = binding.editText.text.toString().toRequestBody("text/plain".toMediaType())
             val requestImageFile = file.asRequestBody("image/jpeg".toMediaTypeOrNull())
             val imageMultipart: MultipartBody.Part = MultipartBody.Part.createFormData(
-                "photo",
+                PHOTO,
                 file.name,
                 requestImageFile
             )
             showLoading(true)
 
             val userPreference_2 = UserPreference(this)
-            val myToken2 = "Bearer "+ userPreference_2.getToken()
-            Log.d("NewStoryActivity", "Isi Token $myToken2")
+            val myToken2 = BEARER+ userPreference_2.getToken()
 
             val service = ApiConfig.getApiService().uploadImage(myToken2, imageMultipart,description)
             service.enqueue(object : Callback<UploadStoryResponse> {
@@ -173,17 +188,17 @@ class NewStoryActivity : AppCompatActivity() {
                         }
                     } else {
                         showLoading(false)
-                        Toast.makeText(this@NewStoryActivity, "Error pesan " + response.message(), Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this@NewStoryActivity,  response.message(), Toast.LENGTH_SHORT).show()
                     }
                 }
                 override fun onFailure(call: Call<UploadStoryResponse>, t: Throwable) {
                     showLoading(false)
-                    Toast.makeText(this@NewStoryActivity, "Failed to instace retrofit", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@NewStoryActivity, resources.getString(R.string.failedInstaceRetrofit), Toast.LENGTH_SHORT).show()
                 }
             })
         } else {
             showLoading(false)
-            Toast.makeText(this@NewStoryActivity, "Please enter the image file first.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this@NewStoryActivity, resources.getString(R.string.enterImageFirst), Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -194,7 +209,7 @@ class NewStoryActivity : AppCompatActivity() {
             val description = binding.editText.text.toString().toRequestBody("text/plain".toMediaType())
             val requestImageFile = file.asRequestBody("image/jpeg".toMediaTypeOrNull())
             val imageMultipart: MultipartBody.Part = MultipartBody.Part.createFormData(
-                "photo",
+                PHOTO,
                 file.name,
                 requestImageFile
             )
@@ -214,19 +229,18 @@ class NewStoryActivity : AppCompatActivity() {
                         }
                     } else {
                         showLoading(false)
-                        Toast.makeText(this@NewStoryActivity, "Error pesan " + response.message(), Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this@NewStoryActivity, response.message(), Toast.LENGTH_SHORT).show()
                     }
                 }
                 override fun onFailure(call: Call<GuestUploadResponse>, t: Throwable) {
                     showLoading(false)
-                    Toast.makeText(this@NewStoryActivity, "Failed to instace retrofit", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@NewStoryActivity, resources.getString(R.string.failedInstaceRetrofit), Toast.LENGTH_SHORT).show()
                 }
             })
         } else {
             showLoading(false)
-            Toast.makeText(this@NewStoryActivity, "Please enter the image file first.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this@NewStoryActivity, resources.getString(R.string.enterImageFirst), Toast.LENGTH_SHORT).show()
         }
-
     }
 
     private fun showLoading(isLoading: Boolean) {

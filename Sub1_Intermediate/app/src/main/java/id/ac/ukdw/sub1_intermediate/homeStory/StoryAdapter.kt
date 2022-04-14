@@ -1,4 +1,4 @@
-package id.ac.ukdw.sub1_intermediate
+package id.ac.ukdw.sub1_intermediate.homeStory
 
 import android.app.Activity
 import android.content.Intent
@@ -15,9 +15,19 @@ import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import id.ac.ukdw.sub1_intermediate.databinding.ItemStoryBinding
+import id.ac.ukdw.sub1_intermediate.detail.DetailActivity
+import id.ac.ukdw.sub1_intermediate.detail.DetailStoryModel
 
 
 class StoryAdapter(private val listStory: ArrayList<ListStoryItem>) : RecyclerView.Adapter<StoryAdapter.ListViewHolder>() {
+    companion object{
+        private const val VIEWMORE = "... view more"
+        private const val USERMODEL = "userModel"
+        private const val USERNAME = "username"
+        private const val DESCRIPTION = "description"
+        private const val IMAGEDETAIL = "imgDetail"
+        private const val CONSTRAINTLAYOUT= "constraintLayout"
+    }
     class ListViewHolder(var binding: ItemStoryBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListViewHolder {
@@ -32,7 +42,7 @@ class StoryAdapter(private val listStory: ArrayList<ListStoryItem>) : RecyclerVi
         var desc2 = ""
         desc2 = when{
             desc.length > 40 -> {
-                desc.slice(0..32) + "... view more"
+                desc.slice(0..32) + VIEWMORE
             }else->{
                 desc
             }
@@ -73,18 +83,16 @@ class StoryAdapter(private val listStory: ArrayList<ListStoryItem>) : RecyclerVi
         holder.itemView.setOnClickListener {
             val intent = Intent(holder.itemView.context, DetailActivity::class.java)
             val detailModel = DetailStoryModel(username,desc, image)
-            intent.putExtra("userModel", detailModel)
+            intent.putExtra(USERMODEL, detailModel)
             val optionsCompat: ActivityOptionsCompat =
                 ActivityOptionsCompat.makeSceneTransitionAnimation(
                     holder.itemView.context as Activity,
-                    Pair(holder.binding.tvUserName, "username"),
-                    Pair(holder.binding.tvDesc, "description"),
-                    Pair(holder.binding.imgStory, "imgDetail"),
-                    Pair(holder.binding.contraintLayout, "constraintLayout"),
-
+                    Pair(holder.binding.tvUserName, USERNAME),
+                    Pair(holder.binding.tvDesc, DESCRIPTION),
+                    Pair(holder.binding.imgStory, IMAGEDETAIL),
+                    Pair(holder.binding.contraintLayout, CONSTRAINTLAYOUT),
                 )
             holder.itemView.context.startActivity(intent, optionsCompat.toBundle())
-
         }
     }
     override fun getItemCount(): Int = listStory.size

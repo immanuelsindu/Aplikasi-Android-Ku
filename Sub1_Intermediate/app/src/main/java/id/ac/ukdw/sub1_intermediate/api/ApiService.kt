@@ -1,5 +1,10 @@
-package id.ac.ukdw.sub1_intermediate
+package id.ac.ukdw.sub1_intermediate.api
 
+import id.ac.ukdw.sub1_intermediate.homeStory.GetAllStoryResponse
+import id.ac.ukdw.sub1_intermediate.login.LoginResponse
+import id.ac.ukdw.sub1_intermediate.newStory.GuestUploadResponse
+import id.ac.ukdw.sub1_intermediate.newStory.UploadStoryResponse
+import id.ac.ukdw.sub1_intermediate.register.RegisterResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Call
@@ -39,7 +44,4 @@ interface ApiService {
         @Part file: MultipartBody.Part,
         @Part("description") description: RequestBody
     ): Call<GuestUploadResponse>
-
-
-
 }

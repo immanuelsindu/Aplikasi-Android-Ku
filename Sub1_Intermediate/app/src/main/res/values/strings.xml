@@ -1,4 +1,21 @@
 <resources>
     <string name="app_name">Sub1_Intermediate</string>
-    <string name="welcome_home">Welcome Home,</string>
+    <string name="welcome_home">Welcome Home, %1$s</string>
+    <string name="failToLoad">Fail to load picture</string>
+    <string name="password6">Password consists of at least 6 characters</string>
+    <string name="passwordHint">Write your password here</string>
+    <string name="titleDetailStory">Detail Story</string>
+    <string name="titleStoryActivity">Story</string>
+    <string name="welcomeGuest">Welcome Home, Guest</string>
+    <string name="emailCannotEmpty">Email cannot be empty</string>
+    <string name="passwordCannotEmpty">Password cannot be empty</string>
+    <string name="failedGetPermission">Failed to get permission.</string>
+    <string name="titleNewStory">New Story</string>
+    <string name="choosePicture">Choose a Picture</string>
+    <string name="failedInstaceRetrofit">Failed to instace retrofit</string>
+    <string name="enterImageFirst">Please enter the image file first.</string>
+    <string name="nameCannotEmpty">Name cannot be empty.</string>
+    <string name="loginCommand">Please login first with the account you created earlier</string>
+    <string name="exit">Exit</string>
+    <string name="isExit">Do you want to exit the application ?</string>
 </resources>

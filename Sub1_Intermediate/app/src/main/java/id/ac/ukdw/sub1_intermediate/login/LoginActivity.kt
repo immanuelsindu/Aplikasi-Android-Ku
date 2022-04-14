@@ -1,4 +1,4 @@
-package id.ac.ukdw.sub1_intermediate
+package id.ac.ukdw.sub1_intermediate.login
 
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
@@ -11,7 +11,13 @@ import android.view.View
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityOptionsCompat
+import id.ac.ukdw.sub1_intermediate.R
+import id.ac.ukdw.sub1_intermediate.UserPreference
+import id.ac.ukdw.sub1_intermediate.api.ApiConfig
 import id.ac.ukdw.sub1_intermediate.databinding.ActivityLoginBinding
+import id.ac.ukdw.sub1_intermediate.homeStory.HomeStoryActivity
+import id.ac.ukdw.sub1_intermediate.homeStory.UserModel
+import id.ac.ukdw.sub1_intermediate.register.RegisterActivity
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -20,6 +26,7 @@ import retrofit2.Response
 class LoginActivity:  AppCompatActivity() {
     companion object{
         internal lateinit var userPreference: UserPreference
+        private const val LOGINCOMMAND = "loginCommand"
     }
 
     private lateinit var binding: ActivityLoginBinding
@@ -32,7 +39,7 @@ class LoginActivity:  AppCompatActivity() {
         supportActionBar?.hide()
         playAnimation()
         showLoading(false)
-        val userCommand = intent.getStringExtra("loginCommand")
+        val userCommand = intent.getStringExtra(LOGINCOMMAND)
         if(userCommand != ""){
             binding.tvUserCommand.text = userCommand
         }
@@ -53,10 +60,10 @@ class LoginActivity:  AppCompatActivity() {
         binding.btnLogin.setOnClickListener {
            when{
                binding.edtEmail.text.toString() == "" ->{
-                    binding.edtEmail.error = "Email cannot be empty"
+                    binding.edtEmail.error = resources.getString(R.string.emailCannotEmpty)
                }
                binding.edtPassword.text.toString() == "" ->{
-                   binding.edtPassword.error = "Password cannot be empty"
+                   binding.edtPassword.error = resources.getString(R.string.passwordCannotEmpty)
                }
                else ->{
                    postLogin(binding.edtEmail.text.toString(),binding.edtPassword.text.toString())
@@ -105,7 +112,7 @@ class LoginActivity:  AppCompatActivity() {
     }
 
     private fun saveUserSession(name: String, id: String, token: String){
-        userPreference= UserPreference(this)
+        userPreference = UserPreference(this)
         var userModel = UserModel()
         userModel.name = name
         userModel.id = id

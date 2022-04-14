@@ -1,4 +1,4 @@
-package id.ac.ukdw.sub1_intermediate
+package id.ac.ukdw.sub1_intermediate.main
 
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
@@ -9,11 +9,23 @@ import android.view.View
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityOptionsCompat
+import id.ac.ukdw.sub1_intermediate.R
+import id.ac.ukdw.sub1_intermediate.UserPreference
 import id.ac.ukdw.sub1_intermediate.databinding.ActivityMainBinding
-
+import id.ac.ukdw.sub1_intermediate.homeStory.HomeStoryActivity
+import id.ac.ukdw.sub1_intermediate.homeStory.UserModel
+import id.ac.ukdw.sub1_intermediate.login.LoginActivity
+import id.ac.ukdw.sub1_intermediate.register.RegisterActivity
+import kotlin.reflect.KVisibility
 
 
 class MainActivity : AppCompatActivity() {
+    companion object{
+        private const val NAME = "name"
+        private const val ASTRONOTIMAGE = "astronotImage"
+        private const val DURATION = 450.toLong()
+    }
+
     private lateinit var binding: ActivityMainBinding
     private lateinit var mUserPreference: UserPreference
     private lateinit var userModel: UserModel
@@ -31,8 +43,8 @@ class MainActivity : AppCompatActivity() {
         when{
             userModel.name.toString() != "" ->{
                 val intent = Intent(this, HomeStoryActivity::class.java)
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                intent.putExtra("name", userModel.name.toString())
+                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP;
+                intent.putExtra(NAME, userModel.name.toString())
                 startActivity(intent)
             }
         }
@@ -42,7 +54,7 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, RegisterActivity::class.java)
             val optionsCompat: ActivityOptionsCompat =
                 ActivityOptionsCompat.makeSceneTransitionAnimation(
-                    this, astronotImage, "astronotImage"
+                    this, astronotImage, ASTRONOTIMAGE
                 )
             startActivity(intent, optionsCompat.toBundle())
         }
@@ -50,7 +62,7 @@ class MainActivity : AppCompatActivity() {
         binding.buttonLogin.setOnClickListener{
             val intent = Intent(this, LoginActivity::class.java)
             val optionsCompat: ActivityOptionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(
-                    this, astronotImage, "astronotImage")
+                    this, astronotImage, ASTRONOTIMAGE)
             startActivity(intent, optionsCompat.toBundle())
         }
 
@@ -58,20 +70,17 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, HomeStoryActivity::class.java)
             startActivity(intent, ActivityOptionsCompat.makeSceneTransitionAnimation(this).toBundle())
         }
-
         playAnimation()
     }
-
-
 
     @SuppressLint("RestrictedApi")
     private fun playAnimation() {
 
-        val logo = ObjectAnimator.ofFloat(binding.imageView, View.ALPHA, 1F).setDuration(450)
-        val buttonLogin = ObjectAnimator.ofFloat(binding.buttonRegister, View.ALPHA, 1F).setDuration(450)
-        val buttonRegister = ObjectAnimator.ofFloat(binding.buttonLogin, View.ALPHA, 1F).setDuration(450)
-        val textWelcome = ObjectAnimator.ofFloat(binding.textViewWelcome, View.ALPHA, 1F).setDuration(450)
-        val txtLoginGuest = ObjectAnimator.ofFloat(binding.tvLoginAsGuest, View.ALPHA, 1F).setDuration(450)
+        val logo = ObjectAnimator.ofFloat(binding.imageView, View.ALPHA, 1F).setDuration(DURATION)
+        val buttonLogin = ObjectAnimator.ofFloat(binding.buttonRegister, View.ALPHA, 1F).setDuration(DURATION)
+        val buttonRegister = ObjectAnimator.ofFloat(binding.buttonLogin, View.ALPHA, 1F).setDuration(DURATION)
+        val textWelcome = ObjectAnimator.ofFloat(binding.textViewWelcome, View.ALPHA, 1F).setDuration(DURATION)
+        val txtLoginGuest = ObjectAnimator.ofFloat(binding.tvLoginAsGuest, View.ALPHA, 1F).setDuration(DURATION)
 
         val together = AnimatorSet().apply {
             playTogether(buttonLogin, buttonRegister)
@@ -81,12 +90,5 @@ class MainActivity : AppCompatActivity() {
             playSequentially(logo, textWelcome, together, txtLoginGuest)
             start()
         }
-
-    }
-
-    private fun intentToHomeStory(name: String){
-        val intent = Intent(this, HomeStoryActivity::class.java)
-        intent.putExtra("name",name)
-        startActivity(intent, ActivityOptionsCompat.makeSceneTransitionAnimation(this).toBundle())
     }
 }

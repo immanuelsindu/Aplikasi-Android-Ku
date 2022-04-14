@@ -1,8 +1,8 @@
-package id.ac.ukdw.sub1_intermediate
+package id.ac.ukdw.sub1_intermediate.newStory
 
 import com.google.gson.annotations.SerializedName
 
-data class GuestUploadResponse(
+data class UploadStoryResponse(
 
 	@field:SerializedName("error")
 	val error: Boolean,

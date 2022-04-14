@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Sub1_Intermediate</string>
+    <string name="failToLoad">Gagal meproses data</string>
+    <string name="passwordHint">Tulis password Anda di sini</string>
+    <string name="titleDetailStory">Detil Cerita</string>
+    <string name="titleStoryActivity">Cerita</string>
+    <string name="welcomeGuest">Selamat Datang, Tamu</string>
+    <string name="emailCannotEmpty">Email tidak boleh kosong</string>
+    <string name="passwordCannotEmpty">Password tidak boleh kosong</string>
+    <string name="failedGetPermission">Gagal mendapatkan izin</string>
+    <string name="titleNewStory">Cerita Baru</string>
+    <string name="choosePicture">Pilih sebuah foto</string>
+    <string name="failedInstaceRetrofit">Gagal membuat instan retrofit</string>
+    <string name="enterImageFirst">Masukan file gambar terlebih dahulu</string>
+    <string name="nameCannotEmpty">nama tidak boleh kosong</string>
+    <string name="loginCommand">Mohon login terlebih dahulu menggunakan akun yang Anda buat sebelumnya</string>
+    <string name="exit">Keluar</string>
+    <string name="isExit">Anda ingin keluar aplikasi ?</string>
+    <string name="password6">Password terdiri dari minimal 6 karakter</string>
+    <string name="welcome_home">Selamat Datang, %1$s</string>
+</resources>
