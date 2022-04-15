@@ -18,4 +18,18 @@
     <string name="loginCommand">Please login first with the account you created earlier</string>
     <string name="exit">Exit</string>
     <string name="isExit">Do you want to exit the application ?</string>
+    <string name="sign_in_to_start_using_the_app">Sign in to start using the app</string>
+    <string name="click_here_to_login_as_guest">Click here to login as Guest</string>
+    <string name="Login">Login</string>
+    <string name="register">Register</string>
+    <string name="write_your_email">Write your email here</string>
+    <string name="write_your_password">Write your password here</string>
+    <string name="login">Login</string>
+    <string name="camera">Camera</string>
+    <string name="upload">Upload</string>
+    <string name="gallery">Gallery</string>
+    <string name="write_your_image_description_here">Write your image description here</string>
+    <string name="write_your_name_here">Write your name here</string>
+    <string name="write_your_email_here">Write your email here</string>
+    <string name="write_your_password_here">Write your password here</string>
 </resources>
