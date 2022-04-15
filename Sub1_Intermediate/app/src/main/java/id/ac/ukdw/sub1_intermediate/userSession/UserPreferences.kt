@@ -26,7 +26,7 @@ internal class UserPreference(context: Context) {
         return model
     }
     fun clearUserSession(){
-        preferences.edit().clear().commit()
+        preferences.edit().clear().apply()
     }
     fun getUserName(): String{
         return if(NAME != ""){

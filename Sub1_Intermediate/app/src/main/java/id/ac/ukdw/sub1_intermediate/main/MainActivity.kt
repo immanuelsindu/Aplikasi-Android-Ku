@@ -17,7 +17,6 @@ import id.ac.ukdw.sub1_intermediate.homeStory.HomeStoryActivity
 import id.ac.ukdw.sub1_intermediate.homeStory.UserModel
 import id.ac.ukdw.sub1_intermediate.login.LoginActivity
 import id.ac.ukdw.sub1_intermediate.register.RegisterActivity
-import kotlin.reflect.KVisibility
 
 
 class MainActivity : AppCompatActivity() {
@@ -69,8 +68,8 @@ class MainActivity : AppCompatActivity() {
 
         binding.tvLoginAsGuest.setOnClickListener{
             val intent = Intent(this, HomeStoryActivity::class.java)
-            startActivity(intent, ActivityOptionsCompat.makeSceneTransitionAnimation(this).toBundle())
             Toast.makeText(this@MainActivity, resources.getString(R.string.loginSuccessfully), Toast.LENGTH_SHORT).show()
+            startActivity(intent, ActivityOptionsCompat.makeSceneTransitionAnimation(this).toBundle())
         }
         playAnimation()
     }

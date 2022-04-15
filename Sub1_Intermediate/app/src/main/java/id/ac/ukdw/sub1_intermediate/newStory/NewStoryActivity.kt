@@ -7,7 +7,6 @@ import android.content.pm.PackageManager
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import android.widget.EditText
@@ -52,6 +51,8 @@ class NewStoryActivity : AppCompatActivity() {
         private const val TYPE = "image/*"
         private const val PHOTO = "photo"
         private const val BEARER = "Bearer "
+        private const val STORYCREATEDSUSSCESS = "Story created successfully"
+        private const val TOKENMAX = "Token maximum age exceeded"
 
 
     }
@@ -101,7 +102,6 @@ class NewStoryActivity : AppCompatActivity() {
             }else{
                 uploadImagGuest()
             }
-
         }
 
         binding.btnCamera.setOnClickListener {
@@ -184,13 +184,24 @@ class NewStoryActivity : AppCompatActivity() {
                         if (response.isSuccessful) {
                             val responseBody = response.body()
                             if (responseBody != null && !responseBody.error) {
-                                showLoading(false)
-                                Toast.makeText(this@NewStoryActivity, responseBody.message, Toast.LENGTH_SHORT).show()
-                                intentToHomeStory()
+                                when(responseBody.message){
+                                    STORYCREATEDSUSSCESS ->{
+                                        showLoading(false)
+                                        Toast.makeText(this@NewStoryActivity,getString(R.string.StoryCreatedSuccessfully), Toast.LENGTH_SHORT).show()
+                                        intentToHomeStory()
+                                    }
+                                    TOKENMAX ->{
+                                        showLoading(false)
+                                        Toast.makeText(this@NewStoryActivity,getString(R.string.tokenMaxAgeExceeded), Toast.LENGTH_SHORT).show()
+                                    }else->{
+                                        showLoading(false)
+                                        Toast.makeText(this@NewStoryActivity,getString(R.string.anErrorOccurred), Toast.LENGTH_SHORT).show()
+                                    }
+                                }
                             }
                         } else {
                             showLoading(false)
-                            Toast.makeText(this@NewStoryActivity,  response.message(), Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this@NewStoryActivity,  resources.getString(R.string.enterImageFirst), Toast.LENGTH_SHORT).show()
                         }
                     }
                     override fun onFailure(call: Call<UploadStoryResponse>, t: Throwable) {
@@ -209,6 +220,7 @@ class NewStoryActivity : AppCompatActivity() {
 
     private fun uploadImagGuest() {
         if (getFile != null) {
+            showLoading(true)
             val file = reduceFileImage(getFile as File)
 
             val description = binding.editText.text.toString().toRequestBody("text/plain".toMediaType())
@@ -218,7 +230,7 @@ class NewStoryActivity : AppCompatActivity() {
                 file.name,
                 requestImageFile
             )
-            showLoading(true)
+
             val service = ApiConfig.getApiService().uploadImageGuest(imageMultipart,description)
             service.enqueue(object : Callback<GuestUploadResponse> {
                 override fun onResponse(
@@ -228,13 +240,25 @@ class NewStoryActivity : AppCompatActivity() {
                     if (response.isSuccessful) {
                         val responseBody = response.body()
                         if (responseBody != null && !responseBody.error) {
-                            showLoading(false)
-                            Toast.makeText(this@NewStoryActivity, responseBody.message, Toast.LENGTH_SHORT).show()
-                            intentToHomeStory()
+                            when(responseBody.message){
+                                STORYCREATEDSUSSCESS ->{
+                                    showLoading(false)
+                                    Toast.makeText(this@NewStoryActivity,getString(R.string.StoryCreatedSuccessfully), Toast.LENGTH_SHORT).show()
+                                    intentToHomeStory()
+                                }
+                                TOKENMAX ->{
+                                    showLoading(false)
+                                    Toast.makeText(this@NewStoryActivity,getString(R.string.tokenMaxAgeExceeded), Toast.LENGTH_SHORT).show()
+                                }else->{
+                                    showLoading(false)
+                                    Toast.makeText(this@NewStoryActivity,getString(R.string.anErrorOccurred), Toast.LENGTH_SHORT).show()
+                                }
+                            }
+
                         }
                     } else {
                         showLoading(false)
-                        Toast.makeText(this@NewStoryActivity, response.message(), Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this@NewStoryActivity,  getString(R.string.enterDescriptionFirst), Toast.LENGTH_SHORT).show()
                     }
                 }
                 override fun onFailure(call: Call<GuestUploadResponse>, t: Throwable) {

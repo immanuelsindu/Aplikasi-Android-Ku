@@ -27,6 +27,7 @@ class RegisterActivity : AppCompatActivity() {
         const val TAG = "RegisterActivity"
         private const val LOGINCOMMAND = "loginCommand"
         private const val ASTRONOT = "astronotImage"
+        private const val USERCREATED = "User created"
     }
     private lateinit var binding : ActivityRegisterBinding
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -105,9 +106,13 @@ class RegisterActivity : AppCompatActivity() {
                                 Toast.makeText(this@RegisterActivity, responseBody.message, Toast.LENGTH_SHORT).show()
                             }
                             false->{
-                                showLoading(false)
-                                Toast.makeText(this@RegisterActivity, responseBody.message, Toast.LENGTH_SHORT).show()
-                                intentToLogin()
+                                when(responseBody.message){
+                                    USERCREATED->{
+                                        showLoading(false)
+                                        Toast.makeText(this@RegisterActivity, getString(R.string.userCreated), Toast.LENGTH_SHORT).show()
+                                        intentToLogin()
+                                    }
+                                }
                             }
                         }
                     }
@@ -124,7 +129,6 @@ class RegisterActivity : AppCompatActivity() {
             }
         })
     }
-
 
     private fun playAnimation(){
         val btnRegister = ObjectAnimator.ofFloat(binding.btnRegister, View.ALPHA, 1F).setDuration(800)

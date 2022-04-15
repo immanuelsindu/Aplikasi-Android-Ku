@@ -38,4 +38,10 @@
     <string name="usernotfound">User tidak ditemukan</string>
     <string name="emailmustbeavalidemail">Email tidak sesuai</string>
     <string name="loginSuccessfully">Berhasil masuk</string>
+    <string name="makeSureAccountCorrect">Pastikan akun yang Anda masukan sudah benar</string>
+    <string name="makeSureDataEmailCorrect">Email sudah digunakan atau email tidak valid</string>
+    <string name="enterDescriptionFirst">Masukan deskripsi gambar terlebih dahulu</string>
+    <string name="StoryCreatedSuccessfully">Cerita berhasil dibuat</string>
+    <string name="tokenMaxAgeExceeded">Batas upload sesi Anda telah tercapai.</string>
+    <string name="userCreated">User berhasil dibuat</string>
 </resources>
