@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Sub1_Intermediate</string>
+    <string name="app_name">Stoty App</string>
     <string name="failToLoad">Gagal meproses data</string>
     <string name="passwordHint">Tulis password Anda di sini</string>
     <string name="titleDetailStory">Detil Cerita</string>
@@ -13,7 +13,7 @@
     <string name="choosePicture">Pilih sebuah foto</string>
     <string name="failedInstaceRetrofit">Gagal membuat instan retrofit</string>
     <string name="enterImageFirst">Masukan file gambar terlebih dahulu</string>
-    <string name="nameCannotEmpty">nama tidak boleh kosong</string>
+    <string name="nameCannotEmpty">Nama tidak boleh kosong</string>
     <string name="loginCommand">Mohon login terlebih dahulu menggunakan akun yang Anda buat sebelumnya</string>
     <string name="exit">Keluar</string>
     <string name="isExit">Anda ingin keluar aplikasi ?</string>
@@ -33,4 +33,9 @@
     <string name="write_your_name_here">Tulis nama Anda di sini</string>
     <string name="write_your_email_here">Tulis email Anda di sini</string>
     <string name="write_your_password_here">Tulis password Anda di sini</string>
+    <string name="anErrorOccurred">Terjadi error silakan coba lagi nanti</string>
+    <string name="invalidpassword">Password salah</string>
+    <string name="usernotfound">User tidak ditemukan</string>
+    <string name="emailmustbeavalidemail">Email tidak sesuai</string>
+    <string name="loginSuccessfully">Berhasil masuk</string>
 </resources>

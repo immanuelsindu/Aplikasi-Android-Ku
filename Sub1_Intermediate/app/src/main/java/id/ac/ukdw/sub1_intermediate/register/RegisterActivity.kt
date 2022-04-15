@@ -112,10 +112,14 @@ class RegisterActivity : AppCompatActivity() {
                         }
                     }
                 } else {
+                    showLoading(false)
+                    Toast.makeText(this@RegisterActivity, getString(R.string.makeSureDataEmailCorrect), Toast.LENGTH_LONG).show()
                     Log.e(TAG, "onFailure : " + response.message())
                 }
             }
             override fun onFailure(call: Call<RegisterResponse>, t: Throwable) {
+                showLoading(false)
+                Toast.makeText(this@RegisterActivity, getString(R.string.anErrorOccurred), Toast.LENGTH_SHORT).show()
                 Log.e(TAG, "onFailure: ${t.message}")
             }
         })
@@ -141,5 +145,4 @@ class RegisterActivity : AppCompatActivity() {
             start()
         }
     }
-
 }

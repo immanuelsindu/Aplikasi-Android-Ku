@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Sub1_Intermediate</string>
+    <string name="app_name">Stoty App</string>
     <string name="welcome_home">Welcome Home, %1$s</string>
     <string name="failToLoad">Fail to load picture</string>
     <string name="password6">Password consists of at least 6 characters</string>
@@ -32,4 +32,11 @@
     <string name="write_your_name_here">Write your name here</string>
     <string name="write_your_email_here">Write your email here</string>
     <string name="write_your_password_here">Write your password here</string>
+    <string name="anErrorOccurred">An error occurred please try again</string>
+    <string name="invalidpassword">Invalid password</string>
+    <string name="usernotfound">User not found</string>
+    <string name="emailmustbeavalidemail">Email must be a valid email</string>
+    <string name="loginSuccessfully">Login successfully</string>
+    <string name="makeSureAccountCorrect">Make sure the existing account is correct</string>
+    <string name="makeSureDataEmailCorrect">Email has already been used or email is invalid</string>
 </resources>

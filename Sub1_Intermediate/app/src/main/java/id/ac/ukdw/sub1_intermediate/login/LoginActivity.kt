@@ -9,6 +9,7 @@ import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.view.WindowManager
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityOptionsCompat
 import id.ac.ukdw.sub1_intermediate.R
@@ -27,6 +28,11 @@ class LoginActivity:  AppCompatActivity() {
     companion object{
         internal lateinit var userPreference: UserPreference
         private const val LOGINCOMMAND = "loginCommand"
+        private const val INVALIDPASSWORD = "Invalid password"
+        private const val EMAILFALSE = "\"email\" must be a valid email"
+        private const val USERNOTFOUND = "User not found"
+        private const val BADREQUEST = "Bad Request"
+        private const val UNAUTHORIZED = "Unauthorized"
     }
 
     private lateinit var binding: ActivityLoginBinding
@@ -70,8 +76,6 @@ class LoginActivity:  AppCompatActivity() {
                }
            }
         }
-
-
     }
 
     private fun intentToHomeStory(name: String){
@@ -92,16 +96,36 @@ class LoginActivity:  AppCompatActivity() {
                         when(responseBody.error){
                             true ->{
                                 showLoading(false)
+                                when(responseBody.message){
+                                    INVALIDPASSWORD ->{
+                                        Toast.makeText(this@LoginActivity,getString(R.string.invalidpassword), Toast.LENGTH_SHORT).show()
+                                    }
+                                    USERNOTFOUND->{
+                                        Toast.makeText(this@LoginActivity,getString(R.string.usernotfound), Toast.LENGTH_SHORT).show()
+                                    }
+                                   EMAILFALSE ->{
+                                        Toast.makeText(this@LoginActivity,getString(R.string.emailmustbeavalidemail), Toast.LENGTH_SHORT).show()
+                                   }
+                                }
                             }
                             false->{
                                 showLoading(false)
                                 saveUserSession(responseBody.loginResult.name, responseBody.loginResult.userId, responseBody.loginResult.token)
-//                                myToken = responseBody.loginResult.token
+                                Toast.makeText(this@LoginActivity,getString(R.string.loginSuccessfully), Toast.LENGTH_SHORT).show()
                                 intentToHomeStory(responseBody.loginResult.name)
                             }
                         }
                     }
                 } else {
+                    showLoading(false)
+                    when(response.message()){
+                        BADREQUEST->{
+                            Toast.makeText(this@LoginActivity,getString(R.string.makeSureAccountCorrect), Toast.LENGTH_SHORT).show()
+                        }
+                        UNAUTHORIZED->{
+                            Toast.makeText(this@LoginActivity,getString(R.string.makeSureAccountCorrect), Toast.LENGTH_SHORT).show()
+                        }
+                    }
                     Log.e(RegisterActivity.TAG, "onFailure : " + response.message())
                 }
             }
