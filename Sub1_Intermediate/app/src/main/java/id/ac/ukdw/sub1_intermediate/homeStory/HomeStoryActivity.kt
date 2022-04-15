@@ -65,22 +65,7 @@ class HomeStoryActivity : AppCompatActivity() {
         }
 
         binding.imgLogout.setOnClickListener{
-            val exitDialog = AlertDialog.Builder(this)
-            exitDialog.setTitle(resources.getString(R.string.exit))
-            exitDialog.setMessage(resources.getString(R.string.isExit))
-            exitDialog.setPositiveButton(android.R.string.yes) { _, _ ->
-                val intent = Intent(this, MainActivity::class.java)
-                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-                mUserPreference.clearUserSession()
-                startActivity(intent)
-            }
-
-            exitDialog.setNegativeButton(android.R.string.no) { _, _ ->
-                Toast.makeText(applicationContext,
-                    android.R.string.no, Toast.LENGTH_SHORT).show()
-            }
-            exitDialog.show()
-
+            showExitDialog()
         }
         binding.imgSetting.setOnClickListener{
             startActivity(Intent(Settings.ACTION_LOCALE_SETTINGS))
@@ -140,4 +125,27 @@ class HomeStoryActivity : AppCompatActivity() {
             binding.progresBar.visibility = View.GONE
         }
     }
+
+    override fun onBackPressed() {
+        showExitDialog()
+    }
+
+    private fun showExitDialog(){
+        val exitDialog = AlertDialog.Builder(this)
+        exitDialog.setTitle(resources.getString(R.string.exit))
+        exitDialog.setMessage(resources.getString(R.string.isExit))
+        exitDialog.setPositiveButton(android.R.string.yes) { _, _ ->
+            val intent = Intent(this, MainActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+            mUserPreference.clearUserSession()
+            startActivity(intent)
+        }
+
+        exitDialog.setNegativeButton(android.R.string.no) { _, _ ->
+            Toast.makeText(applicationContext,
+                android.R.string.no, Toast.LENGTH_SHORT).show()
+        }
+        exitDialog.show()
+    }
+
 }

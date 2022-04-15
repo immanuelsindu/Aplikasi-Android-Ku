@@ -10,6 +10,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.view.WindowManager
+import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -160,42 +161,46 @@ class NewStoryActivity : AppCompatActivity() {
     private fun uploadImage() {
         if (getFile != null) {
             val file = reduceFileImage(getFile as File)
+            val description = findViewById<EditText>(R.id.editText).text.toString()
+            if(description != ""){
+                val desc2 = description.toRequestBody("text/plain".toMediaType())
+                val requestImageFile = file.asRequestBody("image/jpeg".toMediaTypeOrNull())
+                val imageMultipart: MultipartBody.Part = MultipartBody.Part.createFormData(
+                    PHOTO,
+                    file.name,
+                    requestImageFile
+                )
+                showLoading(true)
 
-            val description = binding.editText.text.toString().toRequestBody("text/plain".toMediaType())
-            val requestImageFile = file.asRequestBody("image/jpeg".toMediaTypeOrNull())
-            val imageMultipart: MultipartBody.Part = MultipartBody.Part.createFormData(
-                PHOTO,
-                file.name,
-                requestImageFile
-            )
-            showLoading(true)
+                val userPreference_2 = UserPreference(this)
+                val myToken2 = BEARER+ userPreference_2.getToken()
 
-            val userPreference_2 = UserPreference(this)
-            val myToken2 = BEARER+ userPreference_2.getToken()
-
-            val service = ApiConfig.getApiService().uploadImage(myToken2, imageMultipart,description)
-            service.enqueue(object : Callback<UploadStoryResponse> {
-                override fun onResponse(
-                    call: Call<UploadStoryResponse>,
-                    response: Response<UploadStoryResponse>
-                ) {
-                    if (response.isSuccessful) {
-                        val responseBody = response.body()
-                        if (responseBody != null && !responseBody.error) {
+                val service = ApiConfig.getApiService().uploadImage(myToken2, imageMultipart,desc2)
+                service.enqueue(object : Callback<UploadStoryResponse> {
+                    override fun onResponse(
+                        call: Call<UploadStoryResponse>,
+                        response: Response<UploadStoryResponse>
+                    ) {
+                        if (response.isSuccessful) {
+                            val responseBody = response.body()
+                            if (responseBody != null && !responseBody.error) {
+                                showLoading(false)
+                                Toast.makeText(this@NewStoryActivity, responseBody.message, Toast.LENGTH_SHORT).show()
+                                intentToHomeStory()
+                            }
+                        } else {
                             showLoading(false)
-                            Toast.makeText(this@NewStoryActivity, responseBody.message, Toast.LENGTH_SHORT).show()
-                            intentToHomeStory()
+                            Toast.makeText(this@NewStoryActivity,  response.message(), Toast.LENGTH_SHORT).show()
                         }
-                    } else {
-                        showLoading(false)
-                        Toast.makeText(this@NewStoryActivity,  response.message(), Toast.LENGTH_SHORT).show()
                     }
-                }
-                override fun onFailure(call: Call<UploadStoryResponse>, t: Throwable) {
-                    showLoading(false)
-                    Toast.makeText(this@NewStoryActivity, resources.getString(R.string.failedInstaceRetrofit), Toast.LENGTH_SHORT).show()
-                }
-            })
+                    override fun onFailure(call: Call<UploadStoryResponse>, t: Throwable) {
+                        showLoading(false)
+                        Toast.makeText(this@NewStoryActivity, resources.getString(R.string.failedInstaceRetrofit), Toast.LENGTH_SHORT).show()
+                    }
+                })
+            }else{
+                Toast.makeText(this@NewStoryActivity, getString(R.string.enterDescriptionFirst), Toast.LENGTH_SHORT).show()
+            }
         } else {
             showLoading(false)
             Toast.makeText(this@NewStoryActivity, resources.getString(R.string.enterImageFirst), Toast.LENGTH_SHORT).show()

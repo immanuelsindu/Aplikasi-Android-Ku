@@ -39,4 +39,5 @@
     <string name="loginSuccessfully">Login successfully</string>
     <string name="makeSureAccountCorrect">Make sure the existing account is correct</string>
     <string name="makeSureDataEmailCorrect">Email has already been used or email is invalid</string>
+    <string name="enterDescriptionFirst">Enter the description of the image first</string>
 </resources>

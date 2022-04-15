@@ -7,6 +7,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityOptionsCompat
 import id.ac.ukdw.sub1_intermediate.R
@@ -69,6 +70,7 @@ class MainActivity : AppCompatActivity() {
         binding.tvLoginAsGuest.setOnClickListener{
             val intent = Intent(this, HomeStoryActivity::class.java)
             startActivity(intent, ActivityOptionsCompat.makeSceneTransitionAnimation(this).toBundle())
+            Toast.makeText(this@MainActivity, resources.getString(R.string.loginSuccessfully), Toast.LENGTH_SHORT).show()
         }
         playAnimation()
     }
