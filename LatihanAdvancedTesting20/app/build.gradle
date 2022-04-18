@@ -3,6 +3,7 @@ plugins {
     id 'kotlin-android'
     id 'kotlin-kapt'
     id 'kotlin-parcelize'
+    id 'org.jetbrains.kotlinx.kover' version '0.5.0-RC2'
 }
 
 android {
@@ -32,6 +33,16 @@ android {
 
     buildFeatures {
         viewBinding true
+    }
+
+    packagingOptions {
+        resources {
+            excludes += ['META-INF/AL2.0', 'META-INF/LGPL2.1']
+        }
+    }
+    sourceSets {
+        androidTest.java.srcDirs += "src/sharedTest/java"
+        test.java.srcDirs += "src/sharedTest/java"
     }
 }
 
@@ -70,4 +81,18 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1" //viewModelScope
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.4.1" //liveData
     implementation "androidx.room:room-ktx:2.4.2"
+
+    testImplementation 'org.mockito:mockito-core:3.12.4'
+    testImplementation 'org.mockito:mockito-inline:3.12.4'
+    testImplementation "androidx.arch.core:core-testing:2.1.0"
+
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.5.2" //TestCoroutineDispatcher
+
+    //special testing
+    testImplementation "androidx.arch.core:core-testing:2.1.0" // InstantTaskExecutorRule
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.5.2" //TestCoroutineDispatcher
+
+    //special instrumentation testing
+    androidTestImplementation "androidx.arch.core:core-testing:2.1.0" // InstantTaskExecutorRule
+    androidTestImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.5.2" //TestCoroutineDispatcher
 }
