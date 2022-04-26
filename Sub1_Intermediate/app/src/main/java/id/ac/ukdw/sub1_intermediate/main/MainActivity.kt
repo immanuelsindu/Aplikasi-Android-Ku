@@ -18,7 +18,6 @@ import id.ac.ukdw.sub1_intermediate.homeStory.UserModel
 import id.ac.ukdw.sub1_intermediate.login.LoginActivity
 import id.ac.ukdw.sub1_intermediate.register.RegisterActivity
 
-
 class MainActivity : AppCompatActivity() {
     companion object{
         private const val NAME = "name"
@@ -62,7 +61,7 @@ class MainActivity : AppCompatActivity() {
         binding.buttonLogin.setOnClickListener{
             val intent = Intent(this, LoginActivity::class.java)
             val optionsCompat: ActivityOptionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(
-                    this, astronotImage, ASTRONOTIMAGE)
+                this, astronotImage, ASTRONOTIMAGE)
             startActivity(intent, optionsCompat.toBundle())
         }
 

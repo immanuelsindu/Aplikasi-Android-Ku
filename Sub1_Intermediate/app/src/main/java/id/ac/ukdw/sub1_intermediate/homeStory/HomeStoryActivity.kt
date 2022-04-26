@@ -9,6 +9,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -40,7 +42,7 @@ class HomeStoryActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityHomeStoryBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        supportActionBar?.title = resources.getString(R.string.titleStoryActivity)
+//        supportActionBar?.title = resources.getString(R.string.titleStoryActivity)
         playAnimation()
         showLoading(false)
 
@@ -51,11 +53,11 @@ class HomeStoryActivity : AppCompatActivity() {
 
         val name = mUserPreference.getUserName()
         if(name != ""){
-            binding.tvWelcomeHome.text = resources.getString(R.string.welcome_home,name)
+            supportActionBar?.title = resources.getString(R.string.welcome_home,name)
             val token = BEARER +mUserPreference.getToken()
             getAllStory(token)
         }else{
-            binding.tvWelcomeHome.text = resources.getString(R.string.welcomeGuest)
+            supportActionBar?.title = resources.getString(R.string.welcomeGuest)
         }
 
         binding.fabAddStory .setOnClickListener {
@@ -63,24 +65,45 @@ class HomeStoryActivity : AppCompatActivity() {
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle())
         }
-
-        binding.imgLogout.setOnClickListener{
-            showExitDialog()
-        }
-        binding.imgSetting.setOnClickListener{
-            startActivity(Intent(Settings.ACTION_LOCALE_SETTINGS))
-        }
+//
+//        binding.imgLogout.setOnClickListener{
+//            showExitDialog()
+//        }
+//        binding.imgSetting.setOnClickListener{
+//            startActivity(Intent(Settings.ACTION_LOCALE_SETTINGS))
+//        }
     }
 
-    private fun playAnimation(){
-        val tvWelcome = ObjectAnimator.ofFloat(binding.tvWelcomeHome, View.ALPHA, 1F).setDuration(DURATION2)
-        val imgLogout = ObjectAnimator.ofFloat(binding.imgLogout,View.ALPHA,1F).setDuration(DURATION)
-        val imgSetting = ObjectAnimator.ofFloat(binding.imgSetting, View.ALPHA, 1F).setDuration(DURATION)
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        val inflater = menuInflater
+        inflater.inflate(R.menu.option_menu, menu)
+        return true
+    }
 
-        AnimatorSet().apply{
-            playSequentially(tvWelcome, imgLogout, imgSetting)
-            start()
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.item_logout -> {
+                showExitDialog()
+                true
+            }
+            R.id.item_setting -> {
+                startActivity(Intent(Settings.ACTION_LOCALE_SETTINGS))
+                true
+            }
+            else -> {
+                true
+            }
         }
+    }
+    private fun playAnimation(){
+//        val tvWelcome = ObjectAnimator.ofFloat(binding.tvWelcomeHome, View.ALPHA, 1F).setDuration(DURATION2)
+//        val imgLogout = ObjectAnimator.ofFloat(binding.,View.ALPHA,1F).setDuration(DURATION)
+//        val imgSetting = ObjectAnimator.ofFloat(binding.imgSetting, View.ALPHA, 1F).setDuration(DURATION)
+
+//        AnimatorSet().apply{
+//            playSequentially(tvWelcome)
+//            start()
+//        }
     }
 
     private fun showRecyclerList(arraylist: ArrayList<ListStoryItem>) {

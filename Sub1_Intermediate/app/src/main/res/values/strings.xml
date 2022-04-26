@@ -1,12 +1,12 @@
 <resources>
     <string name="app_name">Stoty App</string>
-    <string name="welcome_home">Welcome Home, %1$s</string>
+    <string name="welcome_home">Hi, %1$s</string>
     <string name="failToLoad">Fail to load picture</string>
     <string name="password6">Password consists of at least 6 characters</string>
     <string name="passwordHint">Write your password here</string>
     <string name="titleDetailStory">Detail Story</string>
     <string name="titleStoryActivity">Story</string>
-    <string name="welcomeGuest">Welcome Home, Guest</string>
+    <string name="welcomeGuest">Hi, Guest</string>
     <string name="emailCannotEmpty">Email cannot be empty</string>
     <string name="passwordCannotEmpty">Password cannot be empty</string>
     <string name="failedGetPermission">Failed to get permission.</string>

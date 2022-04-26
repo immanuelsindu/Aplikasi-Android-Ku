@@ -5,7 +5,7 @@
     <string name="passwordHint">Tulis password Anda di sini</string>
     <string name="titleDetailStory">Detil Cerita</string>
     <string name="titleStoryActivity">Cerita</string>
-    <string name="welcomeGuest">Selamat Datang, Tamu</string>
+    <string name="welcomeGuest">Halo, Tamu</string>
     <string name="emailCannotEmpty">Email tidak boleh kosong</string>
     <string name="passwordCannotEmpty">Password tidak boleh kosong</string>
     <string name="failedGetPermission">Gagal mendapatkan izin</string>
