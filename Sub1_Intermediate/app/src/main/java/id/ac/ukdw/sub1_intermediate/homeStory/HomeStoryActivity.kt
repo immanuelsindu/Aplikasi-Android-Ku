@@ -90,6 +90,9 @@ class HomeStoryActivity : AppCompatActivity() {
                 startActivity(Intent(Settings.ACTION_LOCALE_SETTINGS))
                 true
             }
+            R.id.item_maps -> {
+                true
+            }
             else -> {
                 true
             }
