@@ -18,7 +18,7 @@
     <string name="exit">Keluar</string>
     <string name="isExit">Anda ingin keluar aplikasi ?</string>
     <string name="password6">Password terdiri dari minimal 6 karakter</string>
-    <string name="welcome_home">Selamat Datang, %1$s</string>
+    <string name="welcome_home">Halo, %1$s</string>
     <string name="sign_in_to_start_using_the_app">Masuk untuk menggunakan aplikasi</string>
     <string name="click_here_to_login_as_guest">Ketuk disini untuk masuk sebagai Tamu</string>
     <string name="Login">Masuk</string>
