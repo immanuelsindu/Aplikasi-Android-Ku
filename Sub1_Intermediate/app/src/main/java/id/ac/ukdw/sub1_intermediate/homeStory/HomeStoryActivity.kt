@@ -1,31 +1,25 @@
 
 package id.ac.ukdw.sub1_intermediate.homeStory
 
-import android.animation.AnimatorSet
-import android.animation.ObjectAnimator
 import android.app.ActivityOptions
 import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.provider.Settings
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
+import id.ac.ukdw.sub1_intermediate.MyMaps
 import id.ac.ukdw.sub1_intermediate.R
 import id.ac.ukdw.sub1_intermediate.UserPreference
-import id.ac.ukdw.sub1_intermediate.api.ApiConfig
+import id.ac.ukdw.sub1_intermediate.UserViewModel
 import id.ac.ukdw.sub1_intermediate.databinding.ActivityHomeStoryBinding
 import id.ac.ukdw.sub1_intermediate.main.MainActivity
 import id.ac.ukdw.sub1_intermediate.newStory.NewStoryActivity
-import id.ac.ukdw.sub1_intermediate.register.RegisterActivity
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 
 class HomeStoryActivity : AppCompatActivity() {
@@ -37,6 +31,9 @@ class HomeStoryActivity : AppCompatActivity() {
     private lateinit var binding : ActivityHomeStoryBinding
     private lateinit var mUserPreference: UserPreference
     private lateinit var rcyStory: RecyclerView
+    private lateinit var userVM: UserViewModel
+    private lateinit var storyViewModel: StoryViewModel
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,14 +45,18 @@ class HomeStoryActivity : AppCompatActivity() {
 
         mUserPreference = UserPreference(this)
         rcyStory = findViewById(R.id.rcyStory)
+        storyViewModel = ViewModelProvider(this)[StoryViewModel::class.java]
 
 
 
         val name = mUserPreference.getUserName()
-        if(name != ""){
+//        userVM = ViewModelProvider(this)[UserViewModel::class.java]
+//        val userModel = userVM.getUser()
+        if(name != "" && name != null){
             supportActionBar?.title = resources.getString(R.string.welcome_home,name)
-            val token = BEARER +mUserPreference.getToken()
-            getAllStory(token)
+            val token = BEARER + mUserPreference.getToken()
+//            getAllStory(token)
+            getData()
         }else{
             supportActionBar?.title = resources.getString(R.string.welcomeGuest)
         }
@@ -91,6 +92,7 @@ class HomeStoryActivity : AppCompatActivity() {
                 true
             }
             R.id.item_maps -> {
+                startActivity(Intent(this, MyMaps::class.java))
                 true
             }
             else -> {
@@ -109,40 +111,48 @@ class HomeStoryActivity : AppCompatActivity() {
 //        }
     }
 
-    private fun showRecyclerList(arraylist: ArrayList<ListStoryItem>) {
-        rcyStory.layoutManager = LinearLayoutManager(this)
-        val listUserAdapter = StoryAdapter(arraylist)
-        rcyStory.adapter = listUserAdapter
+//    private fun showRecyclerList(arraylist: ArrayList<ListStoryItem>) {
+//        rcyStory.layoutManager = LinearLayoutManager(this)
+//        val listUserAdapter = StoryAdapter(arraylist)
+//        rcyStory.adapter = listUserAdapter
+//    }
+
+    private fun getData() {
+        val adapter = StoryAdapter()
+        binding.rcyStory.adapter = adapter
+        storyViewModel.quote.observe(this) {
+            adapter.submitData(lifecycle, it)
+        }
     }
 
-    private fun getAllStory(token: String){
-        showLoading(true)
-
-        val client = ApiConfig.getApiService().getAllStory(token)
-        client.enqueue(object : Callback<GetAllStoryResponse> {
-            override fun onResponse(call: Call<GetAllStoryResponse>, response: Response<GetAllStoryResponse>) {
-                if (response.isSuccessful) {
-                    val responseBody = response.body()
-                    if (responseBody != null) {
-                        when(responseBody.error){
-                            true ->{
-                                showLoading(false)
-                            }
-                            false->{
-                                showLoading(false)
-                                showRecyclerList(responseBody.listStory)
-                            }
-                        }
-                    }
-                } else {
-                    Log.e(RegisterActivity.TAG, "onFailure : " + response.message())
-                }
-            }
-            override fun onFailure(call: Call<GetAllStoryResponse>, t: Throwable) {
-                Log.e(RegisterActivity.TAG, "onFailure: ${t.message}")
-            }
-        })
-    }
+//    private fun getAllStory(token: String){
+//        showLoading(true)
+//
+//        val client = ApiConfig.getApiService().getAllStory(token)
+//        client.enqueue(object : Callback<GetAllStoryResponse> {
+//            override fun onResponse(call: Call<GetAllStoryResponse>, response: Response<GetAllStoryResponse>) {
+//                if (response.isSuccessful) {
+//                    val responseBody = response.body()
+//                    if (responseBody != null) {
+//                        when(responseBody.error){
+//                            true ->{
+//                                showLoading(false)
+//                            }
+//                            false->{
+//                                showLoading(false)
+//                                showRecyclerList(responseBody.listStory)
+//                            }
+//                        }
+//                    }
+//                } else {
+//                    Log.e(RegisterActivity.TAG, "onFailure : " + response.message())
+//                }
+//            }
+//            override fun onFailure(call: Call<GetAllStoryResponse>, t: Throwable) {
+//                Log.e(RegisterActivity.TAG, "onFailure: ${t.message}")
+//            }
+//        })
+//    }
 
     private fun showLoading(isLoading: Boolean) {
         if (isLoading) {
@@ -164,6 +174,8 @@ class HomeStoryActivity : AppCompatActivity() {
             val intent = Intent(this, MainActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
             mUserPreference.clearUserSession()
+//            userVM.clearData()
+
             startActivity(intent)
         }
 
@@ -173,5 +185,7 @@ class HomeStoryActivity : AppCompatActivity() {
         }
         exitDialog.show()
     }
+
+
 
 }

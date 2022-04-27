@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">StoryApp</string>
+    <string name="thumbnail_image_story">cerita gambar mini</string>
+    <string name="author_name">nama pengarang</string>
+    <string name="long_text">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</string>
+    <string name="logout">keluar</string>
+    <string name="add_story">tambah cerita</string>
+    <string name="upload">UNGGAH</string>
+    <string name="description">Deskripsi</string>
+    <string name="camera">Kamera</string>
+    <string name="image_result">hasil gambar</string>
+    <string name="gallery">GALERI</string>
+    <string name="detail_image">gambar detil</string>
+    <string name="login_image">gambar masuk</string>
+    <string name="splash_image">gambar percikan</string>
+    <string name="email_not_valid">Email tidak valid</string>
+    <string name="name_cannot_empty">Nama tidak boleh kosong</string>
+    <string name="password_not_valid">Sandi harus %1$d karakter</string>
+    <string name="email">Email</string>
+    <string name="name">Nama</string>
+    <string name="password">Sandi</string>
+    <string name="login_success">berhasil masuk</string>
+    <string name="login_failed">gagal masuk</string>
+    <string name="permission_not_granted">Tidak diberikan izin</string>
+    <string name="change_language">ganti bahasa</string>
+    <string name="login">MASUK</string>
+    <string name="register">DAFTAR</string>
+    <string name="appwidget_text">STORIES BANNER</string>
+    <string name="add_widget">Tambah widget</string>
+    <string name="app_widget_description">Deskripsi widget</string>
+    <string name="empty_text">TIDAK ADA DATA</string>
+    <string name="refresh_story">memuat ulang cerita</string>
+    <string name="choose_your_image">Pilih gambar Anda</string>
+    <string name="image_widget_item">image widget item</string>
+    <string name="retry">Coba Ulang</string>
+    <string name="title_activity_maps_story">StoryApp Map</string>
+    <string name="map_stories">Map Stories</string>
+</resources>

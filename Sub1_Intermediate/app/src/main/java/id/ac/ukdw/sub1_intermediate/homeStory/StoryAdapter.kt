@@ -8,6 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.util.Pair
+import androidx.paging.PagingDataAdapter
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
@@ -19,7 +21,10 @@ import id.ac.ukdw.sub1_intermediate.detail.DetailActivity
 import id.ac.ukdw.sub1_intermediate.detail.DetailStoryModel
 
 
-class StoryAdapter(private val listStory: ArrayList<ListStoryItem>) : RecyclerView.Adapter<StoryAdapter.ListViewHolder>() {
+class StoryAdapter :
+    PagingDataAdapter<ListStoryItem, StoryAdapter.ListViewHolder>(DIFF_CALLBACK){
+//    (private val listStory: ArrayList<ListStoryItem>) : RecyclerView.Adapter<StoryAdapter.ListViewHolder>() {
+
     companion object{
         private const val VIEWMORE = "... view more"
         private const val USERMODEL = "userModel"
@@ -27,6 +32,16 @@ class StoryAdapter(private val listStory: ArrayList<ListStoryItem>) : RecyclerVi
         private const val DESCRIPTION = "description"
         private const val IMAGEDETAIL = "imgDetail"
         private const val CONSTRAINTLAYOUT= "constraintLayout"
+
+        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<ListStoryItem>() {
+            override fun areItemsTheSame(oldItem: ListStoryItem, newItem: ListStoryItem): Boolean {
+                return oldItem == newItem
+            }
+
+            override fun areContentsTheSame(oldItem: ListStoryItem, newItem: ListStoryItem): Boolean {
+                return oldItem.id == newItem.id
+            }
+        }
     }
     class ListViewHolder(var binding: ItemStoryBinding) : RecyclerView.ViewHolder(binding.root)
 
@@ -36,18 +51,18 @@ class StoryAdapter(private val listStory: ArrayList<ListStoryItem>) : RecyclerVi
     }
 
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
-
-        val username = listStory[position].name
-        var desc = listStory[position].description
+        val data = getItem(position)
+        val username = data?.name
+        val desc = data?.description
         var desc2 = ""
         desc2 = when{
-            desc.length > 40 -> {
+            desc?.length!! > 40 -> {
                 desc.slice(0..32) + VIEWMORE
             }else->{
                 desc
             }
         }
-        val image = listStory[position].photoUrl
+        val image = data.photoUrl
 
         Glide.with(holder.itemView.context)
             .load(image)
@@ -82,7 +97,7 @@ class StoryAdapter(private val listStory: ArrayList<ListStoryItem>) : RecyclerVi
 
         holder.itemView.setOnClickListener {
             val intent = Intent(holder.itemView.context, DetailActivity::class.java)
-            val detailModel = DetailStoryModel(username,desc, image)
+            val detailModel = username?.let { it1 -> DetailStoryModel(it1,desc, image) }
             intent.putExtra(USERMODEL, detailModel)
             val optionsCompat: ActivityOptionsCompat =
                 ActivityOptionsCompat.makeSceneTransitionAnimation(
@@ -95,5 +110,8 @@ class StoryAdapter(private val listStory: ArrayList<ListStoryItem>) : RecyclerVi
             holder.itemView.context.startActivity(intent, optionsCompat.toBundle())
         }
     }
-    override fun getItemCount(): Int = listStory.size
+    override fun getItemCount(): Int = itemCount
+
+
+
 }

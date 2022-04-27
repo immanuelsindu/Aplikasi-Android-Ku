@@ -2,6 +2,7 @@ package id.ac.ukdw.sub1_intermediate.login
 
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
@@ -12,18 +13,25 @@ import android.view.WindowManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityOptionsCompat
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.preferencesDataStore
+import androidx.lifecycle.ViewModelProvider
 import id.ac.ukdw.sub1_intermediate.R
 import id.ac.ukdw.sub1_intermediate.UserPreference
+import id.ac.ukdw.sub1_intermediate.UserViewModel
+import id.ac.ukdw.sub1_intermediate.ViewModelFactory
 import id.ac.ukdw.sub1_intermediate.api.ApiConfig
 import id.ac.ukdw.sub1_intermediate.databinding.ActivityLoginBinding
 import id.ac.ukdw.sub1_intermediate.homeStory.HomeStoryActivity
 import id.ac.ukdw.sub1_intermediate.homeStory.UserModel
 import id.ac.ukdw.sub1_intermediate.register.RegisterActivity
+import id.ac.ukdw.sub1_intermediate.userSession.UserPreferencesDS
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-
+private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "token")
 class LoginActivity:  AppCompatActivity() {
     companion object{
         internal lateinit var userPreference: UserPreference
@@ -36,7 +44,8 @@ class LoginActivity:  AppCompatActivity() {
     }
 
     private lateinit var binding: ActivityLoginBinding
-    private lateinit var userModel: UserModel
+    private lateinit var userVM: UserViewModel
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,6 +53,11 @@ class LoginActivity:  AppCompatActivity() {
         setContentView(binding.root)
         supportActionBar?.hide()
         playAnimation()
+
+
+
+
+
         showLoading(false)
         val userCommand = intent.getStringExtra(LOGINCOMMAND)
         if(userCommand != ""){
@@ -110,6 +124,7 @@ class LoginActivity:  AppCompatActivity() {
                             }
                             false->{
                                 showLoading(false)
+
                                 saveUserSession(responseBody.loginResult.name, responseBody.loginResult.userId, responseBody.loginResult.token)
                                 Toast.makeText(this@LoginActivity,getString(R.string.loginSuccessfully), Toast.LENGTH_SHORT).show()
                                 intentToHomeStory(responseBody.loginResult.name)
@@ -135,14 +150,33 @@ class LoginActivity:  AppCompatActivity() {
         })
     }
 
-    private fun saveUserSession(name: String, id: String, token: String){
+    private fun saveUserSession(name: String, id: String, token: String) {
+//        userVM = ViewModelProvider(this)[UserViewModel::class.java]
+//        var userModel = UserModel()
+//        userModel.name = name
+//        userModel.id = id
+//        userModel.token = token
+//        val userModelObs: Observer<UserModel> = Observer {
+//            userVM.getUser().value(it)
+//        }
+//        userVM.getUser().value = userModel
+
         userPreference = UserPreference(this)
         var userModel = UserModel()
         userModel.name = name
         userModel.id = id
         userModel.token = token
         userPreference.setUser(userModel)
+
+        val pref = UserPreferencesDS.getInstance(dataStore)
+        val userViewModel = ViewModelProvider(this, ViewModelFactory(pref))[UserViewModel::class.java]
+        userViewModel.saveCurrentToken(token)
+
     }
+
+
+
+
 
 
     private fun playAnimation(){

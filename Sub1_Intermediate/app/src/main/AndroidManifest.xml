@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="id.ac.ukdw.sub1_intermediate">
+
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
+
     <uses-feature android:name="android.hardware.camera" />
+
     <uses-permission android:name="android.permission.CAMERA" />
 
     <application
@@ -12,6 +16,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Sub1_Intermediate">
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyAaK8PpplLFyPXGOGpDeLyzXF7Cdk4s6G4" />
+
         <activity
             android:name=".detail.DetailActivity"
             android:exported="false" />
@@ -40,5 +49,8 @@
             android:name=".login.LoginActivity"
             android:theme="@style/Theme.Sub1_Intermediate.2" />
         <activity android:name=".camera.CameraActivity" />
+
+        <activity android:name=".MyMaps" />
     </application>
+
 </manifest>

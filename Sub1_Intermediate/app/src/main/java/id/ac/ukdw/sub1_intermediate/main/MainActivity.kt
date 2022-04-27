@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityOptionsCompat
 import id.ac.ukdw.sub1_intermediate.R
 import id.ac.ukdw.sub1_intermediate.UserPreference
+import id.ac.ukdw.sub1_intermediate.UserViewModel
 import id.ac.ukdw.sub1_intermediate.databinding.ActivityMainBinding
 import id.ac.ukdw.sub1_intermediate.homeStory.HomeStoryActivity
 import id.ac.ukdw.sub1_intermediate.homeStory.UserModel
@@ -25,10 +26,12 @@ class MainActivity : AppCompatActivity() {
         private const val DURATION = 450.toLong()
     }
 
-    private lateinit var binding: ActivityMainBinding
+
     private lateinit var mUserPreference: UserPreference
     private lateinit var userModel: UserModel
     private lateinit var astronotImage: ImageView
+    private lateinit var binding: ActivityMainBinding
+    private lateinit var userVM: UserViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,6 +39,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         supportActionBar?.hide()
+
+        // ganti bagian ini ke viewModel
         mUserPreference = UserPreference(this)
 
         userModel = mUserPreference.getUser()
@@ -47,6 +52,16 @@ class MainActivity : AppCompatActivity() {
                 startActivity(intent)
             }
         }
+
+        //ke viewModel
+//        userVM = ViewModelProvider(this)[UserViewModel::class.java]
+//        val userModel = userVM.getUser()
+//        if(userModel?.name != null){
+//            val intent = Intent(this, HomeStoryActivity::class.java)
+//                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP;
+//                intent.putExtra(NAME, userModel.name.toString())
+//                startActivity(intent)
+
 
         astronotImage = findViewById(R.id.imageView)
         binding.buttonRegister.setOnClickListener {

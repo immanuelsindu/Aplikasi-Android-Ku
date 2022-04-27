@@ -4,6 +4,7 @@ import android.content.Context
 import id.ac.ukdw.sub1_intermediate.homeStory.UserModel
 
 internal class UserPreference(context: Context) {
+
     companion object {
         private const val PREFS_NAME = "user_pref"
         private const val NAME = "name"

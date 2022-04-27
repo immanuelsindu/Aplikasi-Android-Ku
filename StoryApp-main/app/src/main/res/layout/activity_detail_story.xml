@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    tools:context=".ui.stories.detail.DetailStoryActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp">
+
+        <ImageView
+            android:id="@+id/iv_detail"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            tools:srcCompat="@tools:sample/avatars"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_margin="8dp"
+            android:contentDescription="@string/detail_image"
+            android:transitionName="profile"/>
+
+        <TextView
+            android:id="@+id/tv_author_name_story"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            app:layout_constraintTop_toBottomOf="@id/iv_detail"
+            app:layout_constraintStart_toStartOf="@id/iv_detail"
+            app:layout_constraintEnd_toEndOf="@id/iv_detail"
+            android:layout_marginTop="16dp"
+            android:transitionName="name"/>
+
+        <TextView
+            android:id="@+id/tv_description_story"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/tv_author_name_story"
+            app:layout_constraintStart_toStartOf="@id/tv_author_name_story"
+            app:layout_constraintEnd_toEndOf="@id/tv_author_name_story"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:transitionName="description"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>
