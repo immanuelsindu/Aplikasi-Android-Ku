@@ -20,7 +20,7 @@ import androidx.lifecycle.ViewModelProvider
 import id.ac.ukdw.sub1_intermediate.R
 import id.ac.ukdw.sub1_intermediate.UserPreference
 import id.ac.ukdw.sub1_intermediate.UserViewModel
-import id.ac.ukdw.sub1_intermediate.ViewModelFactory
+import id.ac.ukdw.sub1_intermediate.ViewModelFactoryDS
 import id.ac.ukdw.sub1_intermediate.api.ApiConfig
 import id.ac.ukdw.sub1_intermediate.databinding.ActivityLoginBinding
 import id.ac.ukdw.sub1_intermediate.homeStory.HomeStoryActivity
@@ -169,7 +169,7 @@ class LoginActivity:  AppCompatActivity() {
         userPreference.setUser(userModel)
 
         val pref = UserPreferencesDS.getInstance(dataStore)
-        val userViewModel = ViewModelProvider(this, ViewModelFactory(pref))[UserViewModel::class.java]
+        val userViewModel = ViewModelProvider(this, ViewModelFactoryDS(pref))[UserViewModel::class.java]
         userViewModel.saveCurrentToken(token)
 
     }

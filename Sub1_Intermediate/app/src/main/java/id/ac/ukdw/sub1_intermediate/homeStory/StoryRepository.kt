@@ -8,7 +8,7 @@ import androidx.paging.liveData
 import id.ac.ukdw.sub1_intermediate.StoryPagingSource
 import id.ac.ukdw.sub1_intermediate.api.ApiService
 
-class StoryRepository(private val apiService: ApiService) {
+class StoryRepository(private val storyDatabase: StoryDatabase, private val apiService: ApiService) {
     fun getStory(): LiveData<PagingData<ListStoryItem>> {
         return Pager(
             config = PagingConfig(

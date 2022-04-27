@@ -10,13 +10,12 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
-import id.ac.ukdw.sub1_intermediate.MyMaps
-import id.ac.ukdw.sub1_intermediate.R
+import id.ac.ukdw.sub1_intermediate.*
 import id.ac.ukdw.sub1_intermediate.UserPreference
-import id.ac.ukdw.sub1_intermediate.UserViewModel
 import id.ac.ukdw.sub1_intermediate.databinding.ActivityHomeStoryBinding
 import id.ac.ukdw.sub1_intermediate.main.MainActivity
 import id.ac.ukdw.sub1_intermediate.newStory.NewStoryActivity
@@ -32,7 +31,11 @@ class HomeStoryActivity : AppCompatActivity() {
     private lateinit var mUserPreference: UserPreference
     private lateinit var rcyStory: RecyclerView
     private lateinit var userVM: UserViewModel
-    private lateinit var storyViewModel: StoryViewModel
+//    private lateinit var storyViewModel: StoryViewModel
+
+    private val storyViewModel: StoryViewModel by viewModels {
+        ViewModelFactory_Paging(this)
+    }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,7 +48,7 @@ class HomeStoryActivity : AppCompatActivity() {
 
         mUserPreference = UserPreference(this)
         rcyStory = findViewById(R.id.rcyStory)
-        storyViewModel = ViewModelProvider(this)[StoryViewModel::class.java]
+
 
 
 
@@ -120,9 +123,15 @@ class HomeStoryActivity : AppCompatActivity() {
     private fun getData() {
         val adapter = StoryAdapter()
         binding.rcyStory.adapter = adapter
-        storyViewModel.quote.observe(this) {
+        storyViewModel.story.observe(this) {
             adapter.submitData(lifecycle, it)
         }
+//
+//        val adapter = QuoteListAdapter()
+//        binding.rvQuote.adapter = adapter
+//        mainViewModel.quote.observe(this, {
+//            adapter.submitData(lifecycle, it)
+//        })
     }
 
 //    private fun getAllStory(token: String){

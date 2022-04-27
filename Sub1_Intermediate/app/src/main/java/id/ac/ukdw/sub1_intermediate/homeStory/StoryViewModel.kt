@@ -6,10 +6,10 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 
-class StoryViewModel(quoteRepository: StoryRepository) : ViewModel() {
+class StoryViewModel(storyRepository: StoryRepository) : ViewModel() {
 
-    val quote: LiveData<PagingData<ListStoryItem>> =
-        quoteRepository.getStory().cachedIn(viewModelScope)
+    val story: LiveData<PagingData<ListStoryItem>> =
+        storyRepository.getStory().cachedIn(viewModelScope)
 
 
 

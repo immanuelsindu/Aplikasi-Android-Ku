@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import id.ac.ukdw.sub1_intermediate.userSession.UserPreferencesDS
 
-class ViewModelFactory(private val pref: UserPreferencesDS) : ViewModelProvider.NewInstanceFactory() {
+class ViewModelFactoryDS(private val pref: UserPreferencesDS) : ViewModelProvider.NewInstanceFactory() {
 
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {

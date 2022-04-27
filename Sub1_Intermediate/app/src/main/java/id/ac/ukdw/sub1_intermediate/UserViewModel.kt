@@ -8,7 +8,7 @@ import id.ac.ukdw.sub1_intermediate.userSession.UserPreferencesDS
 import kotlinx.coroutines.launch
 
 class UserViewModel(private val pref: UserPreferencesDS) : ViewModel() {
-
+    // ini buat UserViewModel ke DataStore
     fun getCurrentToken(): LiveData<String> {
         return pref.getCurrenctToken().asLiveData()
     }
