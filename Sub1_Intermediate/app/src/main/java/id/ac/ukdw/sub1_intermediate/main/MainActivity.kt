@@ -1,5 +1,8 @@
 package id.ac.ukdw.sub1_intermediate.main
 
+//import id.ac.ukdw.sub1_intermediate.UserViewModelDS
+//import id.ac.ukdw.sub1_intermediate.ViewModelFactoryDS
+
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
@@ -11,22 +14,17 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.app.ActivityOptionsCompat
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import id.ac.ukdw.sub1_intermediate.R
 import id.ac.ukdw.sub1_intermediate.UserPreference
-//import id.ac.ukdw.sub1_intermediate.UserViewModelDS
-//import id.ac.ukdw.sub1_intermediate.ViewModelFactoryDS
 import id.ac.ukdw.sub1_intermediate.databinding.ActivityMainBinding
 import id.ac.ukdw.sub1_intermediate.homeStory.HomeStoryActivity
 import id.ac.ukdw.sub1_intermediate.homeStory.UserModel
 import id.ac.ukdw.sub1_intermediate.login.LoginActivity
-
 import id.ac.ukdw.sub1_intermediate.register.RegisterActivity
 import id.ac.ukdw.sub1_intermediate.userSession.UserPreferencesDS
 import kotlinx.coroutines.launch
@@ -152,10 +150,6 @@ class MainActivity : AppCompatActivity() {
 //                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP;
 //                intent.putExtra(NAME, userModel.name.toString())
 //                startActivity(intent)
-
-
-
-
 
     @SuppressLint("RestrictedApi")
     private fun playAnimation() {

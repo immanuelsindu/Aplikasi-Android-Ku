@@ -4,13 +4,18 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import id.ac.ukdw.sub1_intermediate.RemoteKeysDao
+import id.ac.ukdw.sub1_intermediate.StoryDao
 
 @Database(
-    entities = [ListStoryItem::class],
+    entities = [ListStoryItem::class, RemoteKeys::class],
     version = 1,
     exportSchema = false
 )
 abstract class StoryDatabase : RoomDatabase() {
+
+    abstract fun storyDao(): StoryDao
+    abstract fun remoteKeysDao(): RemoteKeysDao
 
     companion object {
         @Volatile

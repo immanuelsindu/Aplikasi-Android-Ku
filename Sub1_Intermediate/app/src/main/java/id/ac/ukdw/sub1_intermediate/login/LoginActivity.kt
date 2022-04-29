@@ -16,15 +16,12 @@ import androidx.core.app.ActivityOptionsCompat
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import id.ac.ukdw.sub1_intermediate.R
 import id.ac.ukdw.sub1_intermediate.UserPreference
-
 import id.ac.ukdw.sub1_intermediate.api.ApiConfig
 import id.ac.ukdw.sub1_intermediate.databinding.ActivityLoginBinding
 import id.ac.ukdw.sub1_intermediate.homeStory.HomeStoryActivity
-import id.ac.ukdw.sub1_intermediate.homeStory.UserModel
 import id.ac.ukdw.sub1_intermediate.register.RegisterActivity
 import id.ac.ukdw.sub1_intermediate.userSession.UserPreferencesDS
 import kotlinx.coroutines.launch
@@ -163,12 +160,7 @@ class LoginActivity:  AppCompatActivity() {
 //    }
 
     private fun saveUserSessionDS(token: String, name: String){
-        //inisialisasi datastore
         val pref = UserPreferencesDS.getInstance(dataStore)
-//        val UserVMDS= ViewModelProvider(this, ViewModelFactoryDS(pref)).get(
-//            UserViewModelDS::class.java
-//        )
-//        UserVMDS.saveCurrentToken(token)
         lifecycleScope.launch{
             pref.saveCurrentToken(token)
             pref.saveCurrentName(name)
