@@ -10,7 +10,18 @@ import kotlinx.coroutines.flow.map
 
 class UserPreferencesDS private constructor(private val dataStore: DataStore<Preferences>) {
     private val CURRENT_TOKEN = stringPreferencesKey("current_token")
+    private val CURRENT_NAME = stringPreferencesKey("current_name")
 
+    suspend fun saveCurrentName(mUserName: String){
+        dataStore.edit{
+            it[CURRENT_NAME] = mUserName
+        }
+    }
+
+    suspend fun getCurrenctName(): String? {
+        val preference = dataStore.data.first()
+        return preference[CURRENT_NAME] ?: ""
+    }
 
     suspend fun saveCurrentToken(mUserToken: String){
         dataStore.edit{
@@ -21,10 +32,6 @@ class UserPreferencesDS private constructor(private val dataStore: DataStore<Pre
     suspend fun getCurrenctToken(): String? {
         val preference = dataStore.data.first()
         return preference[CURRENT_TOKEN] ?: ""
-
-//        return dataStore.data.map { preferences ->
-//            preferences[CURRENT_TOKEN] ?: "kosong"
-//        }
     }
 
 

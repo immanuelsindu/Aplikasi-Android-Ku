@@ -99,10 +99,10 @@ class MainActivity : AppCompatActivity() {
         val pref = UserPreferencesDS.getInstance(dataStore)
 
         Log.d("MainActivity","Ini merupakan token gan = "+ pref.getCurrenctToken())
-        if(pref.getCurrenctToken() != ""){
+        if(pref.getCurrenctName() != ""){
             val intent = Intent(this, HomeStoryActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP;
-            intent.putExtra(NAME, "Percobaan")
+            intent.putExtra(NAME, pref.getCurrenctName())
             intent.putExtra("token", pref.getCurrenctToken())
             startActivity(intent)
         }

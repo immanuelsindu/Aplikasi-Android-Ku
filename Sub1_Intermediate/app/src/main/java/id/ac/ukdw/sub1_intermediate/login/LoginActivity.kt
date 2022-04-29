@@ -171,6 +171,7 @@ class LoginActivity:  AppCompatActivity() {
 //        UserVMDS.saveCurrentToken(token)
         lifecycleScope.launch{
             pref.saveCurrentToken(token)
+            pref.saveCurrentName(name)
             Log.d("LoginActivity","Ini merupakan token gan = "+ pref.getCurrenctToken())
         }
         val intent = Intent(this, HomeStoryActivity::class.java)
