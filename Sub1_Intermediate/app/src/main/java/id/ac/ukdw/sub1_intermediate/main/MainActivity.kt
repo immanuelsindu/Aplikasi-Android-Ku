@@ -53,7 +53,10 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         supportActionBar?.hide()
-        checkSession()
+        lifecycleScope.launch{
+            checkSession()
+        }
+
         //inisialisasi datastore
 
 
@@ -89,24 +92,29 @@ class MainActivity : AppCompatActivity() {
             )
         }
         playAnimation()
+
     }
 
-    private fun checkSession(){
+    private suspend fun checkSession(){
         val pref = UserPreferencesDS.getInstance(dataStore)
 
-        lifecycleScope.launch {
-            token = pref.getCurrenctToken().toString()
-            Log.d("LoginActivity","Ini merupakan token gan = "+ pref.getCurrenctToken())
-        }
-        if (token != "") {
-            Log.d("MainActivity", "Ini adalah token = $token")
+        Log.d("MainActivity","Ini merupakan token gan = "+ pref.getCurrenctToken())
+        if(pref.getCurrenctToken() != ""){
             val intent = Intent(this, HomeStoryActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP;
             intent.putExtra(NAME, "Percobaan")
+            intent.putExtra("token", pref.getCurrenctToken())
             startActivity(intent)
-        } else {
-            Log.d("MainActivity", "Ini adalah token = $token")
         }
+//        if (token != "") {
+//            Log.d("MainActivity", "Ini adalah token = $token")
+//            val intent = Intent(this, HomeStoryActivity::class.java)
+//            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP;
+//            intent.putExtra(NAME, "Percobaan")
+//            startActivity(intent)
+//        } else {
+//            Log.d("MainActivity", "Ini adalah token = $token")
+//        }
     }
 
 
