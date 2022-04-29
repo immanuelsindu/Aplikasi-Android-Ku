@@ -7,17 +7,18 @@ import androidx.lifecycle.viewModelScope
 import id.ac.ukdw.sub1_intermediate.userSession.UserPreferencesDS
 import kotlinx.coroutines.launch
 
-class UserViewModel(private val pref: UserPreferencesDS) : ViewModel() {
-    // ini buat UserViewModel ke DataStore
-    fun getCurrentToken(): LiveData<String> {
-        return pref.getCurrenctToken().asLiveData()
-    }
-
-    fun saveCurrentToken(userToken: String) {
-        viewModelScope.launch {
-            pref.saveCurrentToken(userToken)
-        }
-    }
+//class UserViewModelDS(private val pref: UserPreferencesDS) : ViewModel() {
+//    // ini buat UserViewModel ke DataStore
+//    fun getCurrentToken(): String {
+//
+////        return pref.getCurrenctToken().toString()
+//    }
+//
+//    fun saveCurrentToken(userToken: String) {
+//        viewModelScope.launch {
+//            pref.saveCurrentToken(userToken)
+//        }
+//    }
 
     //    private lateinit var mUserSession: MutableLiveData<UserModel?>
 //
@@ -26,4 +27,4 @@ class UserViewModel(private val pref: UserPreferencesDS) : ViewModel() {
 //        return mUserSession
 //    }
 
-}
+//}

@@ -1,5 +1,6 @@
 package id.ac.ukdw.sub1_intermediate.api
 
+import id.ac.ukdw.sub1_intermediate.homeStory.GetAllStoryResponse
 import id.ac.ukdw.sub1_intermediate.homeStory.ListStoryItem
 import id.ac.ukdw.sub1_intermediate.login.LoginResponse
 import id.ac.ukdw.sub1_intermediate.newStory.GuestUploadResponse
@@ -38,9 +39,14 @@ interface ApiService {
     @GET("stories")
     fun getAllStory(
         @Header("Authorization") token: String,
-        @Query("page") page: Int,
-        @Query("size") size: Int
-    ): List<ListStoryItem>
+    ): Call<GetAllStoryResponse>
+
+//    @GET("stories")
+//    fun getAllStory(
+//        @Header("Authorization") token: String,
+//        @Query("page") page: Int,
+//        @Query("size") size: Int
+//    ): List<ListStoryItem>
 
     @Multipart
     @POST("stories/guest")

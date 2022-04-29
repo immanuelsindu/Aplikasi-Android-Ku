@@ -21,9 +21,9 @@ import id.ac.ukdw.sub1_intermediate.detail.DetailActivity
 import id.ac.ukdw.sub1_intermediate.detail.DetailStoryModel
 
 
-class StoryAdapter :
-    PagingDataAdapter<ListStoryItem, StoryAdapter.ListViewHolder>(DIFF_CALLBACK){
-//    (private val listStory: ArrayList<ListStoryItem>) : RecyclerView.Adapter<StoryAdapter.ListViewHolder>() {
+class StoryAdapter
+//     : PagingDataAdapter<ListStoryItem, StoryAdapter.ListViewHolder>(DIFF_CALLBACK){
+    (private val listStory: ArrayList<ListStoryItem>) : RecyclerView.Adapter<StoryAdapter.ListViewHolder>() {
 
     companion object{
         private const val VIEWMORE = "... view more"
@@ -51,7 +51,8 @@ class StoryAdapter :
     }
 
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
-        val data = getItem(position)
+        val data = listStory[position]
+//        val data = getItem(position)
         val username = data?.name
         val desc = data?.description
         var desc2 = ""
@@ -110,7 +111,7 @@ class StoryAdapter :
             holder.itemView.context.startActivity(intent, optionsCompat.toBundle())
         }
     }
-    override fun getItemCount(): Int = itemCount
+    override fun getItemCount(): Int = listStory.size
 
 
 

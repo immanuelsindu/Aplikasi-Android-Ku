@@ -17,21 +17,25 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import id.ac.ukdw.sub1_intermediate.R
 import id.ac.ukdw.sub1_intermediate.UserPreference
-import id.ac.ukdw.sub1_intermediate.UserViewModel
-import id.ac.ukdw.sub1_intermediate.ViewModelFactoryDS
+
 import id.ac.ukdw.sub1_intermediate.api.ApiConfig
 import id.ac.ukdw.sub1_intermediate.databinding.ActivityLoginBinding
 import id.ac.ukdw.sub1_intermediate.homeStory.HomeStoryActivity
 import id.ac.ukdw.sub1_intermediate.homeStory.UserModel
 import id.ac.ukdw.sub1_intermediate.register.RegisterActivity
 import id.ac.ukdw.sub1_intermediate.userSession.UserPreferencesDS
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "token")
+//private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "user")
+private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "user")
+
+
 class LoginActivity:  AppCompatActivity() {
     companion object{
         internal lateinit var userPreference: UserPreference
@@ -44,7 +48,7 @@ class LoginActivity:  AppCompatActivity() {
     }
 
     private lateinit var binding: ActivityLoginBinding
-    private lateinit var userVM: UserViewModel
+//    private lateinit var userVM: UserViewModelDS
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,7 +60,12 @@ class LoginActivity:  AppCompatActivity() {
 
 
 
-
+//        UserVMDS.getCurrentToken().observe(this
+//        ) { token: String ->
+//            if (token != "") {
+//                UserVMDS.saveCurrentToken(token)
+//            }
+//        }
 
         showLoading(false)
         val userCommand = intent.getStringExtra(LOGINCOMMAND)
@@ -64,6 +73,8 @@ class LoginActivity:  AppCompatActivity() {
             binding.tvUserCommand.text = userCommand
         }
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
+
+
 
         binding.edtPassword.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
@@ -92,12 +103,7 @@ class LoginActivity:  AppCompatActivity() {
         }
     }
 
-    private fun intentToHomeStory(name: String){
 
-        val intent = Intent(this, HomeStoryActivity::class.java)
-        intent.putExtra("name",name)
-        startActivity(intent, ActivityOptionsCompat.makeSceneTransitionAnimation(this).toBundle())
-    }
 
     private fun postLogin(email: String, password: String) {
         showLoading(true)
@@ -124,10 +130,10 @@ class LoginActivity:  AppCompatActivity() {
                             }
                             false->{
                                 showLoading(false)
-
-                                saveUserSession(responseBody.loginResult.name, responseBody.loginResult.userId, responseBody.loginResult.token)
+                                saveUserSessionDS(responseBody.loginResult.token, responseBody.loginResult.name)
+//                                saveUserSession(responseBody.loginResult.name, responseBody.loginResult.userId, responseBody.loginResult.token)
                                 Toast.makeText(this@LoginActivity,getString(R.string.loginSuccessfully), Toast.LENGTH_SHORT).show()
-                                intentToHomeStory(responseBody.loginResult.name)
+//                                intentToHomeStory(responseBody.loginResult.name)
                             }
                         }
                     }
@@ -149,7 +155,31 @@ class LoginActivity:  AppCompatActivity() {
             }
         })
     }
+//    private fun intentToHomeStory(name: String){
+//
+//        val intent = Intent(this, HomeStoryActivity::class.java)
+//        intent.putExtra("name",name)
+//        startActivity(intent, ActivityOptionsCompat.makeSceneTransitionAnimation(this).toBundle())
+//    }
 
+    private fun saveUserSessionDS(token: String, name: String){
+        //inisialisasi datastore
+        val pref = UserPreferencesDS.getInstance(dataStore)
+//        val UserVMDS= ViewModelProvider(this, ViewModelFactoryDS(pref)).get(
+//            UserViewModelDS::class.java
+//        )
+//        UserVMDS.saveCurrentToken(token)
+        lifecycleScope.launch{
+            pref.saveCurrentToken(token)
+            Log.d("LoginActivity","Ini merupakan token gan = "+ pref.getCurrenctToken())
+        }
+        val intent = Intent(this, HomeStoryActivity::class.java)
+        intent.putExtra("name",name)
+        intent.putExtra("token", token)
+        startActivity(intent, ActivityOptionsCompat.makeSceneTransitionAnimation(this).toBundle())
+
+
+    }
     private fun saveUserSession(name: String, id: String, token: String) {
 //        userVM = ViewModelProvider(this)[UserViewModel::class.java]
 //        var userModel = UserModel()
@@ -160,17 +190,17 @@ class LoginActivity:  AppCompatActivity() {
 //            userVM.getUser().value(it)
 //        }
 //        userVM.getUser().value = userModel
+//
+//        userPreference = UserPreference(this)
+//        var userModel = UserModel()
+//        userModel.name = name
+//        userModel.id = id
+//        userModel.token = token
+//        userPreference.setUser(userModel)
 
-        userPreference = UserPreference(this)
-        var userModel = UserModel()
-        userModel.name = name
-        userModel.id = id
-        userModel.token = token
-        userPreference.setUser(userModel)
-
-        val pref = UserPreferencesDS.getInstance(dataStore)
-        val userViewModel = ViewModelProvider(this, ViewModelFactoryDS(pref))[UserViewModel::class.java]
-        userViewModel.saveCurrentToken(token)
+//        val pref = UserPreferencesDS.getInstance(dataStore)
+//        val userViewModel = ViewModelProvider(this, ViewModelFactoryDS(pref))[UserViewModel::class.java]
+//        userViewModel.saveCurrentToken(token)
 
     }
 
