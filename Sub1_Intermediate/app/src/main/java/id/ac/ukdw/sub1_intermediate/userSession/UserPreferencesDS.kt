@@ -6,7 +6,7 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import kotlinx.coroutines.flow.first
 
-class UserPreferencesDS private constructor(private val dataStore: DataStore<Preferences>) {
+class UserPreferencesDS internal constructor(private val dataStore: DataStore<Preferences>) {
     private val CURRENT_TOKEN = stringPreferencesKey("current_token")
     private val CURRENT_NAME = stringPreferencesKey("current_name")
 

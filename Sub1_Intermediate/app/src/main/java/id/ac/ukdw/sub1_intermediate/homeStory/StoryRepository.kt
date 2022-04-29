@@ -6,7 +6,7 @@ import id.ac.ukdw.sub1_intermediate.StoryRemoteMediator
 import id.ac.ukdw.sub1_intermediate.api.ApiService
 
 
-class StoryRepository(private val storyDatabase: StoryDatabase, private val apiService: ApiService) {
+class StoryRepository(private val token: String, private val storyDatabase: StoryDatabase, private val apiService: ApiService) {
 
 
     fun getStory(): LiveData<PagingData<ListStoryItem>> {
@@ -15,7 +15,7 @@ class StoryRepository(private val storyDatabase: StoryDatabase, private val apiS
             config = PagingConfig(
                 pageSize = 5
             ),
-            remoteMediator = StoryRemoteMediator(storyDatabase, apiService),
+            remoteMediator = StoryRemoteMediator(token, storyDatabase, apiService),
             pagingSourceFactory = {
 //                QuotePagingSource(apiService)
                 storyDatabase.storyDao().getAllStory()

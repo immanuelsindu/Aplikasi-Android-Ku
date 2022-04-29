@@ -104,52 +104,8 @@ class MainActivity : AppCompatActivity() {
             intent.putExtra("token", pref.getCurrenctToken())
             startActivity(intent)
         }
-//        if (token != "") {
-//            Log.d("MainActivity", "Ini adalah token = $token")
-//            val intent = Intent(this, HomeStoryActivity::class.java)
-//            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP;
-//            intent.putExtra(NAME, "Percobaan")
-//            startActivity(intent)
-//        } else {
-//            Log.d("MainActivity", "Ini adalah token = $token")
-//        }
+
     }
-
-
-//        val UserVMDS= ViewModelProvider(this, ViewModelFactoryDS(pref)).get(
-//            UserViewModelDS::class.java
-//        )
-
-//        val token = UserVMDS.getCurrentToken()
-//        if(token != "id.ac.ukdw.sub1_intermediate.userSession.UserPreferencesDS$"+"getCurrenctToken$"+"$"+"inlined"+"$"+"map$1@5371628"){
-//            Log.d("MainActivity", "Ini adalah token = $token")
-//            val intent = Intent(this, HomeStoryActivity::class.java)
-//            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP;
-//            intent.putExtra(NAME, "Percobaan")
-//            startActivity(intent)
-//        }
-
-        // ganti bagian ini ke viewModel
-//        mUserPreference = UserPreference(this)
-//
-//        userModel = mUserPreference.getUser()
-//        when{
-//            userModel.name.toString() != "" ->{
-//                val intent = Intent(this, HomeStoryActivity::class.java)
-//                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP;
-//                intent.putExtra(NAME, userModel.name.toString())
-//                startActivity(intent)
-//            }
-//        }
-
-        //ke viewModel
-//        userVM = ViewModelProvider(this)[UserViewModel::class.java]
-//        val userModel = userVM.getUser()
-//        if(userModel?.name != null){
-//            val intent = Intent(this, HomeStoryActivity::class.java)
-//                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP;
-//                intent.putExtra(NAME, userModel.name.toString())
-//                startActivity(intent)
 
     @SuppressLint("RestrictedApi")
     private fun playAnimation() {

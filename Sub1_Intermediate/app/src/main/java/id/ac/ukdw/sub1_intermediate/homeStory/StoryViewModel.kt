@@ -16,11 +16,11 @@ class StoryViewModel(storyRepository: StoryRepository) : ViewModel() {
 
 }
 
-class ViewModelFactory(private val context: Context) : ViewModelProvider.Factory {
+class ViewModelFactory(private val token: String, private val context: Context) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(StoryViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")
-            return StoryViewModel(Injection.provideRepository( context)) as T
+            return StoryViewModel(Injection.provideRepository(token,  context)) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

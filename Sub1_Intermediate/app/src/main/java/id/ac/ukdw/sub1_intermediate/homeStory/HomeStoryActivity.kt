@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import id.ac.ukdw.sub1_intermediate.MyMaps
@@ -24,6 +25,7 @@ import id.ac.ukdw.sub1_intermediate.UserPreference
 import id.ac.ukdw.sub1_intermediate.databinding.ActivityHomeStoryBinding
 import id.ac.ukdw.sub1_intermediate.main.MainActivity
 import id.ac.ukdw.sub1_intermediate.newStory.NewStoryActivity
+import id.ac.ukdw.sub1_intermediate.userSession.UserPreferencesDS
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "user")
 class HomeStoryActivity : AppCompatActivity() {
@@ -35,6 +37,7 @@ class HomeStoryActivity : AppCompatActivity() {
     private lateinit var binding: ActivityHomeStoryBinding
     private lateinit var mUserPreference: UserPreference
     private lateinit var rcyStory: RecyclerView
+    private lateinit var storyViewModel: StoryViewModel
 
 //    private val pref = UserPreferencesDS.getInstance(dataStore)
 //    private  var tokenGlobal: String? = "kosong"
@@ -47,9 +50,12 @@ class HomeStoryActivity : AppCompatActivity() {
 //            StoryViewModel::class.java
 //        )
 //
-    private val storyViewModel: StoryViewModel by viewModels {
-        ViewModelFactory(this)
-    }
+//    private val storyViewModel: StoryViewModel by viewModels {
+//        ViewModelFactory(this)
+//    }
+
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,6 +69,12 @@ class HomeStoryActivity : AppCompatActivity() {
         rcyStory = findViewById<RecyclerView>(R.id.rcyStory)
         rcyStory.layoutManager = LinearLayoutManager(this)
 
+        val name = intent.getStringExtra("name")
+        val iToken = intent.getStringExtra("token").toString()
+
+//        val pref = UserPreferencesDS.getInstance(dataStore)
+        storyViewModel= ViewModelProvider(this, ViewModelFactory(iToken, this))[StoryViewModel::class.java]
+
 
 //        lifecycleScope.launch{
 //            tokenGlobal = pref.getCurrenctToken()
@@ -70,19 +82,11 @@ class HomeStoryActivity : AppCompatActivity() {
 //        }
 //        val pref = UserPreferencesDS.getInstance(dataStore)
 //        val name = mUserPreference.getUserName()
-        val name = intent.getStringExtra("name")
-        val iToken = intent.getStringExtra("token")
 
-//        if (iToken != null) {
-//            tokenGlobal = iToken
-//        }
-//        userVM = ViewModelProvider(this)[UserViewModel::class.java]
-//        val userModel = userVM.getUser()
+
         if (name != "" && name != null) {
             supportActionBar?.title = resources.getString(R.string.welcome_home, name)
             val token = BEARER + iToken
-
-//            val token = BEARER + UserVMDS.getCurrentToken()
             Log.d("HomeStoryActivity", "Ini merupakan token di Home = $token")
 //            getAllStory(token)
             getData()
