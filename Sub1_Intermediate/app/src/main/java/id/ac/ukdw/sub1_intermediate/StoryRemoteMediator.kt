@@ -18,6 +18,7 @@ class StoryRemoteMediator(
 
     private companion object {
         const val INITIAL_PAGE_INDEX = 1
+        const val BEARER = "Bearer "
     }
     override suspend fun initialize(): InitializeAction {
         return InitializeAction.LAUNCH_INITIAL_REFRESH
@@ -28,7 +29,7 @@ class StoryRemoteMediator(
         state: PagingState<Int, ListStoryItem>
     ): MediatorResult {
 //        val pref = UserPreferencesDS.getInstance()
-        val token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c2VyLWFGRGExd3hfRkdFVnJoUHgiLCJpYXQiOjE2NTEyNDY4MjZ9.80vTbK0j6N4thcK66Y4M7WwcZGd4Db1miKbREdJzvvY"
+        val token = BEARER + "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c2VyLWFGRGExd3hfRkdFVnJoUHgiLCJpYXQiOjE2NTEyNDY4MjZ9.80vTbK0j6N4thcK66Y4M7WwcZGd4Db1miKbREdJzvvY"
         val page = INITIAL_PAGE_INDEX
         return try {
             val responseData = apiService.getAllStory(token, page, state.config.pageSize)

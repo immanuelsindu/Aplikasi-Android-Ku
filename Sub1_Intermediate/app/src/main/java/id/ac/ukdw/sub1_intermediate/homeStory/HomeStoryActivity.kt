@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import id.ac.ukdw.sub1_intermediate.MyMaps
 import id.ac.ukdw.sub1_intermediate.R
@@ -31,10 +32,10 @@ class HomeStoryActivity : AppCompatActivity() {
         private const val DURATION = 450.toLong()
         private const val DURATION2 = 1250.toLong()
     }
-
     private lateinit var binding: ActivityHomeStoryBinding
     private lateinit var mUserPreference: UserPreference
     private lateinit var rcyStory: RecyclerView
+
 //    private val pref = UserPreferencesDS.getInstance(dataStore)
 //    private  var tokenGlobal: String? = "kosong"
 
@@ -59,7 +60,9 @@ class HomeStoryActivity : AppCompatActivity() {
         showLoading(false)
 
         mUserPreference = UserPreference(this)
-        rcyStory = findViewById(R.id.rcyStory)
+        rcyStory = findViewById<RecyclerView>(R.id.rcyStory)
+        rcyStory.layoutManager = LinearLayoutManager(this)
+
 
 //        lifecycleScope.launch{
 //            tokenGlobal = pref.getCurrenctToken()
@@ -145,8 +148,9 @@ class HomeStoryActivity : AppCompatActivity() {
 //    }
 
     private fun getData() {
+
         val adapter = StoryAdapter()
-        binding.rcyStory.adapter = adapter
+        rcyStory.adapter = adapter
         storyViewModel.story.observe(this) {
             adapter.submitData(lifecycle, it)
         }

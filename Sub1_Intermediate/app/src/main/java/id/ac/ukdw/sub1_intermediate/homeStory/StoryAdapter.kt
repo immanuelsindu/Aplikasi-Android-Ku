@@ -112,7 +112,7 @@ class StoryAdapter
         }
     }
 //    override fun getItemCount(): Int = listStory.size
-    override fun getItemCount(): Int = itemCount
+//    override fun getItemCount(): Int = itemCount
 
 
 
