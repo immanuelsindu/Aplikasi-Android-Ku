@@ -9,7 +9,7 @@ import id.ac.ukdw.sub1_intermediate.StoryDao
 
 @Database(
     entities = [ListStoryItem::class, RemoteKeys::class],
-    version = 1,
+    version = 2,
     exportSchema = false
 )
 abstract class StoryDatabase : RoomDatabase() {

@@ -22,28 +22,90 @@ import id.ac.ukdw.sub1_intermediate.detail.DetailStoryModel
 
 
 class StoryAdapter
-     : PagingDataAdapter<ListStoryItem, StoryAdapter.ListViewHolder>(DIFF_CALLBACK){
+     : PagingDataAdapter<ListStoryItem, StoryAdapter.ListViewHolder>(DIFF_CALLBACK) {
 //    (private val listStory: ArrayList<ListStoryItem>) : RecyclerView.Adapter<StoryAdapter.ListViewHolder>() {
 
-    companion object{
+    companion object {
         private const val VIEWMORE = "... view more"
         private const val USERMODEL = "userModel"
         private const val USERNAME = "username"
         private const val DESCRIPTION = "description"
         private const val IMAGEDETAIL = "imgDetail"
-        private const val CONSTRAINTLAYOUT= "constraintLayout"
+        private const val CONSTRAINTLAYOUT = "constraintLayout"
 
         private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<ListStoryItem>() {
             override fun areItemsTheSame(oldItem: ListStoryItem, newItem: ListStoryItem): Boolean {
                 return oldItem == newItem
             }
 
-            override fun areContentsTheSame(oldItem: ListStoryItem, newItem: ListStoryItem): Boolean {
+            override fun areContentsTheSame(
+                oldItem: ListStoryItem,
+                newItem: ListStoryItem
+            ): Boolean {
                 return oldItem.id == newItem.id
             }
         }
     }
-    class ListViewHolder(var binding: ItemStoryBinding) : RecyclerView.ViewHolder(binding.root)
+
+    class ListViewHolder(val binding: ItemStoryBinding) : RecyclerView.ViewHolder(binding.root) {
+        fun bind(story: ListStoryItem) {
+            val desc = story.description
+            var desc2 = ""
+            desc2 = when{
+                desc.length > 40 -> {
+                    desc.slice(0..32) + VIEWMORE
+                }else->{
+                    desc
+                }
+            }
+//            binding.apply {
+//                tvUserName.text = story.name
+//                tvDesc.text = desc2
+//            }
+            binding.tvUserName.text = story.name
+            binding.tvDesc.text = desc2
+
+            Glide.with(itemView.context)
+                .load(story.photoUrl)
+                .listener(object : RequestListener<Drawable> {
+                    override fun onLoadFailed(
+                        e: GlideException?,
+                        model: Any?,
+                        target: Target<Drawable>?,
+                        isFirstResource: Boolean
+                    ): Boolean {
+                        return false
+                    }
+
+                    override fun onResourceReady(
+                        resource: Drawable?,
+                        model: Any?,
+                        target: Target<Drawable>?,
+                        dataSource: DataSource?,
+                        isFirstResource: Boolean
+                    ): Boolean {
+                        binding.progresBar.visibility = View.GONE
+                        return false
+                    }
+                })
+                .into(binding.imgStory)
+
+            itemView.setOnClickListener {
+                val intent = Intent(itemView.context, DetailActivity::class.java)
+                val detailModel = DetailStoryModel(story.name, story.description, story.photoUrl)
+                intent.putExtra(USERMODEL, detailModel)
+                val optionsCompat: ActivityOptionsCompat =
+                    ActivityOptionsCompat.makeSceneTransitionAnimation(
+                        itemView.context as Activity,
+                        Pair(binding.tvUserName, USERNAME),
+                        Pair(binding.tvDesc, DESCRIPTION),
+                        Pair(binding.imgStory, IMAGEDETAIL),
+                        Pair(binding.contraintLayout, CONSTRAINTLAYOUT),
+                    )
+                itemView.context.startActivity(intent, optionsCompat.toBundle())
+            }
+        }
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListViewHolder {
         val binding = ItemStoryBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -51,70 +113,73 @@ class StoryAdapter
     }
 
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
-//        val data = listStory[position]
-        val data = getItem(position)
-        val username = data?.name
-        val desc = data?.description
-        var desc2 = ""
-        desc2 = when{
-            desc?.length!! > 40 -> {
-                desc.slice(0..32) + VIEWMORE
-            }else->{
-                desc
-            }
-        }
-        val image = data.photoUrl
-
-        Glide.with(holder.itemView.context)
-            .load(image)
-            .listener(object: RequestListener<Drawable> {
-                override fun onLoadFailed(
-                    e: GlideException?,
-                    model: Any?,
-                    target: Target<Drawable>?,
-                    isFirstResource: Boolean
-                ): Boolean {
-                    return false
-                }
-
-                override fun onResourceReady(
-                    resource: Drawable?,
-                    model: Any?,
-                    target: Target<Drawable>?,
-                    dataSource: DataSource?,
-                    isFirstResource: Boolean
-                ): Boolean {
-                    holder.binding.progresBar.visibility = View.GONE
-                    return false
-                }
-            })
-            .into(holder.binding.imgStory)
-
-
-        holder.binding.apply {
-            tvUserName.text = username
-            tvDesc.text = desc2
-        }
-
-        holder.itemView.setOnClickListener {
-            val intent = Intent(holder.itemView.context, DetailActivity::class.java)
-            val detailModel = username?.let { it1 -> DetailStoryModel(it1,desc, image) }
-            intent.putExtra(USERMODEL, detailModel)
-            val optionsCompat: ActivityOptionsCompat =
-                ActivityOptionsCompat.makeSceneTransitionAnimation(
-                    holder.itemView.context as Activity,
-                    Pair(holder.binding.tvUserName, USERNAME),
-                    Pair(holder.binding.tvDesc, DESCRIPTION),
-                    Pair(holder.binding.imgStory, IMAGEDETAIL),
-                    Pair(holder.binding.contraintLayout, CONSTRAINTLAYOUT),
-                )
-            holder.itemView.context.startActivity(intent, optionsCompat.toBundle())
+        val storyItem = getItem(position)
+        if (storyItem != null) {
+            holder.bind(storyItem)
         }
     }
+}
+////        val data = listStory[position]
+//        val data = getItem(position)
+//        val username = data?.name
+//        val desc = data?.description
+//        var desc2 = ""
+//        desc2 = when{
+//            desc?.length!! > 40 -> {
+//                desc.slice(0..32) + VIEWMORE
+//            }else->{
+//                desc
+//            }
+//        }
+//        val image = data.photoUrl
+//
+//        Glide.with(holder.itemView.context)
+//            .load(image)
+//            .listener(object: RequestListener<Drawable> {
+//                override fun onLoadFailed(
+//                    e: GlideException?,
+//                    model: Any?,
+//                    target: Target<Drawable>?,
+//                    isFirstResource: Boolean
+//                ): Boolean {
+//                    return false
+//                }
+//
+//                override fun onResourceReady(
+//                    resource: Drawable?,
+//                    model: Any?,
+//                    target: Target<Drawable>?,
+//                    dataSource: DataSource?,
+//                    isFirstResource: Boolean
+//                ): Boolean {
+//                    holder.binding.progresBar.visibility = View.GONE
+//                    return false
+//                }
+//            })
+//            .into(holder.binding.imgStory)
+//
+//
+//        holder.binding.apply {
+//            tvUserName.text = username
+//            tvDesc.text = desc2
+//        }
+//
+//        holder.itemView.setOnClickListener {
+//            val intent = Intent(holder.itemView.context, DetailActivity::class.java)
+//            val detailModel = username?.let { it1 -> DetailStoryModel(it1,desc, image) }
+//            intent.putExtra(USERMODEL, detailModel)
+//            val optionsCompat: ActivityOptionsCompat =
+//                ActivityOptionsCompat.makeSceneTransitionAnimation(
+//                    holder.itemView.context as Activity,
+//                    Pair(holder.binding.tvUserName, USERNAME),
+//                    Pair(holder.binding.tvDesc, DESCRIPTION),
+//                    Pair(holder.binding.imgStory, IMAGEDETAIL),
+//                    Pair(holder.binding.contraintLayout, CONSTRAINTLAYOUT),
+//                )
+//            holder.itemView.context.startActivity(intent, optionsCompat.toBundle())
+//        }
+
+
 //    override fun getItemCount(): Int = listStory.size
 //    override fun getItemCount(): Int = itemCount
 
-
-
-
-}

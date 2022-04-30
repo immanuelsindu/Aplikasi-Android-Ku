@@ -1,7 +1,7 @@
 package com.example.storyapp.data.remote.api
 
+
 import androidx.viewbinding.BuildConfig
-import com.example.storyapp.BuildConfig
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit

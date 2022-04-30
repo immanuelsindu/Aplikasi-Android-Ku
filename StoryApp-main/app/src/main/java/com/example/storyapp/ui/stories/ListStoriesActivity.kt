@@ -3,6 +3,7 @@ package com.example.storyapp.ui.stories
 import android.content.Intent
 import android.os.Bundle
 import android.provider.Settings
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.result.contract.ActivityResultContracts
@@ -87,6 +88,7 @@ class ListStoriesActivity : AppCompatActivity() {
         viewModel.findStories().observe(this) {
             if (it != null) {
                 adapter.submitData(lifecycle, it)
+                Log.d("ListStoriesActivity"," Berhasil gan = "+ it.toString())
             }
         }
     }

@@ -13,6 +13,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.size
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
@@ -35,7 +36,7 @@ class HomeStoryActivity : AppCompatActivity() {
         private const val DURATION2 = 1250.toLong()
     }
     private lateinit var binding: ActivityHomeStoryBinding
-    private lateinit var mUserPreference: UserPreference
+//    private lateinit var mUserPreference: UserPreference
     private lateinit var rcyStory: RecyclerView
     private lateinit var storyViewModel: StoryViewModel
 
@@ -62,11 +63,11 @@ class HomeStoryActivity : AppCompatActivity() {
         binding = ActivityHomeStoryBinding.inflate(layoutInflater)
         setContentView(binding.root)
 //        supportActionBar?.title = resources.getString(R.string.titleStoryActivity)
-        playAnimation()
+//        playAnimation()
         showLoading(false)
 
-        mUserPreference = UserPreference(this)
-        rcyStory = findViewById<RecyclerView>(R.id.rcyStory)
+//        mUserPreference = UserPreference(this)
+        rcyStory = findViewById(R.id.rcyStory)
         rcyStory.layoutManager = LinearLayoutManager(this)
 
         val name = intent.getStringExtra("name")
@@ -99,13 +100,6 @@ class HomeStoryActivity : AppCompatActivity() {
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle())
         }
-//
-//        binding.imgLogout.setOnClickListener{
-//            showExitDialog()
-//        }
-//        binding.imgSetting.setOnClickListener{
-//            startActivity(Intent(Settings.ACTION_LOCALE_SETTINGS))
-//        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -134,16 +128,16 @@ class HomeStoryActivity : AppCompatActivity() {
         }
     }
 
-    private fun playAnimation() {
-//        val tvWelcome = ObjectAnimator.ofFloat(binding.tvWelcomeHome, View.ALPHA, 1F).setDuration(DURATION2)
-//        val imgLogout = ObjectAnimator.ofFloat(binding.,View.ALPHA,1F).setDuration(DURATION)
-//        val imgSetting = ObjectAnimator.ofFloat(binding.imgSetting, View.ALPHA, 1F).setDuration(DURATION)
-
-//        AnimatorSet().apply{
-//            playSequentially(tvWelcome)
-//            start()
-//        }
-    }
+//    private fun playAnimation() {
+////        val tvWelcome = ObjectAnimator.ofFloat(binding.tvWelcomeHome, View.ALPHA, 1F).setDuration(DURATION2)
+////        val imgLogout = ObjectAnimator.ofFloat(binding.,View.ALPHA,1F).setDuration(DURATION)
+////        val imgSetting = ObjectAnimator.ofFloat(binding.imgSetting, View.ALPHA, 1F).setDuration(DURATION)
+//
+////        AnimatorSet().apply{
+////            playSequentially(tvWelcome)
+////            start()
+////        }
+//    }
 
 //    private fun showRecyclerList(arraylist: ArrayList<ListStoryItem>) {
 //        rcyStory.layoutManager = LinearLayoutManager(this)
@@ -152,19 +146,26 @@ class HomeStoryActivity : AppCompatActivity() {
 //    }
 
     private fun getData() {
-
         val adapter = StoryAdapter()
         rcyStory.adapter = adapter
-        storyViewModel.story.observe(this) {
-            adapter.submitData(lifecycle, it)
+        storyViewModel.getAllStories().observe(this){
+            if(it != null){
+                adapter.submitData(lifecycle, it)
+                Log.d("HomeStoryActivity", " Berhasil gan = $it")
+            }else{
+                Log.d("HomeStoryActivity"," Gagal gan ")
+            }
         }
+//        storyViewModel.story.observe(this) {
+//            if(it != null){
+//                adapter.submitData(lifecycle, it)
+//                Log.d("HomeStoryActivity"," Berhasil gan = "+ it.toString())
+//            }else{
+//                Log.d("HomeStoryActivity"," Gagal gan ")
+//            }
+//
+//        }
       }
-//        val adapter = QuoteListAdapter()
-//        binding.rvQuote.adapter = adapter
-//        mainViewModel.quote.observe(this, {
-//            adapter.submitData(lifecycle, it)
-//        })
-
 
 //    private fun getAllStory(token: String){
 //        showLoading(true)

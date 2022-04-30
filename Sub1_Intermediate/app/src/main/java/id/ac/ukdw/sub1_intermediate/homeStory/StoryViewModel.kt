@@ -9,10 +9,12 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import id.ac.ukdw.sub1_intermediate.Injection
 
-class StoryViewModel(storyRepository: StoryRepository) : ViewModel() {
+class StoryViewModel(private val storyRepository: StoryRepository) : ViewModel() {
+//
+//    val story: LiveData<PagingData<ListStoryItem>> =
+//        storyRepository.getStory().cachedIn(viewModelScope)
 
-    val story: LiveData<PagingData<ListStoryItem>> =
-        storyRepository.getStory().cachedIn(viewModelScope)
+    fun getAllStories() : LiveData<PagingData<ListStoryItem>> = storyRepository.getStory()
 
 }
 

@@ -7,8 +7,6 @@ import id.ac.ukdw.sub1_intermediate.api.ApiService
 
 
 class StoryRepository(private val token: String, private val storyDatabase: StoryDatabase, private val apiService: ApiService) {
-
-
     fun getStory(): LiveData<PagingData<ListStoryItem>> {
         @OptIn(ExperimentalPagingApi::class)
         return Pager(

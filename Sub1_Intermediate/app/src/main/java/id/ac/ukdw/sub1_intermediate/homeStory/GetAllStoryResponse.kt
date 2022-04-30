@@ -1,8 +1,10 @@
 package id.ac.ukdw.sub1_intermediate.homeStory
 
+
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
+
 
 
 data class GetAllStoryResponse(
