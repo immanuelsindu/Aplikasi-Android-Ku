@@ -13,6 +13,16 @@ import retrofit2.http.*
 
 
 interface ApiService {
+
+    //ini udah bener
+    @GET("stories")
+    suspend fun getAllStory(
+        @Header("Authorization") token: String,
+        @Query("page") page: Int,
+        @Query("size") size: Int
+    ): GetAllStoryResponse
+
+
     @FormUrlEncoded
     @POST("register")
     fun registerUser(
@@ -41,12 +51,8 @@ interface ApiService {
 //        @Header("Authorization") token: String,
 //    ): Call<GetAllStoryResponse>
 
-    @GET("stories")
-    fun getAllStory(
-        @Header("Authorization") token: String,
-        @Query("page") page: Int,
-        @Query("size") size: Int
-    ): GetAllStoryResponse
+
+
 
     @Multipart
     @POST("stories/guest")

@@ -14,9 +14,9 @@ import id.ac.ukdw.sub1_intermediate.homeStory.StoryDatabase
 
 @OptIn(ExperimentalPagingApi::class)
 class StoryRemoteMediator(
-    private val token: String,
     private val database: StoryDatabase,
-    private val apiService: ApiService
+    private val apiService: ApiService,
+    private val token: String,
 ) : RemoteMediator<Int, ListStoryItem>() {
 
     private companion object {
@@ -53,12 +53,20 @@ class StoryRemoteMediator(
 
 
         return try {
-            val token = BEARER + token
-            Log.d("StoryRemoteMediator","LAST GAN = $token")
-            val responseData = apiService.getAllStory(token, page, state.config.pageSize).listStory
+//            val token = token
+            Log.d("StoryRemoteMediator","LAST GAN = " + "Bearer $token")
+//            Log.d("StoryRemoteMediator", "Ukuran respon story = " + responseData.size)
+            Log.d("StoryRemoteMediator", "Ukuran page = " + page)
+            Log.d("StoryRemoteMediator", "Ukuran page size = " + state.config.pageSize)
+//            Log.d("StoryRemoteMediator", "Ukuran respon data = " + responseData)
+            Log.d("StoryRemoteMediator","Masuk sini gan")
+            val responseData = apiService.getAllStory("Bearer $token", page, state.config.pageSize).listStory
+            Log.d("StoryRemoteMediator", "Ukuran respon data = " + responseData)
             val endOfPaginationReached = responseData.isEmpty()
-            Log.d("StoryRemoteMediator", "Ukuran respon story = $endOfPaginationReached")
+
+            Log.d("StoryRemoteMediator","Masuk sini gan")
             database.withTransaction {
+                Log.d("StoryRemoteMediator","Masuk sini gan1")
                 if (loadType == LoadType.REFRESH) {
                     database.remoteKeysDao().deleteRemoteKeys()
                     database.storyDao().deleteAll()
@@ -70,8 +78,7 @@ class StoryRemoteMediator(
                 }
                 database.remoteKeysDao().insertAll(keys)
                 database.storyDao().insertStory(responseData)
-
-                Log.e("StoryRemoteMediator","isi responData " + responseData.isEmpty().toString())
+                Log.d("StoryRemoteMediator","Masuk sini gan2")
 
             }
 

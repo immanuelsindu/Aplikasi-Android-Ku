@@ -13,14 +13,11 @@ class StoryRepository(private val token: String, private val storyDatabase: Stor
             config = PagingConfig(
                 pageSize = 5
             ),
-            remoteMediator = StoryRemoteMediator(token, storyDatabase, apiService),
+            remoteMediator = StoryRemoteMediator(storyDatabase, apiService, token),
             pagingSourceFactory = {
 //                QuotePagingSource(apiService)
                 storyDatabase.storyDao().getAllStory()
             }
         ).liveData
     }
-
-
-
 }
