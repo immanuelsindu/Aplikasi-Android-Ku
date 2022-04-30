@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Stoty App</string>
+    <string name="app_name">Story App</string>
     <string name="failToLoad">Gagal meproses data</string>
     <string name="passwordHint">Tulis password Anda di sini</string>
     <string name="titleDetailStory">Detil Cerita</string>

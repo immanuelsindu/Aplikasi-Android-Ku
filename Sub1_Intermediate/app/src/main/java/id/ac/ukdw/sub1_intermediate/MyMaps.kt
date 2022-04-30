@@ -2,6 +2,7 @@ package id.ac.ukdw.sub1_intermediate
 
 import android.Manifest
 import android.content.pm.PackageManager
+import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.os.Bundle
@@ -78,11 +79,8 @@ class MyMaps : AppCompatActivity(), OnMapReadyCallback {
             }
         }
 
-
-
-
         getMyLocation()
-//        setMapStyle()
+        setMapStyle()
 //
 //        // Add a marker in Sydney and move the camera
 //        val sydney = LatLng(-34.0, 151.0)
@@ -162,15 +160,15 @@ class MyMaps : AppCompatActivity(), OnMapReadyCallback {
         return BitmapDescriptorFactory.fromBitmap(bitmap)
     }
 
-//    private fun setMapStyle() {
-//        try {
-//            val success =
-//                mMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(this, R.raw.map_style))
-//            if (!success) {
-//                Log.e(TAG, "Style parsing failed.")
-//            }
-//        } catch (exception: Resources.NotFoundException) {
-//            Log.e(TAG, "Can't find style. Error: ", exception)
-//        }
-//    }
+    private fun setMapStyle() {
+        try {
+            val success =
+                mMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(this, R.raw.map_style))
+            if (!success) {
+                Log.e(TAG, "Style parsing failed.")
+            }
+        } catch (exception: Resources.NotFoundException) {
+            Log.e(TAG, "Can't find style. Error: ", exception)
+        }
+    }
 }

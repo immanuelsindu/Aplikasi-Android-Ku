@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Stoty App</string>
+    <string name="app_name">Story App</string>
     <string name="welcome_home">Hi, %1$s</string>
     <string name="failToLoad">Fail to load picture</string>
     <string name="password6">Password consists of at least 6 characters</string>

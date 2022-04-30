@@ -2,11 +2,14 @@ package id.ac.ukdw.sub1_intermediate.newStory
 
 import android.Manifest
 import android.app.ActivityOptions
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.BitmapFactory
+import android.location.Location
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import android.widget.EditText
@@ -15,6 +18,13 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.preferencesDataStore
+import androidx.lifecycle.lifecycleScope
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
+import com.google.android.gms.maps.model.LatLng
 import id.ac.ukdw.sub1_intermediate.R
 import id.ac.ukdw.sub1_intermediate.UserPreference
 import id.ac.ukdw.sub1_intermediate.api.ApiConfig
@@ -25,6 +35,8 @@ import id.ac.ukdw.sub1_intermediate.camera.uriToFile
 import id.ac.ukdw.sub1_intermediate.databinding.ActivityNewStoryBinding
 import id.ac.ukdw.sub1_intermediate.homeStory.HomeStoryActivity
 import id.ac.ukdw.sub1_intermediate.homeStory.UserModel
+import id.ac.ukdw.sub1_intermediate.userSession.UserPreferencesDS
+import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -34,11 +46,13 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.io.File
-
+private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "user")
 class NewStoryActivity : AppCompatActivity() {
     private lateinit var binding : ActivityNewStoryBinding
     private lateinit var mUserPreference: UserPreference
     private lateinit var userModel: UserModel
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
+    private lateinit var myLocation: Location
     private var getFile: File? = null
 
     companion object {
@@ -53,6 +67,8 @@ class NewStoryActivity : AppCompatActivity() {
         private const val BEARER = "Bearer "
         private const val STORYCREATEDSUSSCESS = "Story created successfully"
         private const val TOKENMAX = "Token maximum age exceeded"
+        private const val TOKEN = "token"
+        private const val NAME = "name"
 
 
     }
@@ -83,7 +99,7 @@ class NewStoryActivity : AppCompatActivity() {
         binding = ActivityNewStoryBinding.inflate(layoutInflater)
         setContentView(binding.root)
         supportActionBar?.title = resources.getString(R.string.titleNewStory)
-        mUserPreference = UserPreference(this)
+//        mUserPreference = UserPreference(this)
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
 
         showLoading(false)
@@ -94,14 +110,27 @@ class NewStoryActivity : AppCompatActivity() {
                 REQUEST_CODE_PERMISSIONS
             )
         }
+        getMyLastLocation()
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
         binding.btnUpload.setOnClickListener {
-            userModel = mUserPreference.getUser()
-            if(userModel.name.toString() != ""){
-                uploadImage()
-            }else{
-                uploadImagGuest()
+            val pref = UserPreferencesDS.getInstance(dataStore)
+            lifecycleScope.launch{
+                if(pref.getCurrenctName() != ""){
+                    getMyLastLocation()
+                    uploadImage()
+                }else{
+                    getMyLastLocation()
+                    uploadImagGuest()
+                }
             }
+
+//            userModel = mUserPreference.getUser()
+//            if(userModel.name.toString() != ""){
+//                uploadImage()
+//            }else{
+//                uploadImagGuest()
+//            }
         }
 
         binding.btnCamera.setOnClickListener {
@@ -113,9 +142,12 @@ class NewStoryActivity : AppCompatActivity() {
         }
     }
 
-    private fun intentToHomeStory(){
+    private fun intentToHomeStory(name: String){
         val intent = Intent(this, HomeStoryActivity::class.java)
         intent.flags =  Intent.FLAG_ACTIVITY_CLEAR_TOP
+        if(name != "Guest"){
+            intent.putExtra(NAME,name)
+        }
         startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle())
     }
 
@@ -172,10 +204,13 @@ class NewStoryActivity : AppCompatActivity() {
                 )
                 showLoading(true)
 
-                val userPreference_2 = UserPreference(this)
-                val myToken2 = BEARER+ userPreference_2.getToken()
-
-                val service = ApiConfig.getApiService().uploadImage(myToken2, imageMultipart,desc2)
+//                val userPreference_2 = UserPreference(this)
+//                val myToken2 = BEARER+ userPreference_2.getToken()
+                val name = intent.getStringExtra(NAME).toString()
+                val token = BEARER + intent.getStringExtra(TOKEN).toString()
+                val service = ApiConfig.getApiService().uploadImage(token, imageMultipart,desc2, myLocation.latitude, myLocation.longitude)
+                Log.d("NewStoryActivity", "Ini Lat = ${myLocation.latitude}")
+                Log.d("NewStoryActivity", "Ini Long = ${myLocation.longitude}")
                 service.enqueue(object : Callback<UploadStoryResponse> {
                     override fun onResponse(
                         call: Call<UploadStoryResponse>,
@@ -188,7 +223,7 @@ class NewStoryActivity : AppCompatActivity() {
                                     STORYCREATEDSUSSCESS ->{
                                         showLoading(false)
                                         Toast.makeText(this@NewStoryActivity,getString(R.string.StoryCreatedSuccessfully), Toast.LENGTH_SHORT).show()
-                                        intentToHomeStory()
+                                        intentToHomeStory(name)
                                     }
                                     TOKENMAX ->{
                                         showLoading(false)
@@ -231,7 +266,7 @@ class NewStoryActivity : AppCompatActivity() {
                 requestImageFile
             )
 
-            val service = ApiConfig.getApiService().uploadImageGuest(imageMultipart,description)
+            val service = ApiConfig.getApiService().uploadImageGuest(imageMultipart,description, myLocation.latitude, myLocation.longitude)
             service.enqueue(object : Callback<GuestUploadResponse> {
                 override fun onResponse(
                     call: Call<GuestUploadResponse>,
@@ -244,7 +279,7 @@ class NewStoryActivity : AppCompatActivity() {
                                 STORYCREATEDSUSSCESS ->{
                                     showLoading(false)
                                     Toast.makeText(this@NewStoryActivity,getString(R.string.StoryCreatedSuccessfully), Toast.LENGTH_SHORT).show()
-                                    intentToHomeStory()
+                                    intentToHomeStory("Guest")
                                 }
                                 TOKENMAX ->{
                                     showLoading(false)
@@ -279,5 +314,60 @@ class NewStoryActivity : AppCompatActivity() {
             binding.progresBar.visibility = View.GONE
         }
     }
+
+    private val requestPermissionLauncher =
+        registerForActivityResult(
+            ActivityResultContracts.RequestMultiplePermissions()
+        ) { permissions ->
+            when {
+                permissions[Manifest.permission.ACCESS_FINE_LOCATION] ?: false -> {
+                    // Precise location access granted.
+                    getMyLastLocation()
+                }
+                permissions[Manifest.permission.ACCESS_COARSE_LOCATION] ?: false -> {
+                    // Only approximate location access granted.
+                    getMyLastLocation()
+                }
+                else -> {
+                    // No location access granted.
+                }
+            }
+        }
+    private fun checkPermission(permission: String): Boolean {
+        return ContextCompat.checkSelfPermission(
+            this,
+            permission
+        ) == PackageManager.PERMISSION_GRANTED
+    }
+    private fun getMyLastLocation() {
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+        if     (checkPermission(Manifest.permission.ACCESS_FINE_LOCATION) &&
+            checkPermission(Manifest.permission.ACCESS_COARSE_LOCATION)
+        ){
+            fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
+                if (location != null) {
+                        setLocation(location)
+                } else {
+                    Toast.makeText(
+                        this,
+                        "Location is not found. Try Again",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+        } else {
+            requestPermissionLauncher.launch(
+                arrayOf(
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+                )
+            )
+        }
+    }
+
+    private fun setLocation(location: Location){
+        myLocation = location
+    }
+
 
 }

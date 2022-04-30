@@ -38,9 +38,10 @@ class HomeStoryActivity : AppCompatActivity() {
         private const val TOKEN = "token"
         private const val DURATION = 450.toLong()
         private const val DURATION2 = 1250.toLong()
+        private const val NAME = "name"
     }
     private lateinit var binding: ActivityHomeStoryBinding
-    private lateinit var rcyStory: RecyclerView
+//    private lateinit var rcyStory: RecyclerView
     private lateinit var storyViewModel: StoryViewModel
 
 //    private val pref = UserPreferencesDS.getInstance(dataStore)
@@ -67,8 +68,8 @@ class HomeStoryActivity : AppCompatActivity() {
         showLoading(false)
 
 //        mUserPreference = UserPreference(this)
-        rcyStory = findViewById(R.id.rcyStory)
-        rcyStory.layoutManager = LinearLayoutManager(this)
+//        rcyStory = findViewById(R.id.rcyStory)
+        binding.rcyStory.layoutManager = LinearLayoutManager(this)
 
         val name = intent.getStringExtra("name")
         val iToken = intent.getStringExtra("token").toString()
@@ -97,7 +98,9 @@ class HomeStoryActivity : AppCompatActivity() {
 
         binding.fabAddStory.setOnClickListener {
             val intent = Intent(this, NewStoryActivity::class.java)
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            intent.putExtra(TOKEN, iToken)
+            intent.putExtra(NAME, name)
             startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle())
         }
     }
@@ -135,7 +138,7 @@ class HomeStoryActivity : AppCompatActivity() {
 
     private fun getData() {
         val adapter = StoryAdapter()
-        rcyStory.adapter = adapter.withLoadStateFooter(
+        binding.rcyStory.adapter = adapter.withLoadStateFooter(
             footer = LoadingStateAdapter {
                 adapter.retry()
             }
@@ -145,8 +148,6 @@ class HomeStoryActivity : AppCompatActivity() {
             if(it != null){
                 adapter.submitData(lifecycle, it)
 //                Log.d("HomeStoryActivity", " Berhasil gan = $it")
-            }else{
-//                Log.d("HomeStoryActivity"," Gagal gan ")
             }
         }
 //    private fun playAnimation() {

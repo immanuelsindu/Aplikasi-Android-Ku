@@ -44,8 +44,19 @@ interface ApiService {
     fun uploadImage(
         @Header("Authorization") token: String,
         @Part file: MultipartBody.Part,
-        @Part("description") description: RequestBody
+        @Part("description") description: RequestBody,
+        @Part("lat") lat: Double,
+        @Part("lon") lon: Double,
     ): Call<UploadStoryResponse>
+
+    @Multipart
+    @POST("stories/guest")
+    fun uploadImageGuest(
+        @Part file: MultipartBody.Part,
+        @Part("description") description: RequestBody,
+        @Part("lat") lat: Double,
+        @Part("lon") lon: Double,
+    ): Call<GuestUploadResponse>
 
 //    @GET("stories")
 //    fun getAllStory(
@@ -55,10 +66,5 @@ interface ApiService {
 
 
 
-    @Multipart
-    @POST("stories/guest")
-    fun uploadImageGuest(
-        @Part file: MultipartBody.Part,
-        @Part("description") description: RequestBody
-    ): Call<GuestUploadResponse>
+
 }
