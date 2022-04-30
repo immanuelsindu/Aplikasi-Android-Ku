@@ -50,7 +50,7 @@
             android:theme="@style/Theme.Sub1_Intermediate.2" />
         <activity android:name=".camera.CameraActivity" />
 
-        <activity android:name=".MyMaps" />
+        <activity android:name=".MyMaps"/>
     </application>
 
 </manifest>

@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.drawable.DrawableCompat
+import androidx.lifecycle.ViewModelProvider
 
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -20,20 +21,30 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
 import id.ac.ukdw.sub1_intermediate.databinding.ActivityMapsBinding
+import id.ac.ukdw.sub1_intermediate.homeStory.StoryViewModel
+import id.ac.ukdw.sub1_intermediate.homeStory.ViewModelFactory
 
 class MyMaps : AppCompatActivity(), OnMapReadyCallback {
     companion object{
         private const val TAG = "MapsActivity"
+        private const val TOKEN = "token"
+        private const val BEARER = "Bearer "
     }
 
     private lateinit var mMap: GoogleMap
     private lateinit var binding: ActivityMapsBinding
+    private lateinit var storyViewModel: StoryViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivityMapsBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        val iToken = BEARER + intent.getStringExtra(TOKEN).toString()
+//        val iToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c2VyLWFGRGExd3hfRkdFVnJoUHgiLCJpYXQiOjE2NTEzMzQ4ODF9.zrlqKIc8IFJFFYbLS8wNjqxQiMhxdFOFdYRhx8JApFw"
+        Log.d(TAG, "ini token = $iToken")
+        storyViewModel= ViewModelProvider(this, ViewModelFactory(iToken, this))[StoryViewModel::class.java]
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         val mapFragment = supportFragmentManager
@@ -43,6 +54,33 @@ class MyMaps : AppCompatActivity(), OnMapReadyCallback {
 
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
+        mMap.uiSettings.isZoomControlsEnabled = true
+        mMap.uiSettings.isIndoorLevelPickerEnabled = true
+        mMap.uiSettings.isCompassEnabled = true
+        mMap.uiSettings.isMapToolbarEnabled = true
+
+        storyViewModel.getMapListStory(1, 10)
+        storyViewModel.mapsListStory.observe(this){
+            val firstLocation = LatLng(it[0].lat,it[0].lon)
+            mMap.apply {
+                for (locStory in it){
+                    val location = LatLng(locStory.lat, locStory.lon)
+                    addMarker(
+                        MarkerOptions().position(location).title(locStory.name)
+                    )
+                }
+                animateCamera(CameraUpdateFactory.newLatLngZoom(firstLocation, 0f))
+                setOnMarkerClickListener {marker ->
+                    animateCamera(CameraUpdateFactory.newLatLngZoom(marker.position, 15f))
+                    marker.showInfoWindow()
+                    true
+                }
+            }
+        }
+
+
+
+
         getMyLocation()
 //        setMapStyle()
 //
@@ -51,19 +89,16 @@ class MyMaps : AppCompatActivity(), OnMapReadyCallback {
 //        mMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
 //        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
 
-        mMap.uiSettings.isZoomControlsEnabled = true
-        mMap.uiSettings.isIndoorLevelPickerEnabled = true
-        mMap.uiSettings.isCompassEnabled = true
-        mMap.uiSettings.isMapToolbarEnabled = true
 
-        val dicodingSpace = LatLng(-6.8957643, 107.6338462)
-        mMap.addMarker(
-            MarkerOptions()
-                .position(dicodingSpace)
-                .title("Dicoding Space")
-                .snippet("Batik Kumeli No.50")
-        )
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(dicodingSpace, 15f))
+
+//        val dicodingSpace = LatLng(-6.8957643, 107.6338462)
+//        mMap.addMarker(
+//            MarkerOptions()
+//                .position(dicodingSpace)
+//                .title("Dicoding Space")
+//                .snippet("Batik Kumeli No.50")
+//        )
+//        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(dicodingSpace, 15f))
 
 //        mMap.setOnMapLongClickListener { latLng ->
 //            mMap.addMarker(

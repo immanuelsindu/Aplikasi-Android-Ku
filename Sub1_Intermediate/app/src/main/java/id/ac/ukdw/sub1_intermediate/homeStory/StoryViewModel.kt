@@ -1,20 +1,23 @@
 package id.ac.ukdw.sub1_intermediate.homeStory
 
 import android.content.Context
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import id.ac.ukdw.sub1_intermediate.Injection
 
 class StoryViewModel(private val storyRepository: StoryRepository) : ViewModel() {
-//
+    private val mapsListStoryOBS = MutableLiveData <ArrayList<ListStoryItem>>()
+    internal val mapsListStory : LiveData<ArrayList<ListStoryItem>> = mapsListStoryOBS
+
+    fun getMapListStory(page: Int = 1, size: Int = 5){
+        mapsListStoryOBS.value = storyRepository.getMapListStory(page, size).listStory
+    }
+    fun getAllStories() : LiveData<PagingData<ListStoryItem>> = storyRepository.getStory()
+
+    //
 //    val story: LiveData<PagingData<ListStoryItem>> =
 //        storyRepository.getStory().cachedIn(viewModelScope)
-
-    fun getAllStories() : LiveData<PagingData<ListStoryItem>> = storyRepository.getStory()
 
 }
 

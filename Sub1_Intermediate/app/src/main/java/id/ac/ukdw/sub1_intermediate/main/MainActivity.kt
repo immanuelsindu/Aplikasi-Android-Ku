@@ -34,6 +34,7 @@ private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(na
 class MainActivity : AppCompatActivity() {
     companion object{
         private const val NAME = "name"
+        private const val TOKEN = "token"
         private const val ASTRONOTIMAGE = "astronotImage"
         private const val DURATION = 450.toLong()
     }
@@ -95,13 +96,12 @@ class MainActivity : AppCompatActivity() {
 
     private suspend fun checkSession(){
         val pref = UserPreferencesDS.getInstance(dataStore)
-
-        Log.d("MainActivity","Ini merupakan token gan = "+ pref.getCurrenctToken())
+//        Log.d("MainActivity","Ini merupakan token gan = "+ pref.getCurrenctToken())
         if(pref.getCurrenctName() != ""){
             val intent = Intent(this, HomeStoryActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP;
             intent.putExtra(NAME, pref.getCurrenctName())
-            intent.putExtra("token", pref.getCurrenctToken())
+            intent.putExtra(TOKEN, pref.getCurrenctToken())
             startActivity(intent)
         }
 

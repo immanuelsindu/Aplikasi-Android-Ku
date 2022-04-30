@@ -88,7 +88,7 @@ class ListStoriesActivity : AppCompatActivity() {
         viewModel.findStories().observe(this) {
             if (it != null) {
                 adapter.submitData(lifecycle, it)
-                Log.d("ListStoriesActivity"," Berhasil gan = "+ it.toString())
+//                Log.d("ListStoriesActivity"," Berhasil gan = "+ it.toString())
             }
         }
     }

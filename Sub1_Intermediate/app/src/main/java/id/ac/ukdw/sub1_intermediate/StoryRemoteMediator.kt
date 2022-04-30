@@ -51,7 +51,6 @@ class StoryRemoteMediator(
             }
         }
 
-
         return try {
 //            val token = token
             Log.d("StoryRemoteMediator","LAST GAN = " + "Bearer $token")

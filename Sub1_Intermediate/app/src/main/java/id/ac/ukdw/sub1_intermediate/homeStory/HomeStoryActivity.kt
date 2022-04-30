@@ -18,8 +18,10 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import id.ac.ukdw.sub1_intermediate.LoadingStateAdapter
 import id.ac.ukdw.sub1_intermediate.MyMaps
 import id.ac.ukdw.sub1_intermediate.R
 import id.ac.ukdw.sub1_intermediate.UserPreference
@@ -27,16 +29,17 @@ import id.ac.ukdw.sub1_intermediate.databinding.ActivityHomeStoryBinding
 import id.ac.ukdw.sub1_intermediate.main.MainActivity
 import id.ac.ukdw.sub1_intermediate.newStory.NewStoryActivity
 import id.ac.ukdw.sub1_intermediate.userSession.UserPreferencesDS
+import kotlinx.coroutines.launch
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "user")
 class HomeStoryActivity : AppCompatActivity() {
     companion object {
         private const val BEARER = "Bearer "
+        private const val TOKEN = "token"
         private const val DURATION = 450.toLong()
         private const val DURATION2 = 1250.toLong()
     }
     private lateinit var binding: ActivityHomeStoryBinding
-//    private lateinit var mUserPreference: UserPreference
     private lateinit var rcyStory: RecyclerView
     private lateinit var storyViewModel: StoryViewModel
 
@@ -54,9 +57,6 @@ class HomeStoryActivity : AppCompatActivity() {
 //    private val storyViewModel: StoryViewModel by viewModels {
 //        ViewModelFactory(this)
 //    }
-
-
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -88,7 +88,7 @@ class HomeStoryActivity : AppCompatActivity() {
         if (name != "" && name != null) {
             supportActionBar?.title = resources.getString(R.string.welcome_home, name)
             val token = BEARER + iToken
-            Log.d("HomeStoryActivity", "Ini merupakan token di Home = $token")
+//            Log.d("HomeStoryActivity", "Ini merupakan token di Home = $token")
 //            getAllStory(token)
             getData()
         } else {
@@ -109,6 +109,7 @@ class HomeStoryActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val iToken = intent.getStringExtra(TOKEN).toString()
         return when (item.itemId) {
             R.id.item_logout -> {
                 showExitDialog()
@@ -119,7 +120,11 @@ class HomeStoryActivity : AppCompatActivity() {
                 true
             }
             R.id.item_maps -> {
-                startActivity(Intent(this, MyMaps::class.java))
+//                startActivity(Intent(this, MyMaps::class.java))
+                val intent = Intent(this, MyMaps::class.java)
+                intent.putExtra(TOKEN, iToken)
+                Log.d("HomeStoryActivity", "ini token gan = $iToken")
+                startActivity(intent)
                 true
             }
             else -> {
@@ -128,6 +133,22 @@ class HomeStoryActivity : AppCompatActivity() {
         }
     }
 
+    private fun getData() {
+        val adapter = StoryAdapter()
+        rcyStory.adapter = adapter.withLoadStateFooter(
+            footer = LoadingStateAdapter {
+                adapter.retry()
+            }
+        )
+
+        storyViewModel.getAllStories().observe(this){
+            if(it != null){
+                adapter.submitData(lifecycle, it)
+//                Log.d("HomeStoryActivity", " Berhasil gan = $it")
+            }else{
+//                Log.d("HomeStoryActivity"," Gagal gan ")
+            }
+        }
 //    private fun playAnimation() {
 ////        val tvWelcome = ObjectAnimator.ofFloat(binding.tvWelcomeHome, View.ALPHA, 1F).setDuration(DURATION2)
 ////        val imgLogout = ObjectAnimator.ofFloat(binding.,View.ALPHA,1F).setDuration(DURATION)
@@ -145,17 +166,7 @@ class HomeStoryActivity : AppCompatActivity() {
 //        rcyStory.adapter = listUserAdapter
 //    }
 
-    private fun getData() {
-        val adapter = StoryAdapter()
-        rcyStory.adapter = adapter
-        storyViewModel.getAllStories().observe(this){
-            if(it != null){
-                adapter.submitData(lifecycle, it)
-                Log.d("HomeStoryActivity", " Berhasil gan = $it")
-            }else{
-                Log.d("HomeStoryActivity"," Gagal gan ")
-            }
-        }
+
 //        storyViewModel.story.observe(this) {
 //            if(it != null){
 //                adapter.submitData(lifecycle, it)
@@ -209,11 +220,7 @@ class HomeStoryActivity : AppCompatActivity() {
     }
 
     private fun showExitDialog(){
-//        val pref = UserPreferencesDS.getInstance(dataStore)
-//        val UserVMDS= ViewModelProvider(this, ViewModelFactoryDS(pref)).get(
-//            UserViewModelDS::class.java
-//        )
-
+        val pref = UserPreferencesDS.getInstance(dataStore)
         val exitDialog = AlertDialog.Builder(this)
         exitDialog.setTitle(resources.getString(R.string.exit))
         exitDialog.setMessage(resources.getString(R.string.isExit))
@@ -223,7 +230,9 @@ class HomeStoryActivity : AppCompatActivity() {
 //            mUserPreference.clearUserSession()
 //            userVM.clearData()
 //            UserVMDS.saveCurrentToken("")
-
+            lifecycleScope.launch{
+                pref.clearSession()
+            }
             startActivity(intent)
         }
 
@@ -233,7 +242,4 @@ class HomeStoryActivity : AppCompatActivity() {
         }
         exitDialog.show()
     }
-
-
-
 }

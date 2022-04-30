@@ -32,6 +32,13 @@ class UserPreferencesDS internal constructor(private val dataStore: DataStore<Pr
         return preference[CURRENT_TOKEN] ?: ""
     }
 
+    suspend fun clearSession(){
+        dataStore.edit{
+            it[CURRENT_TOKEN] = ""
+            it[CURRENT_NAME] = ""
+        }
+    }
+
 
     companion object {
         @Volatile
