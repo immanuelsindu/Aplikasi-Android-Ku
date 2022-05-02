@@ -13,7 +13,7 @@ class StoryViewModel(private val storyRepository: StoryRepository) : ViewModel()
     fun getMapListStory(page: Int = 1, size: Int = 5){
         mapsListStoryOBS.value = storyRepository.getMapListStory(page, size).listStory
     }
-    fun getAllStories() : LiveData<PagingData<ListStoryItem>> = storyRepository.getStory()
+//    fun getAllStories() : LiveData<PagingData<ListStoryItem>> = storyRepository.getStory()
 
 
     val story: LiveData<PagingData<ListStoryItem>> =
@@ -21,11 +21,11 @@ class StoryViewModel(private val storyRepository: StoryRepository) : ViewModel()
 
 }
 
-class ViewModelFactory(private val token: String, private val context: Context) : ViewModelProvider.Factory {
+class ViewModelFactory( private val context: Context) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(StoryViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")
-            return StoryViewModel(Injection.provideRepository(token,  context)) as T
+            return StoryViewModel(Injection.provideRepository(context)) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

@@ -21,7 +21,7 @@ class StoryRemoteMediator(
 
     private companion object {
         const val INITIAL_PAGE_INDEX = 1
-        const val BEARER = "Bearer "
+//        const val BEARER = "Bearer "
     }
     override suspend fun initialize(): InitializeAction {
         return InitializeAction.LAUNCH_INITIAL_REFRESH
@@ -52,7 +52,7 @@ class StoryRemoteMediator(
         }
 
         return try {
-            val responseData = apiService.getAllStory("Bearer $token", page, state.config.pageSize).listStory
+            val responseData = apiService.getAllStory(token, page, state.config.pageSize).listStory
             val endOfPaginationReached = responseData.isEmpty()
 
             database.withTransaction {

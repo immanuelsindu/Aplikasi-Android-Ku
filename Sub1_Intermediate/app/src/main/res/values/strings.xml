@@ -47,7 +47,11 @@
     <string name="password" translatable="false">Password</string>
     <string name="email" translatable="false">Email</string>
     <string name="name" translatable="false">Name</string>
-    <string name="photo_description" translatable="false">Photo Description</string>
+    <string name="photo_description">Photo Description</string>
     <string name="userCreated">User Created</string>
     <string name="retry">Try Again</string>
+    <string name="appwidget_text" translatable="false">Story App Banner</string>
+    <string name="add_widget">Add widget</string>
+    <string name="app_widget_description" translatable="false">Story App Widget</string>
+    <string name="empty_text">NO DATA</string>
 </resources>

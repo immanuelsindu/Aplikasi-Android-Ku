@@ -33,10 +33,7 @@ import id.ac.ukdw.sub1_intermediate.camera.reduceFileImage
 import id.ac.ukdw.sub1_intermediate.camera.rotateBitmap
 import id.ac.ukdw.sub1_intermediate.camera.uriToFile
 import id.ac.ukdw.sub1_intermediate.databinding.ActivityNewStoryBinding
-import id.ac.ukdw.sub1_intermediate.homeStory.HomeStoryActivity
-import id.ac.ukdw.sub1_intermediate.homeStory.StoryDatabase
-import id.ac.ukdw.sub1_intermediate.homeStory.StoryRepository
-import id.ac.ukdw.sub1_intermediate.homeStory.UserModel
+import id.ac.ukdw.sub1_intermediate.homeStory.*
 import id.ac.ukdw.sub1_intermediate.userSession.UserPreferencesDS
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaType
@@ -148,11 +145,13 @@ class NewStoryActivity : AppCompatActivity() {
         }
     }
 
-    private fun intentToHomeStory(name: String){
+    private fun intentToHomeStory(name: String, token: String = "" ){
+//        val token = intent.getStringExtra(TOKEN).toString()
         val intent = Intent(this, HomeStoryActivity::class.java)
         intent.flags =  Intent.FLAG_ACTIVITY_CLEAR_TOP
-        if(name != "Guest"){
+        if(name != "Guest" && token !=""){
             intent.putExtra(NAME,name)
+            intent.putExtra("token", token)
         }
         startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle())
     }
@@ -212,9 +211,17 @@ class NewStoryActivity : AppCompatActivity() {
 
 //                val userPreference_2 = UserPreference(this)
 //                val myToken2 = BEARER+ userPreference_2.getToken()
+//                val pref = UserPreferencesDS.getInstance(dataStore)
+
                 val name = intent.getStringExtra(NAME).toString()
-                val token = BEARER + intent.getStringExtra(TOKEN).toString()
-                val service = ApiConfig.getApiService().uploadImage(token, imageMultipart,desc2, myLocation.latitude, myLocation.longitude)
+                val token = intent.getStringExtra(TOKEN).toString()
+                val service = ApiConfig.getApiService().uploadImage(
+                    BEARER + token,
+                    imageMultipart,
+                    desc2,
+                    myLocation.latitude,
+                    myLocation.longitude
+                )
                 service.enqueue(object : Callback<UploadStoryResponse> {
                     override fun onResponse(
                         call: Call<UploadStoryResponse>,
@@ -228,11 +235,11 @@ class NewStoryActivity : AppCompatActivity() {
                                         showLoading(false)
                                         Toast.makeText(this@NewStoryActivity,getString(R.string.StoryCreatedSuccessfully), Toast.LENGTH_SHORT).show()
 
-                                        lifecycleScope.launch {
-                                            database.remoteKeysDao().deleteRemoteKeys()
-                                            database.storyDao().deleteAll()
-                                        }
-                                        intentToHomeStory(name)
+//                                        lifecycleScope.launch {
+//                                            database.remoteKeysDao().deleteRemoteKeys()
+//                                            database.storyDao().deleteAll()
+//                                        }
+                                        intentToHomeStory(name,token)
                                     }
                                     TOKENMAX ->{
                                         showLoading(false)

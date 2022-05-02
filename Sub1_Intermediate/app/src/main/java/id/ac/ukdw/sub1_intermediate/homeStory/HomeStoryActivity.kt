@@ -106,7 +106,7 @@ class HomeStoryActivity : AppCompatActivity() {
         val iToken = intent.getStringExtra("token").toString()
 
 //        val pref = UserPreferencesDS.getInstance(dataStore)
-        storyViewModel= ViewModelProvider(this, ViewModelFactory(iToken, this))[StoryViewModel::class.java]
+        storyViewModel= ViewModelProvider(this, ViewModelFactory(this))[StoryViewModel::class.java]
 
         if(!(checkPermission(Manifest.permission.ACCESS_FINE_LOCATION) && checkPermission(Manifest.permission.ACCESS_COARSE_LOCATION))){
             requestPermissionLauncher.launch(
@@ -119,7 +119,7 @@ class HomeStoryActivity : AppCompatActivity() {
         Log.d("HomeStoryActivity", "Ini merupakan nama = $name")
         if (name != "" && name != null) {
             supportActionBar?.title = resources.getString(R.string.welcome_home, name)
-            val token = BEARER + iToken
+//            val token = BEARER + iToken
 //            Log.d("HomeStoryActivity", "Ini merupakan token di Home = $token")
 //            getAllStory(token)
             getData()

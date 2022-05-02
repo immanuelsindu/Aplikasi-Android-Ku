@@ -17,18 +17,33 @@
         <item name="android:windowBackground">@color/baseColor</item>
     </style>
 
-    <style name="Theme.Sub1_Intermediate.2" >
+    <style name="Theme.Sub1_Intermediate.2">
         <item name="colorPrimaryVariant">@color/baseColor</item>
     </style>
 
-    <style name="Theme.Sub1_Intermediate.3" >
+    <style name="Theme.Sub1_Intermediate.3">
         <item name="android:windowEnterTransition">@android:transition/fade</item>
         <item name="android:windowExitTransition">@android:transition/fade</item>
     </style>
 
-    <style name="Theme.Sub1_Intermediate.4" >
+    <style name="Theme.Sub1_Intermediate.4">
         <item name="android:windowEnterTransition">@android:transition/explode</item>
         <item name="android:windowExitTransition">@android:transition/fade</item>
+    </style>
+
+    <style name="Theme.Sub1_Intermediate.AppWidgetContainerParent" parent="@android:style/Theme.DeviceDefault">
+        <!-- Radius of the outer bound of widgets to make the rounded corners -->
+        <item name="appWidgetRadius">16dp</item>
+        <!--
+        Radius of the inner view's bound of widgets to make the rounded corners.
+        It needs to be 8dp or less than the value of appWidgetRadius
+        -->
+        <item name="appWidgetInnerRadius">8dp</item>
+    </style>
+
+    <style name="Theme.Sub1_Intermediate.AppWidgetContainer" parent="Theme.Sub1_Intermediate.AppWidgetContainerParent">
+        <!-- Apply padding to avoid the content of the widget colliding with the rounded corners -->
+        <item name="appWidgetPadding">16dp</item>
     </style>
 
 

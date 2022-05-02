@@ -42,10 +42,10 @@ class MyMaps : AppCompatActivity(), OnMapReadyCallback {
         binding = ActivityMapsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val iToken = BEARER + intent.getStringExtra(TOKEN).toString()
+//        val iToken = BEARER + intent.getStringExtra(TOKEN).toString()
 //        val iToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c2VyLWFGRGExd3hfRkdFVnJoUHgiLCJpYXQiOjE2NTEzMzQ4ODF9.zrlqKIc8IFJFFYbLS8wNjqxQiMhxdFOFdYRhx8JApFw"
-        Log.d(TAG, "ini token = $iToken")
-        storyViewModel= ViewModelProvider(this, ViewModelFactory(iToken, this))[StoryViewModel::class.java]
+//        Log.d(TAG, "ini token = $iToken")
+        storyViewModel= ViewModelProvider(this, ViewModelFactory(this))[StoryViewModel::class.java]
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         val mapFragment = supportFragmentManager
