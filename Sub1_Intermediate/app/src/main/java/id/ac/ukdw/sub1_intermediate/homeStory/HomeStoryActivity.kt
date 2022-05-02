@@ -43,9 +43,11 @@ class HomeStoryActivity : AppCompatActivity() {
     companion object {
         private const val BEARER = "Bearer "
         private const val TOKEN = "token"
-        private const val DURATION = 450.toLong()
-        private const val DURATION2 = 1250.toLong()
         private const val NAME = "name"
+        private const val LOCATION = "location"
+//        private const val DURATION = 450.toLong()
+//        private const val DURATION2 = 1250.toLong()
+
     }
     private lateinit var binding: ActivityHomeStoryBinding
 //    private lateinit var rcyStory: RecyclerView
@@ -98,6 +100,7 @@ class HomeStoryActivity : AppCompatActivity() {
 //        mUserPreference = UserPreference(this)
 //        rcyStory = findViewById(R.id.rcyStory)
         binding.rcyStory.layoutManager = LinearLayoutManager(this)
+        getMyLastLocation()
 
         val name = intent.getStringExtra("name")
         val iToken = intent.getStringExtra("token").toString()
@@ -138,7 +141,7 @@ class HomeStoryActivity : AppCompatActivity() {
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                 intent.putExtra(TOKEN, iToken)
                 intent.putExtra(NAME, name)
-                intent.putExtra("location", myLocation)
+                intent.putExtra(LOCATION, myLocation)
                 startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle())
             }else{
                 if(!(checkPermission(Manifest.permission.ACCESS_FINE_LOCATION) && checkPermission(Manifest.permission.ACCESS_COARSE_LOCATION))){
@@ -231,12 +234,20 @@ class HomeStoryActivity : AppCompatActivity() {
             }
         )
 
-        storyViewModel.getAllStories().observe(this){
-            if(it != null){
-                adapter.submitData(lifecycle, it)
+        storyViewModel.story.observe(this) {pagingData->
+            if (pagingData != null) {
+                adapter.submitData(lifecycle, pagingData)
 //                Log.d("HomeStoryActivity", " Berhasil gan = $it")
             }
         }
+
+//        storyViewModel.getAllStories().observe(this) {pagingData->
+//            if (pagingData != null) {
+//                adapter.submitData(lifecycle, pagingData)
+////                Log.d("HomeStoryActivity", " Berhasil gan = $it")
+//            }
+//        }
+    }
 //    private fun playAnimation() {
 ////        val tvWelcome = ObjectAnimator.ofFloat(binding.tvWelcomeHome, View.ALPHA, 1F).setDuration(DURATION2)
 ////        val imgLogout = ObjectAnimator.ofFloat(binding.,View.ALPHA,1F).setDuration(DURATION)
@@ -264,7 +275,7 @@ class HomeStoryActivity : AppCompatActivity() {
 //            }
 //
 //        }
-      }
+
 
 //    private fun getAllStory(token: String){
 //        showLoading(true)

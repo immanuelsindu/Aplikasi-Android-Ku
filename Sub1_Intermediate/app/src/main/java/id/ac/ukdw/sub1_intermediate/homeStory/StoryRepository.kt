@@ -1,6 +1,7 @@
 package id.ac.ukdw.sub1_intermediate.homeStory
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.paging.*
 import id.ac.ukdw.sub1_intermediate.StoryRemoteMediator
 import id.ac.ukdw.sub1_intermediate.api.ApiService
@@ -8,8 +9,8 @@ import kotlinx.coroutines.runBlocking
 
 
 class StoryRepository(private val token: String, private val storyDatabase: StoryDatabase, private val apiService: ApiService) {
+    @OptIn(ExperimentalPagingApi::class)
     fun getStory(): LiveData<PagingData<ListStoryItem>> {
-        @OptIn(ExperimentalPagingApi::class)
         return Pager(
             config = PagingConfig(
                 pageSize = 5
