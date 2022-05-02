@@ -63,7 +63,7 @@
         <activity android:name=".camera.CameraActivity" />
         <activity android:name=".MyMaps" />
         <service
-            android:name="com.dicoding.picodiploma.mystackwidget.StackWidgetService"
+            android:name=".widget.StackWidgetService"
             android:permission="android.permission.BIND_REMOTEVIEWS" />
 
     </application>

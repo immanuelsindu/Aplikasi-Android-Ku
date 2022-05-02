@@ -14,7 +14,6 @@ import retrofit2.http.*
 
 interface ApiService {
 
-    //ini udah bener
     @GET("stories")
     suspend fun getAllStory(
         @Header("Authorization") token: String,
@@ -22,7 +21,6 @@ interface ApiService {
         @Query("size") size: Int,
         @Query("location") location: Int = 1
     ): GetAllStoryResponse
-
 
     @FormUrlEncoded
     @POST("register")
@@ -57,14 +55,4 @@ interface ApiService {
         @Part("lat") lat: Double,
         @Part("lon") lon: Double,
     ): Call<GuestUploadResponse>
-
-//    @GET("stories")
-//    fun getAllStory(
-//        @Header("Authorization") token: String,
-//    ): Call<GetAllStoryResponse>
-
-
-
-
-
 }

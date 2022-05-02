@@ -62,7 +62,7 @@ class ImagesBannerWidget : AppWidgetProvider() {
         if (intent.action != null) {
             if (intent.action == TOAST_ACTION) {
                 val viewIndex = intent.getIntExtra(EXTRA_ITEM, 0)
-                Toast.makeText(context, "Touched view $viewIndex", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Banner $viewIndex", Toast.LENGTH_SHORT).show()
             }
         }
     }

@@ -116,7 +116,7 @@ class HomeStoryActivity : AppCompatActivity() {
                 )
             )
         }
-        Log.d("HomeStoryActivity", "Ini merupakan nama = $name")
+//        Log.d("HomeStoryActivity", "Ini merupakan nama = $name")
         if (name != "" && name != null) {
             supportActionBar?.title = resources.getString(R.string.welcome_home, name)
 //            val token = BEARER + iToken
@@ -172,13 +172,13 @@ class HomeStoryActivity : AppCompatActivity() {
                 if (location != null) {
                     setLocation(location)
                 }
-//                else {
-//                    Toast.makeText(
-//                        this,
-//                        "Location is not found. Try Again",
-//                        Toast.LENGTH_SHORT
-//                    ).show()
-//                }
+                else {
+                    Toast.makeText(
+                        this,
+                        getString(R.string.locationNotFound),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
             }
         } else {
             requestPermissionLauncher.launch(
@@ -201,7 +201,7 @@ class HomeStoryActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        val iToken = intent.getStringExtra(TOKEN).toString()
+
         return when (item.itemId) {
             R.id.item_logout -> {
                 showExitDialog()
@@ -212,11 +212,23 @@ class HomeStoryActivity : AppCompatActivity() {
                 true
             }
             R.id.item_maps -> {
-//                startActivity(Intent(this, MyMaps::class.java))
-                val intent = Intent(this, MyMaps::class.java)
-                intent.putExtra(TOKEN, iToken)
-                Log.d("HomeStoryActivity", "ini token gan = $iToken")
-                startActivity(intent)
+                val name = intent.getStringExtra(NAME)
+                Log.d("HomeStoryActivity", "Ini name = $name")
+                if(name != ""  && name != null){
+                    //                startActivity(Intent(this, MyMaps::class.java))
+                    val intent = Intent(this, MyMaps::class.java)
+                    val iToken = intent.getStringExtra(TOKEN).toString()
+                    intent.putExtra(TOKEN, iToken)
+//                Log.d("HomeStoryActivity", "ini token gan = $iToken")
+                    startActivity(intent)
+                }else{
+                    Toast.makeText(
+                        this,
+                        getString(R.string.mapsGuest),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+
                 true
             }
             else -> {

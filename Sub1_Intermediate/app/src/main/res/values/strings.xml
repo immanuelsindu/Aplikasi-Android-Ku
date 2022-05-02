@@ -53,5 +53,8 @@
     <string name="appwidget_text" translatable="false">Story App Banner</string>
     <string name="add_widget">Add widget</string>
     <string name="app_widget_description" translatable="false">Story App Widget</string>
-    <string name="empty_text">NO DATA</string>
+    <string name="empty_text">No data, login first</string>
+    <string name="mapsGuest">Login first to use this feature</string>
+    <string name="locationNotFound">Location is not found. Try Again</string>
+
 </resources>
