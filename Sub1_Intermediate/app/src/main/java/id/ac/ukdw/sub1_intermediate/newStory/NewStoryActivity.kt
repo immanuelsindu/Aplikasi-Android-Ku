@@ -46,11 +46,13 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.io.File
+import java.security.Permission
+
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "user")
 class NewStoryActivity : AppCompatActivity() {
     private lateinit var binding : ActivityNewStoryBinding
-    private lateinit var mUserPreference: UserPreference
-    private lateinit var userModel: UserModel
+//    private lateinit var mUserPreference: UserPreference
+//    private lateinit var userModel: UserModel
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var myLocation: Location
     private var getFile: File? = null
@@ -73,11 +75,7 @@ class NewStoryActivity : AppCompatActivity() {
 
     }
 
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<String>,
-        grantResults: IntArray
-    ) {
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == REQUEST_CODE_PERMISSIONS) {
             if (!allPermissionsGranted()) {
@@ -102,6 +100,9 @@ class NewStoryActivity : AppCompatActivity() {
 //        mUserPreference = UserPreference(this)
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
 
+
+//        getMyLastLocation()
+        myLocation = intent.getParcelableExtra("location")!!
         showLoading(false)
         if (!allPermissionsGranted()) {
             ActivityCompat.requestPermissions(
@@ -110,17 +111,19 @@ class NewStoryActivity : AppCompatActivity() {
                 REQUEST_CODE_PERMISSIONS
             )
         }
-        getMyLastLocation()
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+
+//        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+//        getMyLastLocation()
+
 
         binding.btnUpload.setOnClickListener {
             val pref = UserPreferencesDS.getInstance(dataStore)
             lifecycleScope.launch{
                 if(pref.getCurrenctName() != ""){
-                    getMyLastLocation()
+//                    getMyLastLocation()
                     uploadImage()
                 }else{
-                    getMyLastLocation()
+//                    getMyLastLocation()
                     uploadImagGuest()
                 }
             }
@@ -315,55 +318,55 @@ class NewStoryActivity : AppCompatActivity() {
         }
     }
 
-    private val requestPermissionLauncher =
-        registerForActivityResult(
-            ActivityResultContracts.RequestMultiplePermissions()
-        ) { permissions ->
-            when {
-                permissions[Manifest.permission.ACCESS_FINE_LOCATION] ?: false -> {
-                    // Precise location access granted.
-                    getMyLastLocation()
-                }
-                permissions[Manifest.permission.ACCESS_COARSE_LOCATION] ?: false -> {
-                    // Only approximate location access granted.
-                    getMyLastLocation()
-                }
-                else -> {
-                    // No location access granted.
-                }
-            }
-        }
-    private fun checkPermission(permission: String): Boolean {
-        return ContextCompat.checkSelfPermission(
-            this,
-            permission
-        ) == PackageManager.PERMISSION_GRANTED
-    }
-    private fun getMyLastLocation() {
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
-        if     (checkPermission(Manifest.permission.ACCESS_FINE_LOCATION) &&
-            checkPermission(Manifest.permission.ACCESS_COARSE_LOCATION)
-        ){
-            fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
-                if (location != null) {
-                        setLocation(location)
-                } else {
-                    Toast.makeText(
-                        this,
-                        "Location is not found. Try Again",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-            }
-        } else {
-            requestPermissionLauncher.launch(
-                arrayOf(
-                    Manifest.permission.ACCESS_FINE_LOCATION,
-                    Manifest.permission.ACCESS_COARSE_LOCATION
-                )
-            )
-        }
-    }
+//    private val requestPermissionLauncher =
+//        registerForActivityResult(
+//            ActivityResultContracts.RequestMultiplePermissions()
+//        ) { permissions ->
+//            when {
+//                permissions[Manifest.permission.ACCESS_FINE_LOCATION] ?: false -> {
+//                    // Precise location access granted.
+//                    getMyLastLocation()
+//                }
+//                permissions[Manifest.permission.ACCESS_COARSE_LOCATION] ?: false -> {
+//                    // Only approximate location access granted.
+//                    getMyLastLocation()
+//                }
+//                else -> {
+//                    // No location access granted.
+//                }
+//            }
+//        }
+
+//    private fun checkPermission(permission: String): Boolean {
+//        return ContextCompat.checkSelfPermission(
+//            this,
+//            permission
+//        ) == PackageManager.PERMISSION_GRANTED
+//    }
+//
+//    private fun getMyLastLocation() {
+//        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+//        if     (checkPermission(Manifest.permission.ACCESS_FINE_LOCATION) &&  checkPermission(Manifest.permission.ACCESS_COARSE_LOCATION)){
+//            fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
+//                if (location != null) {
+//                        setLocation(location)
+//                } else {
+//                    Toast.makeText(
+//                        this,
+//                        "Location is not found. Try Again",
+//                        Toast.LENGTH_SHORT
+//                    ).show()
+//                }
+//            }
+//        } else {
+//            requestPermissionLauncher.launch(
+//                arrayOf(
+//                    Manifest.permission.ACCESS_FINE_LOCATION,
+//                    Manifest.permission.ACCESS_COARSE_LOCATION
+//                )
+//            )
+//        }
+//    }
 
     private fun setLocation(location: Location){
         myLocation = location

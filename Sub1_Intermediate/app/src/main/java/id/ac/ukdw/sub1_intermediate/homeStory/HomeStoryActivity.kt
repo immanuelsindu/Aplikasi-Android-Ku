@@ -1,9 +1,12 @@
 package id.ac.ukdw.sub1_intermediate.homeStory
 
+import android.Manifest
 import android.app.ActivityOptions
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.location.Location
 import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
@@ -11,8 +14,10 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.view.size
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
@@ -21,6 +26,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import id.ac.ukdw.sub1_intermediate.LoadingStateAdapter
 import id.ac.ukdw.sub1_intermediate.MyMaps
 import id.ac.ukdw.sub1_intermediate.R
@@ -43,6 +50,27 @@ class HomeStoryActivity : AppCompatActivity() {
     private lateinit var binding: ActivityHomeStoryBinding
 //    private lateinit var rcyStory: RecyclerView
     private lateinit var storyViewModel: StoryViewModel
+    private  var myLocation: Location? = null
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
+
+    private val requestPermissionLauncher =
+        registerForActivityResult(
+            ActivityResultContracts.RequestMultiplePermissions()
+        ) { permissions ->
+            when {
+                permissions[Manifest.permission.ACCESS_FINE_LOCATION] ?: false -> {
+                    // Precise location access granted.
+                    getMyLastLocation()
+                }
+                permissions[Manifest.permission.ACCESS_COARSE_LOCATION] ?: false -> {
+                    // Only approximate location access granted.
+                    getMyLastLocation()
+                }
+                else -> {
+                    // No location access granted.
+                }
+            }
+        }
 
 //    private val pref = UserPreferencesDS.getInstance(dataStore)
 //    private  var tokenGlobal: String? = "kosong"
@@ -77,6 +105,14 @@ class HomeStoryActivity : AppCompatActivity() {
 //        val pref = UserPreferencesDS.getInstance(dataStore)
         storyViewModel= ViewModelProvider(this, ViewModelFactory(iToken, this))[StoryViewModel::class.java]
 
+        if(!(checkPermission(Manifest.permission.ACCESS_FINE_LOCATION) && checkPermission(Manifest.permission.ACCESS_COARSE_LOCATION))){
+            requestPermissionLauncher.launch(
+                arrayOf(
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+                )
+            )
+        }
 
 //        lifecycleScope.launch{
 //            tokenGlobal = pref.getCurrenctToken()
@@ -97,12 +133,63 @@ class HomeStoryActivity : AppCompatActivity() {
         }
 
         binding.fabAddStory.setOnClickListener {
-            val intent = Intent(this, NewStoryActivity::class.java)
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-            intent.putExtra(TOKEN, iToken)
-            intent.putExtra(NAME, name)
-            startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle())
+            if(myLocation != null){
+                val intent = Intent(this, NewStoryActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                intent.putExtra(TOKEN, iToken)
+                intent.putExtra(NAME, name)
+                intent.putExtra("location", myLocation)
+                startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle())
+            }else{
+                if(!(checkPermission(Manifest.permission.ACCESS_FINE_LOCATION) && checkPermission(Manifest.permission.ACCESS_COARSE_LOCATION))){
+                    requestPermissionLauncher.launch(
+                        arrayOf(
+                            Manifest.permission.ACCESS_FINE_LOCATION,
+                            Manifest.permission.ACCESS_COARSE_LOCATION
+                        )
+                    )
+                }
+            }
+
+
+
         }
+    }
+
+    private fun checkPermission(permission: String): Boolean {
+        return ContextCompat.checkSelfPermission(
+            this,
+            permission
+        ) == PackageManager.PERMISSION_GRANTED
+    }
+
+    private fun getMyLastLocation() {
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+        if     (checkPermission(Manifest.permission.ACCESS_FINE_LOCATION) &&  checkPermission(Manifest.permission.ACCESS_COARSE_LOCATION)){
+            fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
+                if (location != null) {
+                    setLocation(location)
+                }
+//                else {
+//                    Toast.makeText(
+//                        this,
+//                        "Location is not found. Try Again",
+//                        Toast.LENGTH_SHORT
+//                    ).show()
+//                }
+            }
+        } else {
+            requestPermissionLauncher.launch(
+                arrayOf(
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+                )
+            )
+        }
+    }
+
+    private fun setLocation(location: Location){
+        myLocation = location
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
