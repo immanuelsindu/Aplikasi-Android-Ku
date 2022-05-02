@@ -52,20 +52,10 @@ class StoryRemoteMediator(
         }
 
         return try {
-//            val token = token
-            Log.d("StoryRemoteMediator","LAST GAN = " + "Bearer $token")
-//            Log.d("StoryRemoteMediator", "Ukuran respon story = " + responseData.size)
-            Log.d("StoryRemoteMediator", "Ukuran page = " + page)
-            Log.d("StoryRemoteMediator", "Ukuran page size = " + state.config.pageSize)
-//            Log.d("StoryRemoteMediator", "Ukuran respon data = " + responseData)
-            Log.d("StoryRemoteMediator","Masuk sini gan")
             val responseData = apiService.getAllStory("Bearer $token", page, state.config.pageSize).listStory
-            Log.d("StoryRemoteMediator", "Ukuran respon data = " + responseData)
             val endOfPaginationReached = responseData.isEmpty()
 
-            Log.d("StoryRemoteMediator","Masuk sini gan")
             database.withTransaction {
-                Log.d("StoryRemoteMediator","Masuk sini gan1")
                 if (loadType == LoadType.REFRESH) {
                     database.remoteKeysDao().deleteRemoteKeys()
                     database.storyDao().deleteAll()
@@ -77,7 +67,6 @@ class StoryRemoteMediator(
                 }
                 database.remoteKeysDao().insertAll(keys)
                 database.storyDao().insertStory(responseData)
-                Log.d("StoryRemoteMediator","Masuk sini gan2")
 
             }
 

@@ -16,8 +16,8 @@ class StoryViewModel(private val storyRepository: StoryRepository) : ViewModel()
     fun getAllStories() : LiveData<PagingData<ListStoryItem>> = storyRepository.getStory()
 
 
-    val story: MutableLiveData<PagingData<ListStoryItem>> =
-        storyRepository.getStory().cachedIn(viewModelScope) as MutableLiveData<PagingData<ListStoryItem>>
+    val story: LiveData<PagingData<ListStoryItem>> =
+        storyRepository.getStory().cachedIn(viewModelScope)
 
 }
 

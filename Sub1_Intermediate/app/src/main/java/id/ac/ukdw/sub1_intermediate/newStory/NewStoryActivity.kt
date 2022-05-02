@@ -34,6 +34,8 @@ import id.ac.ukdw.sub1_intermediate.camera.rotateBitmap
 import id.ac.ukdw.sub1_intermediate.camera.uriToFile
 import id.ac.ukdw.sub1_intermediate.databinding.ActivityNewStoryBinding
 import id.ac.ukdw.sub1_intermediate.homeStory.HomeStoryActivity
+import id.ac.ukdw.sub1_intermediate.homeStory.StoryDatabase
+import id.ac.ukdw.sub1_intermediate.homeStory.StoryRepository
 import id.ac.ukdw.sub1_intermediate.homeStory.UserModel
 import id.ac.ukdw.sub1_intermediate.userSession.UserPreferencesDS
 import kotlinx.coroutines.launch
@@ -56,6 +58,7 @@ class NewStoryActivity : AppCompatActivity() {
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var myLocation: Location
     private var getFile: File? = null
+    private lateinit var database: StoryDatabase
 
     companion object {
         const val CAMERA_X_RESULT = 200
@@ -212,8 +215,6 @@ class NewStoryActivity : AppCompatActivity() {
                 val name = intent.getStringExtra(NAME).toString()
                 val token = BEARER + intent.getStringExtra(TOKEN).toString()
                 val service = ApiConfig.getApiService().uploadImage(token, imageMultipart,desc2, myLocation.latitude, myLocation.longitude)
-                Log.d("NewStoryActivity", "Ini Lat = ${myLocation.latitude}")
-                Log.d("NewStoryActivity", "Ini Long = ${myLocation.longitude}")
                 service.enqueue(object : Callback<UploadStoryResponse> {
                     override fun onResponse(
                         call: Call<UploadStoryResponse>,
@@ -226,6 +227,11 @@ class NewStoryActivity : AppCompatActivity() {
                                     STORYCREATEDSUSSCESS ->{
                                         showLoading(false)
                                         Toast.makeText(this@NewStoryActivity,getString(R.string.StoryCreatedSuccessfully), Toast.LENGTH_SHORT).show()
+
+                                        lifecycleScope.launch {
+                                            database.remoteKeysDao().deleteRemoteKeys()
+                                            database.storyDao().deleteAll()
+                                        }
                                         intentToHomeStory(name)
                                     }
                                     TOKENMAX ->{

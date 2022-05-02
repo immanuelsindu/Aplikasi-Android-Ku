@@ -116,15 +116,7 @@ class HomeStoryActivity : AppCompatActivity() {
                 )
             )
         }
-
-//        lifecycleScope.launch{
-//            tokenGlobal = pref.getCurrenctToken()
-//
-//        }
-//        val pref = UserPreferencesDS.getInstance(dataStore)
-//        val name = mUserPreference.getUserName()
-
-
+        Log.d("HomeStoryActivity", "Ini merupakan nama = $name")
         if (name != "" && name != null) {
             supportActionBar?.title = resources.getString(R.string.welcome_home, name)
             val token = BEARER + iToken
@@ -134,6 +126,16 @@ class HomeStoryActivity : AppCompatActivity() {
         } else {
             supportActionBar?.title = resources.getString(R.string.welcomeGuest)
         }
+
+//        lifecycleScope.launch{
+//            tokenGlobal = pref.getCurrenctToken()
+//
+//        }
+//        val pref = UserPreferencesDS.getInstance(dataStore)
+//        val name = mUserPreference.getUserName()
+
+
+
 
         binding.fabAddStory.setOnClickListener {
             if(myLocation != null){
@@ -153,9 +155,6 @@ class HomeStoryActivity : AppCompatActivity() {
                     )
                 }
             }
-
-
-
         }
     }
 
